@@ -10,5 +10,6 @@ module.exports = {
     Components({
       resolvers: [ElementPlusResolver()]
     })
-  ]
+  ],
+  devtool: 'source-map'
 }

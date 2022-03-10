@@ -1,19 +1,28 @@
 import { createRouter, createWebHashHistory } from 'vue-router'
-import Home from '../views/Home.vue'
 
 const routes = [
   {
     path: '/',
-    name: 'Home',
-    component: Home
+    redirect: '/index'
   },
   {
-    path: '/about',
-    name: 'About',
-    // route level code-splitting
-    // this generates a separate chunk (about.[hash].js) for this route
-    // which is lazy-loaded when the route is visited.
-    component: () => import(/* webpackChunkName: "about" */ '../views/About.vue')
+    path: '/index',
+    component: () => import('../components/Index.vue')
+  },
+  {
+    path: '/login',
+    name: 'login',
+    component: () => import('../components/login/Login.vue')
+  },
+  {
+    path: '/mavon',
+    name: 'Mavon',
+    component: () => import(/* webpackChunkName: "mavon" */ '../components/markdown/Mavon.vue')
+  },
+  {
+    path: '/home',
+    name: 'home',
+    component: () => import('../components/home/Home.vue')
   }
 ]
 
@@ -21,5 +30,17 @@ const router = createRouter({
   history: createWebHashHistory(),
   routes
 })
-
+// 挂载路由守卫
+router.beforeEach((to, from, next) => {
+  // to 将要访问的路径
+//  from 代表从哪个路径跳转而来
+//  next是下一个函数，表示放行
+//  next()放行，next('/login')强制跳转
+  if (to.path === '/login') return next()
+  // 获取token
+  const tokenStr = window.sessionStorage.getItem('Bearer ')
+  if (!tokenStr) return next('/login')
+  // if (tokenStr !== token) return next('/login')
+  next()
+})
 export default router

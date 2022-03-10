@@ -1,9 +1,8 @@
 <template>
-  <div id="nav">
-    <router-link to="/">Home</router-link> |
-    <router-link to="/about">About</router-link>
+  <div id="app">
+    <!--路由占位符-->
+    <router-view></router-view>
   </div>
-  <router-view/>
 </template>
 
 <style>
