@@ -32,10 +32,31 @@
                 </div>
               </el-card>
               <el-card v-for="item in 10" :key="item" class="article-card" :body-style="{padding:'0'}">
-                <el-image style="height: 100%;width: 25%;display: inline-block;vertical-align: top;" :src="header_image_url" />
-                <el-card style="height: 100%;width: 75%;"></el-card>
-                {{ item }}
+                <el-row style="height: 200px;width: 100%;" type="flex" >
+                  <el-col :span="6" >
+                    <el-image :src="header_url"/>
+                  </el-col>
+                  <el-col :span="18">
+                    <el-card style="height: 100%;width: 100%;">{{ item }}</el-card>
+                  </el-col>
+                </el-row>
               </el-card>
+              <div class="demo-pagination-block">
+                <div class="demonstration">All combined</div>
+                <el-pagination
+                  :currentPage="currentPage4"
+                  :page-size="pageSize4"
+                  :page-sizes="[100, 200, 300, 400]"
+                  :small="small"
+                  :disabled="disabled"
+                  :background="background"
+                  layout="total, sizes, prev, pager, next, jumper"
+                  :total="400"
+                  @size-change="handleSizeChange"
+                  @current-change="handleCurrentChange"
+                >
+                </el-pagination>
+              </div>
             </el-scrollbar>
           </el-main>
           <el-footer>Footer</el-footer>
@@ -51,13 +72,29 @@
 </template>
 
 <script>
+import { ref } from 'vue';
+
 export default {
   // eslint-disable-next-line vue/multi-word-component-names
   name: 'Index',
   data() {
     return {
-      header_image_url: 'https://gimg2.baidu.com/image_search/src=http%3A%2F%2Fhbimg.b0.upaiyun.com%2F4fa94a8d213a0991007a99f37035cc06715b980c558e9-En6TDM_fw658&refer=http%3A%2F%2Fhbimg.b0.upaiyun.com&app=2002&size=f9999,10000&q=a80&n=0&g=0n&fmt=jpeg?sec=1649476198&t=9cd9bfde665ffde6b4ebd9ee2cd0ed9a'
+      header_image_url: 'https://gimg2.baidu.com/image_search/src=http%3A%2F%2Fhbimg.b0.upaiyun.com%2F4fa94a8d213a0991007a99f37035cc06715b980c558e9-En6TDM_fw658&refer=http%3A%2F%2Fhbimg.b0.upaiyun.com&app=2002&size=f9999,10000&q=a80&n=0&g=0n&fmt=jpeg?sec=1649476198&t=9cd9bfde665ffde6b4ebd9ee2cd0ed9a',
+      header_url: 'https://img2.baidu.com/it/u=2723317969,2981355550&fm=26&fmt=auto',
       // fit: ['fill', 'contain', 'cover', 'none', 'scale-down']
+      currentPage4: ref(4),
+      pageSize4: ref(4),
+      small: ref(false),
+      background: ref(false),
+      disable: ref(false)
+    }
+  },
+  methods: {
+    handleSizeChange (val) {
+      console.log(`${val} items per page`)
+    },
+    handleCurrentChange(val) {
+      console.log(`current page: ${val}`)
     }
   }
 }
@@ -129,7 +166,7 @@ export default {
 .el-main {
   height: 90vh;
   width: 100%;
-  border: #000 0.1em solid;
+  //border: #000 0.1em solid;
   overflow: hidden
 }
 
@@ -152,12 +189,12 @@ export default {
   flex-direction: column;
   z-index: 1;
 
-  align-items: center;
-  justify-content: center;
+  //align-items: center;
+  //justify-content: center;
   height: 200px;
   width: 100%;
-  margin-bottom: 15px;
-  text-align: center;
+  margin-bottom: 30px;
+  //text-align: center;
   border-radius: 10px;
   background: var(--el-color-primary-light-9);
   color: var(--el-color-primary);
@@ -175,13 +212,21 @@ export default {
 .el-header {
   height: 5vh;
   width: 100%;
-  border: #000 1px solid
+  //border: #000 1px solid
 }
 
 .el-footer {
   height: 5vh;
   width: 100%;
-  border: #000 1px solid
+  //border: #000 1px solid
+}
+.demo-pagination-block + .demo-pagination-block {
+  margin-top: 10px;
+}
+.demo-pagination-block .demonstration {
+  margin-top: 10px;
+
+  margin-bottom: 16px;
 }
 
 </style>
