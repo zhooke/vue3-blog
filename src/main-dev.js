@@ -6,6 +6,7 @@ import ElementPlus from 'element-plus'
 import mavonEditor from 'mavon-editor'
 import NProgress from 'nprogress'
 import 'nprogress/nprogress.css'
+import * as ELIcons  from '@element-plus/icons-vue'
 
 import 'mavon-editor/dist/css/index.css'
 import 'element-plus/dist/index.css'
@@ -18,6 +19,9 @@ app.use(store)
 app.use(router)
 app.use(ElementPlus)
 app.use(mavonEditor)
+for (const iconName in ELIcons) {
+  app.component(iconName, ELIcons[iconName])
+}
 app.mount('#app')
 
 /* 配置请求的根路径 */
