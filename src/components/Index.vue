@@ -93,7 +93,7 @@
                     <el-image fit="cover" style="width: 100%; height: 100%" :src="header_url"/>
                   </el-col>
                   <el-col :span="18">
-                    <el-card class="card-main">
+                    <el-card class="card-main" @click="contextCardClick(item)">
                       <el-row>
                         <el-col class="card-title">
                           [置顶]博客园主题——atum2.0升级发布啦[置顶]
@@ -170,7 +170,7 @@
                   <el-icon><tickets /></el-icon>
                 </template>
                 <p>热门文章</p>
-                <el-row v-for="item in 5" :key="item" gutter="5" style="margin-bottom: 20px;height: 55px">
+                <el-row v-for="item in 5" :key="item" gutter="5" style="margin-bottom: 20px;height: 55px" @click="contextCardClick(item)">
                   <el-col :span="6">
                     <el-image :src="text_url" fit="cover" style="height: 55px"></el-image>
                   </el-col>
@@ -208,7 +208,9 @@
                     <el-divider ></el-divider>
                   </el-row>
                 </el-card>
-               </el-tab-pane>
+                <p>标签</p>
+                <el-tag v-for="item in 5" :key="item" style="margin: 0 0 10px 10px" @click="tagClick(item)">Tag {{ item }}</el-tag>
+              </el-tab-pane>
               <el-tab-pane name="second">
                 <template #label>
                   <el-icon><comment /></el-icon>
@@ -267,6 +269,14 @@ export default {
     },
     handleClick(tab, event){
       console.log(tab, event)
+    },
+    // tag点击事件
+    tagClick(val){
+      console.log(val)
+    },
+    // 文章点击事件
+    contextCardClick(val){
+      console.log(val)
     }
   }
 }
@@ -452,6 +462,7 @@ export default {
   line-height: 1.5;
   flex-direction: column;
   padding-left: 10px;
+  border-right: 0;
   .el-row{
     margin-block-start: 1em;
     margin-block-end: 1em;

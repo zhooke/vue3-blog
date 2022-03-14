@@ -89,7 +89,7 @@ export default {
           config.headers.Authorization = window.sessionStorage.getItem('Bearer ')
           return config
         })
-        await this.$router.push('/home')
+        await this.$router.push('/')
         this.$message.success('登陆成功！')
         /*
          if (this.loginForm.username === 'admin' && this.loginForm.password === 'admin') {
