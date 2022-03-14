@@ -54,7 +54,15 @@
           </el-scrollbar>
         </el-aside>
         <el-container>
-          <el-header>Header</el-header>
+          <el-header>
+            <el-input
+            v-model="search_data"
+            class="header-search"
+            size="large"
+            placeholder="Please Input"
+            prefix-icon="Search"
+          ></el-input>
+          </el-header>
           <el-main noresize="true" style="background-color: #f5f6f7">
             <el-scrollbar height="100%" style="width: 100%;">
 <!--              个人资料展示-->
@@ -137,7 +145,6 @@
               </div>
             </el-scrollbar>
           </el-main>
-          <el-footer>Footer</el-footer>
         </el-container>
         <el-aside>
 <!--          右侧边栏-->
@@ -217,6 +224,15 @@
           </el-scrollbar>
         </el-aside>
       </el-container>
+      <el-footer>
+        <div class="footer-box">
+          <a href="http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=62082602000173"><img src="@/assets/备案图标.png"/>甘公网安备 62082602000173号</a>
+          |
+          <a href="https://beian.miit.gov.cn/">陇ICP备2021003645号</a>
+          | zhooke | © 2021-present
+        </div>
+      </el-footer>
+
     </el-container>
   </div>
 </template>
@@ -237,7 +253,8 @@ export default {
       small: ref(false),
       background: ref(false),
       disable: ref(false),
-      activeName: ref('first')
+      activeName: ref('first'),
+      search_data: ''
     }
   },
   methods: {
@@ -354,7 +371,7 @@ export default {
 }
 
 .el-aside {
-  height: 100vh;
+  height: 90vh;
   width: 250px;
   .left-aside {
     background-color: #fff
@@ -364,6 +381,7 @@ export default {
 .el-header {
   height: 5vh;
   width: 100%;
+  padding: 0;
 }
 
 .el-footer {
@@ -481,4 +499,38 @@ export default {
   }
 }
 
+.header-search{
+  width: 100%;
+  padding: 3px 0;
+}
+.footer-box{
+  /*position: fixed;*/
+  width: 100%;
+  //height: 30px;
+  padding-top: 3px;
+  //border-top: 1px solid #2c3e50;
+  text-align: center;
+  display: block;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-size: 14px;
+
+  a:link {
+    color:#6e6e6e;
+    text-decoration:underline;
+  }
+  a:visited {
+    color:#6e6e6e;
+    text-decoration:none;
+  }
+  a:hover {
+    color:#6e6e6e;
+    text-decoration:none;
+  }
+  a:active {
+    color:#6e6e6e;
+    text-decoration:none;
+  }
+}
 </style>
