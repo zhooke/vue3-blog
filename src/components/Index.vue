@@ -11,8 +11,8 @@
               <el-col>
                 <el-menu  class="card-left">
                   <el-menu-item index="1">
-                    <el-icon style="color: #1B86F9"><eleme-filled /></el-icon>
-                    <span>博客园</span>
+                    <el-icon style="color: rgba(27,134,249,0.71)"><eleme-filled /></el-icon>
+                    <span>博客</span>
                   </el-menu-item>
                 <el-menu-item index="2">
                   <el-icon style="color: #00d1b2"><HomeFilled /></el-icon>
@@ -46,7 +46,7 @@
               <el-col>
                 <el-menu  class="card-left">
                   <el-menu-item index="1">
-                    <span>博客园</span>
+                    <span>Git</span>
                   </el-menu-item>
                 </el-menu>
               </el-col>
@@ -59,7 +59,7 @@
             v-model="search_data"
             class="header-search"
             size="large"
-            placeholder="Please Input"
+            placeholder="请输入搜索内容"
             prefix-icon="Search"
           ></el-input>
           </el-header>
@@ -150,19 +150,19 @@
 <!--          右侧边栏-->
           <el-scrollbar class="card-right">
             <p>BLOG INFO</p>
-            <el-row justify="start">
-              <el-col :span="3"><a href="/"><el-icon><chat-dot-round /></el-icon></a>
-              </el-col >
-              <el-col :span="3">
-                <a href="/"><el-icon><Bell /></el-icon></a>
-              </el-col>
-              <el-col :span="3">
-                <a href="/"><el-icon> <setting /></el-icon></a>
-              </el-col>
-              <el-col :span="5"  style="margin-left: auto">
-                <a href="/"> <el-icon><star /></el-icon></a>
-              </el-col>
-            </el-row>
+<!--            <el-row justify="start">-->
+<!--              <el-col :span="3"><a href="/"><el-icon><chat-dot-round /></el-icon></a>-->
+<!--              </el-col >-->
+<!--              <el-col :span="3">-->
+<!--                <a href="/"><el-icon><Bell /></el-icon></a>-->
+<!--              </el-col>-->
+<!--              <el-col :span="3">-->
+<!--                <a href="/"><el-icon> <setting /></el-icon></a>-->
+<!--              </el-col>-->
+<!--              <el-col :span="5"  style="margin-left: auto">-->
+<!--                <a href="/"> <el-icon><star /></el-icon></a>-->
+<!--              </el-col>-->
+<!--            </el-row>-->
 
             <el-tabs v-model="activeName" class="card-right-tabs" @tab-click="handleClick">
               <el-tab-pane name="first">
@@ -170,9 +170,9 @@
                   <el-icon><tickets /></el-icon>
                 </template>
                 <p>热门文章</p>
-                <el-row v-for="item in 5" :key="item" gutter="5" style="margin-bottom: 20px;height: 75px">
+                <el-row v-for="item in 5" :key="item" gutter="5" style="margin-bottom: 20px;height: 55px">
                   <el-col :span="6">
-                    <el-image :src="text_url" fit="cover"></el-image>
+                    <el-image :src="text_url" fit="cover" style="height: 55px"></el-image>
                   </el-col>
                   <el-col :span="16">
                     <span style="margin-bottom: 3px">{{item}}. awk - 提取包含某个关键字的段落</span>
@@ -180,9 +180,10 @@
                 </el-col>
                 </el-row>
                 <p>博主信息</p>
-                <el-card style="font-size: 14px;color: #6e6e6e;margin-bottom: 10px">
+                <el-card style="font-size: 12px;color: #6e6e6e;margin-bottom: 10px;">
                   <el-row >
-                    <el-col :span="12">博主昵称</el-col>
+                    <el-col :span="12">
+                      <span>博主昵称</span></el-col>
                     <el-col :span="12">zhooke</el-col>
                     <el-divider ></el-divider>
                   </el-row>
@@ -371,7 +372,7 @@ export default {
 }
 
 .el-aside {
-  height: 90vh;
+  height: 95vh;
   width: 250px;
   .left-aside {
     background-color: #fff
@@ -429,7 +430,7 @@ export default {
     -webkit-line-clamp: 3;
   }
   .el-divider{
-    margin: 5px 0;
+    margin: 7px 0;
   }
   .card-info{
     font-size: 10px;
@@ -480,7 +481,8 @@ export default {
 
   .el-col{
     display: inline-flex;
-    flex-direction:column
+    flex-direction:column;
+    font-size: 12px;
   }
   .el-icon{
     margin-right: 10px;
@@ -489,9 +491,9 @@ export default {
   }
   .card-right-tabs{
     text-align: start;
-
+    margin-top: 10px;
     .el-divider{
-      margin: 10px 0 15px 0;
+      margin: 10px 0 10px 0;
     }
     .el-col{
       color: #6e6e6e;
