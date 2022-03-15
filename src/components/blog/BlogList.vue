@@ -1,5 +1,9 @@
 <template>
   <div>
+    <el-breadcrumb separator-icon="ArrowRight">
+      <el-breadcrumb-item :to="{ path: '/' }">首页</el-breadcrumb-item>
+      <el-breadcrumb-item>列表</el-breadcrumb-item>
+    </el-breadcrumb>
     <!--              个人资料展示-->
     <el-card class="header-card" :body-style="{padding:'0'}">
       <el-card class="header-card-background" :body-style="{padding:'0'}">

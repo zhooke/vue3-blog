@@ -39,3 +39,8 @@ html, body, #app {
 .ql-editor {
     min-height: 300px;
 }
+
+.el-breadcrumb {
+    font-size: 14px;
+    color: #6e6e6e;
+}

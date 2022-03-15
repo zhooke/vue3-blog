@@ -3,16 +3,28 @@ import { createRouter, createWebHashHistory } from 'vue-router'
 const routes = [
   {
     path: '/',
-    redirect: '/index'
+    redirect: '/blog'
   },
   {
-    path: '/index',
+    path: '/blog',
     component: () => import('../components/Index'),
-    redirect: '/list',
+    redirect: '/blog/list',
     children: [
       {
-        path: '/list',
-        component: () => import('../components/index/ContextList')
+        path: '/blog/list',
+        component: () => import('../components/blog/BlogList')
+      },
+      {
+        path: '/blog/edit',
+        component: () => import('../components/markdown/Edit')
+      },
+      {
+        path: '/blog/create',
+        component: () => import('../components/markdown/Create')
+      },
+      {
+        path: '/blog/draft',
+        component: () => import('../components/blog/DraftList')
       }
     ]
   },
