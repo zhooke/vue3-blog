@@ -7,12 +7,19 @@ const routes = [
   },
   {
     path: '/index',
-    component: () => import('../components/Index.vue')
+    component: () => import('../components/Index'),
+    redirect: '/list',
+    children: [
+      {
+        path: '/list',
+        component: () => import('../components/index/ContextList')
+      }
+    ]
   },
   {
     path: '/login',
     name: 'login',
-    component: () => import('../components/login/Login.vue')
+    component: () => import('../components/login/Login')
   },
   {
     path: '/mavon',
