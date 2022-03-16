@@ -4,7 +4,7 @@
       <el-breadcrumb-item :to="{ path: '/' }">首页</el-breadcrumb-item>
       <el-breadcrumb-item>编辑</el-breadcrumb-item>
     </el-breadcrumb>
-    <mavon-editor @save="save" @imgAdd="imgAdd" @imgDel="imgDel"  :toolbars="markdownOption" v-model="handbook" style="height: 800px;width: 100%">
+    <mavon-editor @save="save" @imgAdd="imgAdd" @imgDel="imgDel"  :toolbars="markdownOption" v-model="handbook" style="width: 100%">
     </mavon-editor>
   </div>
 </template>

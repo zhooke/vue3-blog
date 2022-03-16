@@ -10,7 +10,7 @@
           <el-image fit="cover" style="width: 100%; height: 100%" :src="header_url"/>
         </el-col>
         <el-col :span="18">
-          <el-card class="card-main" @click="contextCardClick(item)">
+          <el-card class="card-main"  @click="blogCardClick(item)">
             <el-row>
               <el-col class="card-title">
                 [置顶]博客园主题??atum2.0升级发布啦[置顶]
@@ -98,10 +98,8 @@ export default {
     tagClick(val) {
       console.log(val)
     },
-    // 文章点击事件
-    contextCardClick(val) {
-      console.log(val)
-      console.log(val)
+    async blogCardClick(val){
+      await this.$router.push('/blog/read')
     }
   }
 }

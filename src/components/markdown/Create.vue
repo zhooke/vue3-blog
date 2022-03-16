@@ -1,10 +1,10 @@
 <template>
-  <div class="mavonEditor">
+  <div class="mavonCreate">
     <el-breadcrumb separator-icon="ArrowRight">
       <el-breadcrumb-item :to="{ path: '/' }">首页</el-breadcrumb-item>
       <el-breadcrumb-item>发布</el-breadcrumb-item>
     </el-breadcrumb>
-    <mavon-editor @save="save" @imgAdd="imgAdd" @imgDel="imgDel"  :toolbars="markdownOption" v-model="handbook" style="height: 800px;width: 100%">
+    <mavon-editor @save="save" @imgAdd="imgAdd" @imgDel="imgDel"  :toolbars="markdownOption" v-model="handbook" style="min-height:800px;width: 100%">
     </mavon-editor>
   </div>
 </template>

@@ -7,7 +7,7 @@
             <el-icon><tickets /></el-icon>
           </template>
           <p>热门文章</p>
-          <el-row v-for="item in 5" :key="item" gutter="5" style="margin-bottom: 20px;height: 55px" @click="contextCardClick(item)">
+          <el-row v-for="item in 5" :key="item" gutter="5" style="margin-bottom: 20px;height: 55px"  @click="blogCardClick(item)">
             <el-col :span="6">
               <el-image :src="text_url" fit="cover" style="height: 55px"></el-image>
             </el-col>
@@ -99,9 +99,8 @@ export default {
     tagClick(val){
       console.log(val)
     },
-    // 文章点击事件
-    contextCardClick(val){
-      console.log(val)
+    async blogCardClick(val){
+      await this.$router.push('/blog/read')
     }
   }
 }

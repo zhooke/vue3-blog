@@ -15,6 +15,10 @@ const routes = [
         component: () => import('../components/blog/BlogList')
       },
       {
+        path: '/blog/read',
+        component: () => import('../components/markdown/Read')
+      },
+      {
         path: '/blog/edit',
         component: () => import('../components/markdown/Edit')
       },
@@ -32,11 +36,6 @@ const routes = [
     path: '/login',
     name: 'login',
     component: () => import('../components/login/Login')
-  },
-  {
-    path: '/mavon',
-    name: 'Mavon',
-    component: () => import(/* webpackChunkName: "mavon" */ '../components/markdown/Mavon.vue')
   },
   {
     path: '/home',

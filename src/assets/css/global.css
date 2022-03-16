@@ -43,4 +43,5 @@ html, body, #app {
 .el-breadcrumb {
     font-size: 14px;
     color: #6e6e6e;
+    margin-top: 10px;
 }
