@@ -7,7 +7,7 @@
             <el-icon><tickets /></el-icon>
           </template>
           <p>热门文章</p>
-          <el-row v-for="item in 5" :key="item" gutter="5" style="margin-bottom: 20px;height: 55px"  @click="blogCardClick(item)">
+          <el-row class="hot-blog-card" v-for="item in 5" :key="item" gutter="5" style="margin-bottom: 20px;height: 55px;"  @click="blogCardClick(item)">
             <el-col :span="6">
               <el-image :src="text_url" fit="cover" style="height: 55px"></el-image>
             </el-col>
@@ -133,5 +133,8 @@ export default {
       color: #6e6e6e;
     }
   }
+}
+.hot-blog-card:hover {
+  background: rgba(179, 216, 255, 0.96);
 }
 </style>
