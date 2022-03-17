@@ -1,15 +1,16 @@
 <template>
   <div class="mavonCreate">
-    <el-form :model="blog" label-width="120px">
-      <el-form-item label="文章标题:">
-        <el-input v-model="blog.title" />
-      </el-form-item>
-    </el-form>
     <el-breadcrumb separator-icon="ArrowRight">
       <el-breadcrumb-item :to="{ path: '/' }">首页</el-breadcrumb-item>
       <el-breadcrumb-item>发布</el-breadcrumb-item>
     </el-breadcrumb>
-    <mavon-editor @save="save" @imgAdd="imgAdd" @imgDel="imgDel"  :toolbars="markdownOption" v-model="blog.content" style="min-height:800px;width: 100%">
+    <el-form :model="blog" label-width="120px">
+      <el-form-item label="文章标题:">
+        <el-input v-model="blog.title"/>
+      </el-form-item>
+    </el-form>
+    <mavon-editor @save="save" @imgAdd="imgAdd" @imgDel="imgDel" :toolbars="markdownOption" v-model="blog.content"
+                  style="min-height:800px;width: 100%">
     </mavon-editor>
   </div>
 </template>
@@ -70,7 +71,7 @@ export default {
     };
   },
   methods: {
-    async save(){
+    async save() {
       const user = JSON.parse(window.sessionStorage.getItem('userinfo'))
       this.blog.authorId = user.id
       this.blog.authorName = user.nickname
@@ -79,14 +80,57 @@ export default {
       if (result.code !== 200) return this.$message.error(result.data)
       this.$message.success('发布成功');
     },
-    imgAdd(pos, $file){
+    imgAdd(pos, $file) {
 
     },
-    imgDel(){
+    imgDel() {
 
     }
+  },
+  mounted() {
+    window.onbeforeunload = function (e) {
+      e = e || window.event;
+      // 兼容IE8和Firefox 4之前的版本
+      if (e) {
+        e.returnValue = '关闭提示';
+      }
+      // Chrome, Safari, Firefox 4+, Opera 12+ , IE 9+
+      return '关闭提示';
+    }
+  },
+  beforeRouteEnter(to, from, next) {
+    // 在渲染该组件的对应路由被 confirm 前调用
+    // 不！能！获取组件实例 `this`
+    // 因为当守卫执行前，组件实例还没被创建
+    // 可以通过传一个回调给 next来访问组件实例
+    next(vm => {
+      // 通过 `vm` 访问组件实例
+    })
+  },
+  beforeRouteUpdate(to, from, next) {
+    // 在当前路由改变，但是该组件被复用时调用
+    // 举例来说，对于一个带有动态参数的路径 /foo/:id，在 /foo/1 和 /foo/2 之间跳转的时候，
+    // 由于会渲染同样的 Foo 组件，因此组件实例会被复用。而这个钩子就会在这个情况下被调用。
+    // 可以访问组件实例 `this`
+    // 不支持传递回调(因为this实例已经创建可以获取到，所以没必要)
+    console.log('update')
+    next()
+  },
+  beforeRouteLeave(to, from, next) {
+    // 导航离开该组件的对应路由时调用
+    // 可以访问组件实例 `this`
+    // 该导航可以通过 next(false) 来取消。
+    this.$confirm('您还没有保存文章呢，确认离开？').then(() => {
+      next()
+    }).catch(() => {
+        next(false)
+      })
+  },
+  destroyed() {
+    window.onbeforeunload = null
   }
-}
+
+  }
 </script>
 
 <style scoped>
