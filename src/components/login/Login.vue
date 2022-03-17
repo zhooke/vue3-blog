@@ -84,6 +84,7 @@ export default {
         if (result.code !== 200) return this.$message.error('登陆失败！')
         console.log(result.data)
         window.sessionStorage.setItem('Bearer ', result.data.access_token)
+        window.sessionStorage.setItem('userinfo', JSON.stringify(result.data.userInfoResponse))
         axios.interceptors.request.use(config => {
           NProgress.start()
           config.headers.Authorization = 'Bearer ' + result.data.access_token

@@ -1,13 +1,10 @@
 <template>
   <div class="mavonCreate">
-    <el-row :gutter="20">
-      <el-col :span="4">
-         <span>文章标题：</span>
-      </el-col>
-      <el-col :span="18">
-        <el-input class="w-50 m-2" v-model="blog.title" placeholder="Please input" clearable />
-      </el-col>
-    </el-row>
+    <el-form :model="blog" label-width="120px">
+      <el-form-item label="文章标题:">
+        <el-input v-model="blog.title" />
+      </el-form-item>
+    </el-form>
     <el-breadcrumb separator-icon="ArrowRight">
       <el-breadcrumb-item :to="{ path: '/' }">首页</el-breadcrumb-item>
       <el-breadcrumb-item>发布</el-breadcrumb-item>
@@ -60,8 +57,8 @@ export default {
       },
       handbook: '#### how to use mavonEditor in nuxt.js',
       blog: {
-        authorId: '1',
-        authorName: '123',
+        authorId: '',
+        authorName: '',
         title: '',
         content: '#### how to use mavonEditor in nuxt.js',
         picture: '',
@@ -74,11 +71,13 @@ export default {
   },
   methods: {
     async save(){
-      console.log('save');
+      const user = JSON.parse(window.sessionStorage.getItem('userinfo'))
+      this.blog.authorId = user.id
+      this.blog.authorName = user.nickname
       const { data: result } = await this.$http.post('blog/add', this.blog);
       console.log(result)
       if (result.code !== 200) return this.$message.error(result.data)
-      this.$message.info('发布成功');
+      this.$message.success('发布成功');
     },
     imgAdd(pos, $file){
 
