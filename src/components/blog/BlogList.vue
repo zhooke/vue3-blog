@@ -36,25 +36,26 @@
             </el-row>
             <el-row>
               <el-col class="card-context">
-                摘要：atum主题部署文档 介绍 这是一款由VUE打造的简约型博客主题，兼容各大主流浏览器，响应式设计，PC、平板、手机等均可正常浏览。 特性 响应式设计，兼容手机端浏览器。 提供多种配置信息，方便各类用户进行个人定制化。 部署文档十分详细且部署快捷。 主题整体偏向简约、无太多不必要的特效画面、偏向于简洁
+                摘要：atum主题部署文档 介绍 这是一款由VUE打造的简约型博客主题，兼容各大主流浏览器，响应式设计，PC、平板、手机等均可正常浏览。 特性 响应式设计，兼容手机端浏览器。
+                提供多种配置信息，方便各类用户进行个人定制化。 部署文档十分详细且部署快捷。 主题整体偏向简约、无太多不必要的特效画面、偏向于简洁
               </el-col>
             </el-row>
             <el-divider/>
             <el-row class="card-info" justify="start">
-              <el-col >
+              <el-col>
                 <span><el-icon><avatar/></el-icon></span>
                 <span>zhooke</span>
               </el-col>
-              <el-col >
-                <span><el-icon><clock /></el-icon></span>
+              <el-col>
+                <span><el-icon><clock/></el-icon></span>
                 <span>2021-03-16 12:52</span>
               </el-col>
               <el-col>
-                <span><el-icon><search /></el-icon></span>
+                <span><el-icon><search/></el-icon></span>
                 <span>3328 次浏览</span>
               </el-col>
               <el-col>
-                <span><el-icon><edit-pen /></el-icon></span>
+                <span><el-icon><edit-pen/></el-icon></span>
                 <span>128 条评论</span>
               </el-col>
             </el-row>
@@ -63,11 +64,10 @@
       </el-row>
     </el-card>
     <div class="demo-pagination-block">
-      <div class="demonstration">All combined</div>
       <el-pagination
-        :currentPage="currentPage4"
-        :page-size="pageSize4"
-        :page-sizes="[100, 200, 300, 400]"
+         v-model:currentPage="currentPage"
+         v-model:page-size="pageSize"
+        :page-sizes="[10, 20, 30, 40]"
         :small="small"
         :disabled="disabled"
         :background="background"
@@ -92,11 +92,11 @@ export default {
       header_image_url: 'https://gimg2.baidu.com/image_search/src=http%3A%2F%2Fhbimg.b0.upaiyun.com%2F4fa94a8d213a0991007a99f37035cc06715b980c558e9-En6TDM_fw658&refer=http%3A%2F%2Fhbimg.b0.upaiyun.com&app=2002&size=f9999,10000&q=a80&n=0&g=0n&fmt=jpeg?sec=1649476198&t=9cd9bfde665ffde6b4ebd9ee2cd0ed9a',
       header_url: 'https://img2.baidu.com/it/u=2723317969,2981355550&fm=26&fmt=auto',
       text_url: 'https://gimg2.baidu.com/image_search/src=http%3A%2F%2Finews.gtimg.com%2Fnewsapp_match%2F0%2F11020033428%2F0.jpg&refer=http%3A%2F%2Finews.gtimg.com&app=2002&size=f9999,10000&q=a80&n=0&g=0n&fmt=auto?sec=1649771328&t=364f380b566aba545f1acfc37d0b1f85',
-      currentPage4: ref(4),
-      pageSize4: ref(4),
+      currentPage: ref(1),
+      pageSize: ref(10),
       small: ref(false),
       background: ref(false),
-      disable: ref(false),
+      disabled: ref(false),
       activeName: ref('first'),
       search_data: ''
     }
@@ -167,7 +167,7 @@ export default {
 }
 
 
-.card-main{
+.card-main {
   text-align: left;
   cursor: pointer;
   white-space: nowrap;
@@ -181,34 +181,38 @@ export default {
     margin-bottom: 10px;
   }
 
-  .card-context{
+  .card-context {
     height: 70%;
-    flex-wrap:wrap;
+    flex-wrap: wrap;
     min-height: 100px;
     line-height: 25px;
     font-size: 14px;
     color: #a2b0b7;
     word-break: break-word;
     // 文字自动换行
-    white-space:normal;
+    white-space: normal;
     text-overflow: ellipsis;
     display: -webkit-box;
     -webkit-box-orient: vertical;
     overflow: hidden;
     -webkit-line-clamp: 3;
   }
-  .el-divider{
+
+  .el-divider {
     margin: 7px 0;
   }
-  .card-info{
+
+  .card-info {
     font-size: 10px;
     color: #a2b0b7;
     display: inline-block;
-    .el-col{
+
+    .el-col {
       display: inline-flex;
       margin-right: 10px;
     }
-    .el-icon{
+
+    .el-icon {
       margin-right: 5px;
       font-size: 14px;
     }
@@ -244,8 +248,10 @@ export default {
 .demo-pagination-block + .demo-pagination-block {
   margin-top: 10px;
 }
-.demo-pagination-block .demonstration {
+
+.demo-pagination-block {
   margin-top: 10px;
   margin-bottom: 16px;
+  width: 100%;
 }
 </style>
