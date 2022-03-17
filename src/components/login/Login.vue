@@ -86,7 +86,7 @@ export default {
         window.sessionStorage.setItem('Bearer ', result.data.access_token)
         axios.interceptors.request.use(config => {
           NProgress.start()
-          config.headers.Authorization = window.sessionStorage.getItem('Bearer ')
+          config.headers.Authorization = 'Bearer ' + result.data.access_token
           return config
         })
         await this.$router.push('/')
