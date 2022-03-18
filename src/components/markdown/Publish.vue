@@ -3,14 +3,18 @@
     <el-scrollbar>
       <el-row class="top-row">
         <el-col :span="2">
-<!--          <el-breadcrumb separator-icon="ArrowRight"  size="large">-->
-<!--          <el-breadcrumb-item :to="{ path: '/' }">首页</el-breadcrumb-item>-->
-<!--          <el-breadcrumb-item>发布</el-breadcrumb-item>-->
-<!--        </el-breadcrumb>-->
+          <!--          <el-breadcrumb separator-icon="ArrowRight"  size="large">-->
+          <!--          <el-breadcrumb-item :to="{ path: '/' }">首页</el-breadcrumb-item>-->
+          <!--          <el-breadcrumb-item>发布</el-breadcrumb-item>-->
+          <!--        </el-breadcrumb>-->
           <el-button size="large" icon="ArrowLeftBold" @click="goBack">返回首页</el-button>
         </el-col>
-        <el-col :span="20"><el-input v-model="blog.title" size="large" clearable placeholder="请输入标题"/></el-col>
-        <el-col :span="2"><el-button type="danger" size="large" @click="dialogVisible = true">发布文章</el-button></el-col>
+        <el-col :span="20">
+          <el-input v-model="blog.title" size="large" clearable placeholder="请输入标题"/>
+        </el-col>
+        <el-col :span="2">
+          <el-button type="danger" size="large" @click="dialogVisible = true">发布文章</el-button>
+        </el-col>
       </el-row>
       <mavon-editor @save="save" @imgAdd="imgAdd" @imgDel="imgDel" :toolbars="markdownOption" v-model="blog.content"
                     style="min-height:800px;width: 100%">
@@ -22,12 +26,12 @@
       >
         <el-form :model="blog" label-width="auto" label-position="left">
           <el-form-item label="文章标题">
-            <el-input v-model="blog.title" />
+            <el-input v-model="blog.title"/>
           </el-form-item>
           <el-form-item label="封面摘要：">
             <el-radio-group v-model="blog.resource">
-              <el-radio label="单图" />
-              <el-radio label="三图" />
+              <el-radio label="单图"/>
+              <el-radio label="三图"/>
             </el-radio-group>
           </el-form-item>
           <el-form-item label="文章标签：">
@@ -65,20 +69,20 @@
           </el-form-item>
           <el-form-item label="发布形式：">
             <el-radio-group v-model="blog.isPrivate">
-              <el-radio label="0" >公开</el-radio>
-              <el-radio label="1" >私密</el-radio>
+              <el-radio label="0">公开</el-radio>
+              <el-radio label="1">私密</el-radio>
             </el-radio-group>
           </el-form-item>
           <el-form-item label="是否置顶：">
             <el-radio-group v-model="blog.isTop">
-              <el-radio label="0" >默认</el-radio>
-              <el-radio label="1" >置顶</el-radio>
+              <el-radio label="0">默认</el-radio>
+              <el-radio label="1">置顶</el-radio>
             </el-radio-group>
           </el-form-item>
         </el-form>
         <template #footer>
       <span class="dialog-footer">
-          <el-button type="danger" @click="onSubmit" >发布文章</el-button>
+          <el-button type="danger" @click="onSubmit">发布文章</el-button>
           <el-button @click="dialogVisible = false">返回</el-button>
       </span>
         </template>
@@ -146,8 +150,8 @@ export default {
       dynamicTags: ['Tag 1', 'Tag 2', 'Tag 3'],
       inputVisible: ref(false),
       inputValue: '',
-      InputRef: ref<ElInput>(ElInput),
-      isSave: ref(true)
+      InputRef: ref < ElInput >(ElInput),
+      isSave: ref(false)
     };
   },
   methods: {
@@ -157,11 +161,12 @@ export default {
       this.blog.authorName = user.nickname
       const { data: result } = await this.$http.post('blog/add', this.blog);
       console.log(result)
-      if (result.code !== 200){
+      if (result.code !== 200) {
         this.isSave = true
         return this.$message.error(result.data)
       }
       this.$message.success('发布成功');
+      await this.goBack()
     },
     imgAdd(pos, $file) {
 
@@ -169,13 +174,13 @@ export default {
     imgDel() {
 
     },
-    handleCloseDialog(){
+    handleCloseDialog() {
       this.dialogVisible = false;
     },
     handleCloseTag(tag) {
       this.dynamicTags.splice(this.dynamicTags.indexOf(tag), 1)
     },
-    handleInputConfirm(){
+    handleInputConfirm() {
       if (this.inputValue) {
         console.log(this.inputValue)
         console.log(this.dynamicTags)
@@ -184,19 +189,19 @@ export default {
       this.inputVisible = false
       this.inputValue = ''
     },
-    showInput(){
+    showInput() {
       this.inputVisible = true
       nextTick(() => {
         // this.InputRef.!value.!input.focus()
         this.$refs.InputRef.focus()
       })
     },
-    onSubmit(){
+    onSubmit() {
       this.dialogVisible = false
-      this.isSave = false
+      this.isSave = true
       this.save()
     },
-    goBack(){
+    goBack() {
       this.$router.push('/')
     }
 
@@ -220,26 +225,22 @@ export default {
     // 不支持传递回调(因为this实例已经创建可以获取到，所以没必要)
     next()
   },
-  beforeRouteLeave(to, from, next) {
-    // 导航离开该组件的对应路由时调用
-    // 可以访问组件实例 `this`
-    // 该导航可以通过 next(false) 来取消。
-    if (this.isSave){
-      this.$confirm('您还没有保存文章呢，确认离开？').then(() => {
-        window.onbeforeunload = null
-        next()
-      }).catch(() => {
-        next(false)
-      })
+  beforeRouteLeave(to, from) {
+    if (this.isSave) {
+      return;
     }
+    return this.$confirm('您还没有保存文章呢，确认离开？').then(() => {
+      window.onbeforeunload = null
+    }).catch(() => {
+      return false;
+    })
   }
-
-  }
+}
 </script>
 
 <style lang="less" scoped>
-.top-row{
-  margin:10px;
+.top-row {
+  margin: 10px;
   font-size: 16px;
 }
 </style>
