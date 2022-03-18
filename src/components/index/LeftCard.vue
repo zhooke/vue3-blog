@@ -17,17 +17,17 @@
               </el-icon>
               <span>首页</span>
             </el-menu-item>
-            <el-menu-item index="/blog/create">
+            <el-menu-item index="/publish">
               <el-icon style="color: #ff6b81">
                 <edit-pen/>
               </el-icon>
-              <span>新随笔</span>
+              <span>发布</span>
             </el-menu-item>
             <el-menu-item index="/blog/draft">
               <el-icon style="color: #10ac84">
                 <box/>
               </el-icon>
-              <span>草稿箱</span>
+              <span>草稿</span>
             </el-menu-item>
             <el-menu-item index="5">
               <el-icon style="color: #ffd257">

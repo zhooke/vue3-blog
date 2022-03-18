@@ -6,7 +6,7 @@ import ElementPlus from 'element-plus'
 import mavonEditor from 'mavon-editor'
 import NProgress from 'nprogress'
 import 'nprogress/nprogress.css'
-import * as ELIcons  from '@element-plus/icons-vue'
+import * as ELIcons from '@element-plus/icons-vue'
 
 import 'mavon-editor/dist/css/index.css'
 import 'element-plus/dist/index.css'
@@ -35,8 +35,10 @@ axios.interceptors.request.use(config => {
 axios.interceptors.response.use(config => {
   NProgress.done()
   return config
+}, error => {
+  return this.$message.error(error);
 })
-
+// window.router = router
 app.config.globalProperties.$http = axios
 app.config.productionTip = false
 
