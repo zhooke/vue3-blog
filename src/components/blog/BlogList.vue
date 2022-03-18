@@ -22,61 +22,62 @@
       </div>
     </el-card>
     <!--              正文部分-->
-    <el-card v-for="item in 10" :key="item" class="article-card" :body-style="{padding:'0'}">
-      <el-row style="height: 200px;width: 100%;" type="flex">
-        <el-col :span="6" style="height: 200px">
-          <el-image fit="cover" style="width: 100%; height: 100%" :src="header_url"/>
-        </el-col>
-        <el-col :span="18">
-          <el-card class="card-main" @click="blogCardClick(item)">
-            <el-row>
-              <el-col class="card-title">
-                [置顶]博客园主题??atum2.0升级发布啦[置顶]
-              </el-col>
-            </el-row>
-            <el-row>
-              <el-col class="card-context">
-                摘要：atum主题部署文档 介绍 这是一款由VUE打造的简约型博客主题，兼容各大主流浏览器，响应式设计，PC、平板、手机等均可正常浏览。 特性 响应式设计，兼容手机端浏览器。
-                提供多种配置信息，方便各类用户进行个人定制化。 部署文档十分详细且部署快捷。 主题整体偏向简约、无太多不必要的特效画面、偏向于简洁
-              </el-col>
-            </el-row>
-            <el-divider/>
-            <el-row class="card-info" justify="start">
-              <el-col>
-                <span><el-icon><avatar/></el-icon></span>
-                <span>zhooke</span>
-              </el-col>
-              <el-col>
-                <span><el-icon><clock/></el-icon></span>
-                <span>2021-03-16 12:52</span>
-              </el-col>
-              <el-col>
-                <span><el-icon><search/></el-icon></span>
-                <span>3328 次浏览</span>
-              </el-col>
-              <el-col>
-                <span><el-icon><edit-pen/></el-icon></span>
-                <span>128 条评论</span>
-              </el-col>
-            </el-row>
-          </el-card>
-        </el-col>
-      </el-row>
-    </el-card>
-    <div class="demo-pagination-block">
-      <el-pagination
-         v-model:currentPage="currentPage"
-         v-model:page-size="pageSize"
-        :page-sizes="[10, 20, 30, 40]"
-        :small="small"
-        :disabled="disabled"
-        :background="background"
-        layout="total, sizes, prev, pager, next, jumper"
-        :total="400"
-        @size-change="handleSizeChange"
-        @current-change="handleCurrentChange"
-      >
-      </el-pagination>
+    <div v-loading="loading">
+      <el-card v-for="(blog, index) in blogList" :key="index" class="article-card" :body-style="{padding:'0'}">
+        <el-row style="height: 200px;width: 100%;" type="flex">
+          <el-col :span="6" style="height: 200px">
+            <el-image fit="cover" style="width: 100%; height: 100%" :src="header_url"/>
+          </el-col>
+          <el-col :span="18">
+            <el-card class="card-main" @click="blogCardClick(blog.id)">
+              <el-row>
+                <el-col class="card-title">
+                  {{blog.title}}
+                </el-col>
+              </el-row>
+              <el-row>
+                <el-col class="card-context">
+                  {{blog.content}}
+                </el-col>
+              </el-row>
+              <el-divider/>
+              <el-row class="card-info" justify="start">
+                <el-col>
+                  <span><el-icon><avatar/></el-icon></span>
+                  <span>{{blog.authorName}}</span>
+                </el-col>
+                <el-col>
+                  <span><el-icon><clock/></el-icon></span>
+                  <span>{{blog.createDate}}</span>
+                </el-col>
+                <el-col>
+                  <span><el-icon><search/></el-icon></span>
+                  <span>{{blog.blogBrowse==undefined?0:blog.blogBrowse}}</span>
+                </el-col>
+                <el-col>
+                  <span><el-icon><edit-pen/></el-icon></span>
+                  <span>{{ blog.commentNum }}</span>
+                </el-col>
+              </el-row>
+            </el-card>
+          </el-col>
+        </el-row>
+      </el-card>
+      <div class="demo-pagination-block">
+        <el-pagination
+          v-model:currentPage="blogRequest.pageIndex"
+          v-model:page-size="blogRequest.pageSize"
+          :page-sizes="[10, 20, 30, 40]"
+          :small="small"
+          :disabled="disabled"
+          :background="background"
+          layout="total, sizes, prev, pager, next, jumper"
+          :total="blogRequest.total"
+          @size-change="handleSizeChange"
+          @current-change="handleCurrentChange"
+        >
+        </el-pagination>
+      </div>
     </div>
   </div>
 </template>
@@ -92,21 +93,29 @@ export default {
       header_image_url: 'https://gimg2.baidu.com/image_search/src=http%3A%2F%2Fhbimg.b0.upaiyun.com%2F4fa94a8d213a0991007a99f37035cc06715b980c558e9-En6TDM_fw658&refer=http%3A%2F%2Fhbimg.b0.upaiyun.com&app=2002&size=f9999,10000&q=a80&n=0&g=0n&fmt=jpeg?sec=1649476198&t=9cd9bfde665ffde6b4ebd9ee2cd0ed9a',
       header_url: 'https://img2.baidu.com/it/u=2723317969,2981355550&fm=26&fmt=auto',
       text_url: 'https://gimg2.baidu.com/image_search/src=http%3A%2F%2Finews.gtimg.com%2Fnewsapp_match%2F0%2F11020033428%2F0.jpg&refer=http%3A%2F%2Finews.gtimg.com&app=2002&size=f9999,10000&q=a80&n=0&g=0n&fmt=auto?sec=1649771328&t=364f380b566aba545f1acfc37d0b1f85',
-      currentPage: ref(1),
-      pageSize: ref(10),
       small: ref(false),
       background: ref(false),
       disabled: ref(false),
       activeName: ref('first'),
-      search_data: ''
+      search_data: '',
+      blogList: [],
+      loading: ref(true),
+      blogRequest: {
+        pageIndex: 0,
+        pageSize: 10,
+        total: 0
+      }
     }
   },
   methods: {
     handleSizeChange(val) {
       console.log(`${val} items per page`)
+      this.blogRequest.pageSize = val
+      this.getBlogList()
     },
     handleCurrentChange(val) {
-      console.log(`current page: ${val}`)
+      this.blogRequest.pageIndex = val
+      this.getBlogList()
     },
     handleClick(tab, event){
       console.log(tab, event)
@@ -117,8 +126,18 @@ export default {
     },
     // 文章点击事件
     async blogCardClick(val){
-      await this.$router.push('/blog/read')
+      await this.$router.push({ path: '/blog/read',query: { blogId: val } })
+    },
+    async getBlogList(){
+      const { data: result } = await this.$http.post('/blog/list',this.blogRequest)
+      if (result.code !== 200) return this.$message.error('获取列表失败！')
+      this.blogList = result.data
+      this.blogRequest.total = result.total
+      this.loading = false
     }
+  },
+  mounted() {
+    this.getBlogList()
   }
 }
 </script>
