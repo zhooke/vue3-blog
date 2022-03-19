@@ -3,17 +3,17 @@
     <div class="login_box">
       <!--        头像区-->
       <div class="avatar_box">
-        <img src="@/assets/logo.png" alt=""/>
+        <img alt="" src="@/assets/logo.png"/>
       </div>
       <!--        登陆表单区-->
-      <el-form ref="loginFormRef" label-width="0px" :rules="loginFormRules" class="login_form" :model="loginForm">
+      <el-form ref="loginFormRef" :model="loginForm" :rules="loginFormRules" class="login_form" label-width="0px">
         <!--        用户名-->
         <el-form-item prop="username">
           <el-input v-model="loginForm.username" prefix-icon="el-icon-user"></el-input>
         </el-form-item>
         <!--        密码-->
         <el-form-item prop="password">
-          <el-input v-model="loginForm.password" type="password" prefix-icon="el-icon-lock"></el-input>
+          <el-input v-model="loginForm.password" prefix-icon="el-icon-lock" type="password"></el-input>
         </el-form-item>
         <!--        按钮-->
         <el-form-item class="btns">
@@ -29,6 +29,7 @@
 
 import axios from 'axios';
 import NProgress from 'nprogress';
+import { getLogin } from '@/utils/api';
 
 export default {
   // eslint-disable-next-line vue/multi-word-component-names
@@ -78,11 +79,8 @@ export default {
       /* await只能放在async修饰的函数中，表示异步执行该函数 */
       this.$refs.loginFormRef.validate(async valid => {
         if (!valid) return
-        const { data: result } = await this.$http.post('oauth/token',
-         '', { headers: { Authorization: 'Basic YXBwOmFwcA==' },params: this.loginForm })
+        const { data: result } = await getLogin(this.loginForm)
         console.log(result)
-        if (result.code !== 200) return this.$message.error('登陆失败！')
-        console.log(result.data)
         window.sessionStorage.setItem('Bearer ', result.data.access_token)
         window.sessionStorage.setItem('userinfo', JSON.stringify(result.data.userInfoResponse))
         axios.interceptors.request.use(config => {
@@ -98,7 +96,7 @@ export default {
            this.$router.push('/home')
            return this.$message.success('登陆成功！')
          }*/
-         // return this.$message.error('用户名或密码错误，登陆失败！')
+        // return this.$message.error('用户名或密码错误，登陆失败！')
         //  1.将登陆成功之后的token保存到客户端的sessionStorage中
         //    1.1 项目中除了登陆之外的其他API接口，必须在登陆之后才能访问
         //    1.2 token只应在当前网址打开期间生效，所以将token保存在sessionStorage中

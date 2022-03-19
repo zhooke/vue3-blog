@@ -1,15 +1,15 @@
 <template>
   <div>
     <!--              个人资料展示-->
-    <el-card class="header-card" :body-style="{padding:'0'}">
-      <el-card class="header-card-background" :body-style="{padding:'0'}">
+    <el-card :body-style="{padding:'0'}" class="header-card">
+      <el-card :body-style="{padding:'0'}" class="header-card-background">
       </el-card>
-      <el-image class="header-image" :src="header_image_url"/>
+      <el-image :src="header_image_url" class="header-image"/>
       <div class="user-info-card">
         <el-row>
           <p style="color: inherit;cursor: pointer;font-size: 22px;margin: 0!important;">
             zhooke
-            <el-button type="primary" size="small">关注</el-button>
+            <el-button size="small" type="primary">关注</el-button>
           </p>
         </el-row>
         <el-row>
@@ -22,37 +22,37 @@
       </div>
     </el-card>
     <!--              正文部分-->
-    <div v-loading="loading">
-      <el-card v-for="(blog, index) in blogList" :key="index" class="article-card" :body-style="{padding:'0'}">
+    <div v-loading="loading" class="content-tag">
+      <el-card v-for="(blog, index) in blogList" :key="index" :body-style="{padding:'0'}" class="article-card">
         <el-row style="height: 200px;width: 100%;" type="flex">
           <el-col :span="6" style="height: 200px">
-            <el-image fit="cover" style="width: 100%; height: 100%" :src="header_url"/>
+            <el-image :src="header_url" fit="cover" style="width: 100%; height: 100%"/>
           </el-col>
           <el-col :span="18">
             <el-card class="card-main" @click="blogCardClick(blog.id)">
               <el-row>
                 <el-col class="card-title">
-                  {{blog.title}}
+                  {{ blog.title }}
                 </el-col>
               </el-row>
               <el-row>
                 <el-col class="card-context">
-                  {{blog.content}}
+                  {{ blog.content }}
                 </el-col>
               </el-row>
               <el-divider/>
               <el-row class="card-info" justify="start">
                 <el-col>
                   <span><el-icon><avatar/></el-icon></span>
-                  <span>{{blog.authorName}}</span>
+                  <span>{{ blog.authorName }}</span>
                 </el-col>
                 <el-col>
                   <span><el-icon><clock/></el-icon></span>
-                  <span>{{blog.createDate}}</span>
+                  <span>{{ blog.createDate }}</span>
                 </el-col>
                 <el-col>
                   <span><el-icon><search/></el-icon></span>
-                  <span>{{blog.blogBrowse==undefined?0:blog.blogBrowse}}</span>
+                  <span>{{ blog.blogBrowse == undefined ? 0 : blog.blogBrowse }}</span>
                 </el-col>
                 <el-col>
                   <span><el-icon><edit-pen/></el-icon></span>
@@ -67,12 +67,12 @@
         <el-pagination
           v-model:currentPage="blogRequest.pageIndex"
           v-model:page-size="blogRequest.pageSize"
+          :background="background"
+          :disabled="disabled"
           :page-sizes="[10, 20, 30, 40]"
           :small="small"
-          :disabled="disabled"
-          :background="background"
-          layout="total, sizes, prev, pager, next, jumper"
           :total="blogRequest.total"
+          layout="total, sizes, prev, pager, next, jumper"
           @size-change="handleSizeChange"
           @current-change="handleCurrentChange"
         >
@@ -85,6 +85,7 @@
 <script>
 
 import { ref } from 'vue';
+import { getBlogList } from '@/utils/api';
 
 export default {
   name: 'ContextList',
@@ -117,20 +118,19 @@ export default {
       this.blogRequest.pageIndex = val
       this.getBlogList()
     },
-    handleClick(tab, event){
+    handleClick(tab, event) {
       console.log(tab, event)
     },
     // tag点击事件
-    tagClick(val){
+    tagClick(val) {
       console.log(val)
     },
     // 文章点击事件
-    async blogCardClick(val){
-      await this.$router.push({ path: '/blog/read',query: { blogId: val } })
+    async blogCardClick(val) {
+      await this.$router.push({ path: '/blog/read', query: { blogId: val } })
     },
-    async getBlogList(){
-      const { data: result } = await this.$http.post('/blog/list',this.blogRequest)
-      if (result.code !== 200) return this.$message.error('获取列表失败！')
+    async getBlogList() {
+      const { data: result } = await getBlogList(this.blogRequest)
       this.blogList = result.data
       this.blogRequest.total = result.total
       this.loading = false

@@ -4,12 +4,15 @@
       <el-breadcrumb-item :to="{ path: '/' }">首页</el-breadcrumb-item>
       <el-breadcrumb-item>文章</el-breadcrumb-item>
     </el-breadcrumb>
-    <mavon-editor :toolbars="markdownOption" v-model="blog.content" :html="false" codeStyle="foundation" :editable="false" defaultOpen="preview" :subfield="false" style="width: 100%" >
+    <mavon-editor v-model="blog.content" :editable="false" :html="false" :subfield="false"
+                  :toolbars="markdownOption" codeStyle="foundation" defaultOpen="preview" style="width: 100%">
     </mavon-editor>
   </div>
 </template>
 
 <script>
+import { getBlogById } from '@/utils/api';
+
 export default {
   name: 'ReadContext',
   data() {
@@ -24,18 +27,17 @@ export default {
     };
   },
   methods: {
-    save(){
+    save() {
       console.log('save')
     },
-    imgAdd(pos, $file){
+    imgAdd(pos, $file) {
 
     },
-    imgDel(){
+    imgDel() {
 
     },
-    async getBlog(id){
-      const { data: result } = await this.$http.get('/blog/' + id)
-      if (result.code !== 200) return this.$message.error('获取文章失败！')
+    async getBlog(id) {
+      const { data: result } = await getBlogById(id)
       this.blog = result.data
     }
   },

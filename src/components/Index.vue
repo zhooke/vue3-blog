@@ -3,34 +3,38 @@
     <el-container>
       <el-container>
         <el-aside class="left-aside">
-<!--          左侧边栏-->
+          <!--          左侧边栏-->
           <el-scrollbar>
-          <left-card/>
+            <left-card/>
           </el-scrollbar>
         </el-aside>
         <el-container>
           <el-header>
-          <header-card/>
+            <header-card/>
           </el-header>
-          <el-main noresize="true">
-            <el-scrollbar>
-<!--              中心内容-->
-                <router-view></router-view>
+          <el-main noresize="true" class="page-component__scroll">
+            <el-scrollbar class="scrollbar">
+              <!--              中心内容-->
+              <router-view></router-view>
             </el-scrollbar>
+            <el-backtop
+              target=".page-component__scroll .el-scrollbar__wrap"
+              :bottom="100"
+              :visibility-height="50"
+            ></el-backtop>
           </el-main>
         </el-container>
         <el-aside>
-<!--          右侧边栏-->
+          <!--          右侧边栏-->
           <el-scrollbar>
-          <right-card/>
+            <right-card/>
           </el-scrollbar>
         </el-aside>
       </el-container>
       <el-footer>
-<!--        底部-->
+        <!--        底部-->
         <footer-card/>
       </el-footer>
-
     </el-container>
   </div>
 </template>
@@ -58,7 +62,7 @@ export default {
 .main {
   height: 100vh;
   width: 100vw;
-  font-family: "Microsoft YaHei","微软雅黑","MicrosoftJhengHei","华文细黑","STHeiti","MingLiu",serif!important;
+  font-family: "Microsoft YaHei", "微软雅黑", "MicrosoftJhengHei", "华文细黑", "STHeiti", "MingLiu", serif !important;
 }
 
 .el-main {
@@ -66,12 +70,14 @@ export default {
   height: 90vh;
   width: 100%;
   overflow: hidden;
-  background-color: #f5f6f7
+  background-color: #f5f6f7;
+  overflow-x: hidden;
 }
 
 .el-aside {
   height: 95vh;
   width: 250px;
+
   .left-aside {
     background-color: #fff
   }

@@ -7,24 +7,25 @@
           <!--          <el-breadcrumb-item :to="{ path: '/' }">首页</el-breadcrumb-item>-->
           <!--          <el-breadcrumb-item>发布</el-breadcrumb-item>-->
           <!--        </el-breadcrumb>-->
-          <el-button size="large" icon="ArrowLeftBold" @click="goBack">返回首页</el-button>
+          <el-button icon="ArrowLeftBold" size="large" @click="goBack">返回首页</el-button>
         </el-col>
         <el-col :span="20">
-          <el-input v-model="blog.title" size="large" clearable placeholder="请输入标题"/>
+          <el-input v-model="blog.title" clearable placeholder="请输入标题" size="large"/>
         </el-col>
         <el-col :span="2">
-          <el-button type="danger" size="large" @click="dialogVisible = true">发布文章</el-button>
+          <el-button size="large" type="danger" @click="dialogVisible = true">发布文章</el-button>
         </el-col>
       </el-row>
-      <mavon-editor @save="save" @imgAdd="imgAdd" @imgDel="imgDel" :toolbars="markdownOption" v-model="blog.content"
-                    style="min-height:800px;width: 100%">
+      <mavon-editor v-model="blog.content" :toolbars="markdownOption" style="min-height:800px;width: 100%"
+                    @imgAdd="imgAdd" @imgDel="imgDel"
+                    @save="save">
       </mavon-editor>
       <el-dialog
         v-model="dialogVisible"
-        title="发布文章"
         :before-close="handleCloseDialog"
+        title="发布文章"
       >
-        <el-form :model="blog" label-width="auto" label-position="left">
+        <el-form :model="blog" label-position="left" label-width="auto">
           <el-form-item label="文章标题">
             <el-input v-model="blog.title"/>
           </el-form-item>
@@ -36,12 +37,12 @@
           </el-form-item>
           <el-form-item label="文章标签：">
             <el-tag
-              style="margin-right: 10px"
               v-for="tag in dynamicTags"
               :key="tag"
-              size="large"
-              closable
               :disable-transitions="false"
+              closable
+              size="large"
+              style="margin-right: 10px"
               @close="handleCloseTag(tag)"
             >
               {{ tag }}
@@ -49,22 +50,22 @@
             <el-input
               v-if="inputVisible"
               ref="InputRef"
-              type="text"
               v-model="inputValue"
-              style="width: 100px"
               size="default"
-              @keyup.enter="handleInputConfirm"
+              style="width: 100px"
+              type="text"
               @blur="handleInputConfirm"
+              @keyup.enter="handleInputConfirm"
             />
-            <el-button v-else size="default" @click="showInput" style="color: #a2b0b7">
+            <el-button v-else size="default" style="color: #a2b0b7" @click="showInput">
               +添加文章标签
             </el-button>
           </el-form-item>
           <el-form-item label="文章类型：">
             <el-radio-group v-model="blog.isOriginal">
-              <el-radio label="0" border>原创</el-radio>
-              <el-radio label="1" border>转摘</el-radio>
-              <el-radio label="2" border>翻译</el-radio>
+              <el-radio border label="0">原创</el-radio>
+              <el-radio border label="1">转摘</el-radio>
+              <el-radio border label="2">翻译</el-radio>
             </el-radio-group>
           </el-form-item>
           <el-form-item label="发布形式：">
@@ -94,6 +95,7 @@
 <script>
 import { nextTick, ref } from 'vue';
 import { ElInput } from 'element-plus';
+import { publishBlog } from '@/utils/api';
 
 export default {
   // eslint-disable-next-line vue/multi-word-component-names
@@ -159,7 +161,7 @@ export default {
       const user = JSON.parse(window.sessionStorage.getItem('userinfo'))
       this.blog.authorId = user.id
       this.blog.authorName = user.nickname
-      const { data: result } = await this.$http.post('blog/add', this.blog);
+      const { data: result } = await publishBlog(this.blog);
       console.log(result)
       if (result.code !== 200) {
         this.isSave = true

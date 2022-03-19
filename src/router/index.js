@@ -1,6 +1,4 @@
 import { createRouter, createWebHashHistory } from 'vue-router'
-import axios from 'axios';
-import NProgress from 'nprogress';
 
 const routes = [
   {
@@ -60,15 +58,6 @@ router.beforeEach((to, from, next) => {
 //  next()放行，next('/login')强制跳转
   if (to.path === '/login') return next()
   // 获取token
-  const tokenStr = window.sessionStorage.getItem('Bearer ')
-  if (!tokenStr) return next('/login')
-  // if (tokenStr !== token) return next('/login')
-  console.log('前置路由启用，token：',tokenStr)
-  axios.interceptors.request.use(config => {
-    NProgress.start()
-    config.headers.Authorization = 'Bearer ' + tokenStr
-    return config
-  })
   next()
 })
 export default router

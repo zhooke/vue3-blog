@@ -4,15 +4,13 @@ import router from './router'
 import store from './store'
 import ElementPlus from 'element-plus'
 import mavonEditor from 'mavon-editor'
-import NProgress from 'nprogress'
-import 'nprogress/nprogress.css'
 import * as ELIcons from '@element-plus/icons-vue'
 
 import 'mavon-editor/dist/css/index.css'
 import 'element-plus/dist/index.css'
 import './assets/css/global.css'
 
-import axios from 'axios'
+import axios from '@/utils/http'
 
 const app = createApp(App)
 app.use(store)
@@ -24,20 +22,6 @@ for (const iconName in ELIcons) {
 }
 app.mount('#app')
 
-/* 配置请求的根路径 */
-axios.defaults.baseURL = '/api'
-// 在request拦截器中展示进度条
-axios.interceptors.request.use(config => {
-  NProgress.start()
-  return config
-})
-// 在response拦截器中关闭进度条
-axios.interceptors.response.use(config => {
-  NProgress.done()
-  return config
-}, error => {
-  return this.$message.error(error);
-})
 // window.router = router
 app.config.globalProperties.$http = axios
 app.config.productionTip = false
