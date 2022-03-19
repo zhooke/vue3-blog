@@ -52,11 +52,11 @@
                 </el-col>
                 <el-col>
                   <span><el-icon><search/></el-icon></span>
-                  <span>{{ blog.blogBrowse == undefined ? 0 : blog.blogBrowse }}</span>
+                  <span>{{ blog.blogBrowse }}</span>
                 </el-col>
                 <el-col>
                   <span><el-icon><edit-pen/></el-icon></span>
-                  <span>{{ blog.commentNum }}</span>
+                  <span>{{ blog.commentNum === null ? 0 : blog.commentNum }}</span>
                 </el-col>
               </el-row>
             </el-card>
