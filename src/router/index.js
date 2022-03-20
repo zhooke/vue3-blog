@@ -50,14 +50,18 @@ const router = createRouter({
   routes,
   mode: 'history'
 })
+
+const filterRouters = ['/login']
 // 挂载路由守卫
 router.beforeEach((to, from, next) => {
   // to 将要访问的路径
 //  from 代表从哪个路径跳转而来
 //  next是下一个函数，表示放行
 //  next()放行，next('/login')强制跳转
-  if (to.path === '/login') return next()
+  if (filterRouters.indexOf(to.path)) return next()
   // 获取token
+  const tokenStr = window.sessionStorage.getItem('Bearer ')
+  if (!tokenStr) return next('/login')
   next()
 })
 export default router

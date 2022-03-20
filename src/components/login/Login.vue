@@ -27,7 +27,7 @@
 
 <script>
 
-import axios from 'axios';
+import axios from '@/utils/http'
 import NProgress from 'nprogress';
 import { getLogin } from '@/utils/api';
 

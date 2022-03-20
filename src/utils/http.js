@@ -23,7 +23,7 @@ service.interceptors.request.use(config => {
     text: 'Loading'
     // background: 'rgba(0, 0, 0, 0.7)'
   })
-  if (!config.headers.Authorization) {
+  if (!config.headers.Authorization && tokenStr !== undefined) {
     console.log('添加了token')
     config.headers.Authorization = 'Bearer ' + tokenStr
   }
