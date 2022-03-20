@@ -54,25 +54,51 @@
     <mavon-editor v-model="blog.content" :editable="false" :html="false" :subfield="false"
                   :toolbars="markdownOption" codeStyle="foundation" defaultOpen="preview" style="width: 100%">
     </mavon-editor>
+    <!--    评论输入框-->
     <el-card class="comment-card" justify="space-between">
       <p>发表评论</p>
       <el-input
-        v-model="commentText"
+        v-model="commentContext.comment"
         type="textarea"
-        :autosize="{ minRows: 5, maxRows: 10 }"
-        placeholder="Please input"
-        suffix-icon="Search"
+        maxlength="1000"
+        show-word-limit
+        :rows="commentInputRow"
+        placeholder="请发表有价值的评论， 博客评论不欢迎灌水，良好的社区氛围需大家一起维护。"
+        style="border-style: none;"
+        @focus="commentFocus"
+        @blur="commentBlur"
       >
       </el-input>
-      <el-row style="margin-top: 10px" justify="end">
-        <el-button type="success" icon="Check">发表</el-button>
+      <el-row style="margin-top: 10px;" justify="space-between">
+        <!--        todo 添加表情包和图片功能-->
+        <el-col span="12">
+        </el-col>
+        <el-col span="12">
+          <el-button type="success" icon="Check" @click="commentBlog">发表</el-button>
+        </el-col>
       </el-row>
+
+      <el-divider content-position="left">评论列表</el-divider>
+      <el-row justify="space-between" v-for="item in commentList" :key="item" style="margin-bottom: 10px">
+        <el-col span="16" class="comment-text-left-col">
+          <el-avatar :size="30" :src="item.headImgUrl === null ?circleUrl :item.headImgUrl" fit="cover"/>
+          <div style="flex-direction:column;margin-left: 10px">
+            <p>{{ item.createUserName }} {{ item.createDate }}</p>
+            <span class="comment-text">{{ item.comment }}</span>
+          </div>
+        </el-col>
+        <el-col span="8" style="flex-direction:row;margin-top: 10px">
+          <el-button icon="Edit" size="small">回复</el-button>
+          <el-button icon="Check" size="small"/>
+        </el-col>
+      </el-row>
+
     </el-card>
   </div>
 </template>
 
 <script>
-import { getBlogById } from '@/utils/api';
+import { commentBlog, commentList, getBlogById } from '@/utils/api';
 
 export default {
   name: 'ReadContext',
@@ -86,7 +112,19 @@ export default {
         content: ''
       },
       commentInputRow: 2,
-      commentText: ''
+      commentText: '',
+      circleUrl:
+        'https://cube.elemecdn.com/3/7c/3ea6beec64369c2642b92c6726f1epng.png',
+      commentButtonShow: false,
+      commentList: [],
+      commentRequest: {
+        pageIndex: 0,
+        pageSize: 10
+      },
+      commentContext: {
+        blogId: '',
+        comment: ''
+      }
     };
   },
   methods: {
@@ -105,11 +143,28 @@ export default {
     },
     commentFocus() {
       this.commentInputRow = 3
+    },
+    commentBlur() {
+      this.commentInputRow = 2
+    },
+    async getCommentList() {
+      this.commentRequest.blogId = this.blog.id
+      const { data: result } = await commentList(this.commentRequest)
+      this.commentList = result.data
+      this.commentList.pageSize = result.pageSize
+      this.commentList.pageIndex = result.pageIndex
+    },
+    async commentBlog() {
+      this.commentContext.blogId = this.blog.id
+      await commentBlog(this.commentContext)
+      await this.getCommentList()
+      this.commentContext.comment = ''
     }
   },
   mounted() {
     this.blog.id = this.$route.query.blogId
     this.getBlog(this.blog.id)
+    this.getCommentList()
   }
 }
 </script>
@@ -118,6 +173,11 @@ export default {
 .markdown {
   width: 100%;
   height: 100%;
+  padding-right: 5px;
+}
+
+.v-note-wrapper {
+  z-index: 1;
 }
 
 .card-info {
@@ -143,5 +203,31 @@ export default {
   text-align: left;
   width: 100%;
   margin-top: 10px;
+
+  .comment-text {
+    line-height: 25px;
+    //font-size: 14px;
+    //color: #a2b0b7;
+    word-break: break-word;
+    // 文字自动换行
+    white-space: normal;
+  }
+
+  .el-avatar {
+    margin-top: 10px;
+    min-width: 30px;
+    min-height: 30px
+  }
+
+  .comment-text-left-col {
+    display: flex;
+    flex-direction: row;
+    max-width: 80%;
+
+    p {
+      font-size: 14px;
+      color: #a2b0b7;
+    }
+  }
 }
 </style>

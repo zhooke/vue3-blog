@@ -40,7 +40,7 @@ service.interceptors.response.use(config => {
   return config
 }, error => {
   loading.close()
-  return ElMessage.error(error);
+  return ElMessage.error('系统错误，请稍后再试');
 })
 
 export default service

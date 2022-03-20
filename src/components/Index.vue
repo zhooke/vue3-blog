@@ -63,6 +63,8 @@ export default {
   height: 100vh;
   width: 100vw;
   font-family: "Microsoft YaHei", "微软雅黑", "MicrosoftJhengHei", "华文细黑", "STHeiti", "MingLiu", serif !important;
+  min-width: 1366px;
+  min-height: 768px;
 }
 
 .el-main {

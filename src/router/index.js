@@ -58,7 +58,7 @@ router.beforeEach((to, from, next) => {
 //  from 代表从哪个路径跳转而来
 //  next是下一个函数，表示放行
 //  next()放行，next('/login')强制跳转
-  if (filterRouters.indexOf(to.path)) return next()
+  if (filterRouters.indexOf(to.path) !== -1) return next()
   // 获取token
   const tokenStr = window.sessionStorage.getItem('Bearer ')
   if (!tokenStr) return next('/login')

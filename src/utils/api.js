@@ -36,3 +36,21 @@ export const getBlogById = (params) => {
 export const publishBlog = (params) => {
   return http.post('blog/add', params);
 }
+
+/**
+ * 通过blogId获取评论
+ * @param params
+ * @returns {Promise<AxiosResponse<any>>}
+ */
+export const commentList = (params) => {
+  return http.post('blog/comment:list', params);
+}
+
+/**
+ * 通过blogId评论blog
+ * @param params
+ * @returns {Promise<AxiosResponse<any>>}
+ */
+export const commentBlog = (params) => {
+  return http.post('blog/comment', params);
+}
