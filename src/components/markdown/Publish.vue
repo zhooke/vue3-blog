@@ -95,7 +95,7 @@
 <script>
 import { nextTick, ref } from 'vue';
 import { ElInput } from 'element-plus';
-import { publishBlog } from '@/utils/api';
+import {  publishBlogApi } from '@/utils/api';
 
 export default {
   // eslint-disable-next-line vue/multi-word-component-names
@@ -161,7 +161,7 @@ export default {
       const user = JSON.parse(window.sessionStorage.getItem('userinfo'))
       this.blog.authorId = user.id
       this.blog.authorName = user.nickname
-      const { data: result } = await publishBlog(this.blog);
+      const { data: result } = await publishBlogApi(this.blog);
       console.log(result)
       if (result.code !== 200) {
         this.isSave = true

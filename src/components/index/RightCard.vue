@@ -1,66 +1,88 @@
 <template>
-  <div  class="card-right">
-      <p>BLOG INFO</p>
-      <el-tabs v-model="activeName" class="card-right-tabs" @tab-click="handleClick">
-        <el-tab-pane name="first">
-          <template #label>
-            <el-icon><tickets /></el-icon>
-          </template>
-          <p>热门文章</p>
-          <el-row class="hot-blog-card" v-for="item in 5" :key="item" gutter="5" style="margin-bottom: 20px;height: 55px;"  @click="blogCardClick(item)">
-            <el-col :span="6">
-              <el-image :src="text_url" fit="cover" style="height: 55px"></el-image>
-            </el-col>
-            <el-col :span="16">
-              <span style="margin-bottom: 3px">{{item}}. awk - 提取包含某个关键字的段落</span>
-              <span style="color: #98a6ad"><el-icon size="16px" style="color: #98a6ad"><video-camera-filled /></el-icon>123</span>
-            </el-col>
+  <div class="card-right">
+    <p>BLOG INFO</p>
+    <el-tabs v-model="activeName" class="card-right-tabs" @tab-click="handleClick">
+      <el-tab-pane name="first">
+        <template #label>
+          <el-icon>
+            <tickets/>
+          </el-icon>
+        </template>
+        <p>热门文章</p>
+        <el-row class="hot-blog-card" v-for="(item,index) in blogTop5List" :key="index" gutter="5"
+                style="margin-bottom: 20px;height: 55px;" @click="blogCardClick(item.id)">
+          <el-col :span="6">
+            <el-image :src="text_url" fit="cover" style="height: 55px"></el-image>
+          </el-col>
+          <el-col :span="16">
+            <span style="margin-bottom: 3px">{{ index + 1 }}. {{ item.title }}</span>
+            <span style="color: #98a6ad"><el-icon size="16px" style="color: #98a6ad"><video-camera-filled/></el-icon>{{
+                item.blogBrowse
+              }}</span>
+          </el-col>
+        </el-row>
+        <p>博主信息</p>
+        <el-card style="font-size: 12px;color: #6e6e6e;margin-bottom: 10px;">
+          <el-row>
+            <el-col :span="12">
+              <span>博主昵称</span></el-col>
+            <el-col :span="12">zhooke</el-col>
+            <el-divider></el-divider>
           </el-row>
-          <p>博主信息</p>
-          <el-card style="font-size: 12px;color: #6e6e6e;margin-bottom: 10px;">
-            <el-row >
-              <el-col :span="12">
-                <span>博主昵称</span></el-col>
-              <el-col :span="12">zhooke</el-col>
-              <el-divider ></el-divider>
-            </el-row>
-            <el-row>
-              <el-col :span="12">运行天数</el-col>
-              <el-col :span="12">2年2个月</el-col>
-              <el-divider ></el-divider>
-            </el-row>
-            <el-row>
-              <el-col :span="12">文章数量</el-col>
-              <el-col :span="12">16</el-col>
-              <el-divider ></el-divider>
-            </el-row>
-            <el-row>
-              <el-col :span="12">评论数量</el-col>
-              <el-col :span="12">123</el-col>
-              <el-divider ></el-divider>
-            </el-row>
-            <el-row>
-              <el-col :span="12">博客粉丝</el-col>
-              <el-col :span="12">123</el-col>
-              <el-divider ></el-divider>
-            </el-row>
-          </el-card>
-          <p>标签</p>
-          <el-tag v-for="item in 5" :key="item" style="margin: 0 0 10px 10px" @click="tagClick(item)">Tag {{ item }}</el-tag>
-        </el-tab-pane>
-        <el-tab-pane name="second">
-          <template #label>
-            <el-icon><comment /></el-icon>
-          </template>
-          <span>2</span>
-        </el-tab-pane>
-        <el-tab-pane name="third">
-          <template #label>
-            <el-icon><fold /></el-icon>
-          </template>
-          <span>3</span>
-        </el-tab-pane>
-      </el-tabs>
+          <el-row>
+            <el-col :span="12">运行天数</el-col>
+            <el-col :span="12">2年2个月</el-col>
+            <el-divider></el-divider>
+          </el-row>
+          <el-row>
+            <el-col :span="12">文章数量</el-col>
+            <el-col :span="12">16</el-col>
+            <el-divider></el-divider>
+          </el-row>
+          <el-row>
+            <el-col :span="12">评论数量</el-col>
+            <el-col :span="12">123</el-col>
+            <el-divider></el-divider>
+          </el-row>
+          <el-row>
+            <el-col :span="12">博客粉丝</el-col>
+            <el-col :span="12">123</el-col>
+            <el-divider></el-divider>
+          </el-row>
+        </el-card>
+        <p>标签</p>
+        <el-tag v-for="item in 5" :key="item" style="margin: 0 0 10px 10px" @click="tagClick(item.id)">Tag {{
+            item
+          }}
+        </el-tag>
+      </el-tab-pane>
+      <el-tab-pane name="second">
+        <template #label>
+          <el-icon>
+            <comment/>
+          </el-icon>
+        </template>
+        <p>最新评论</p>
+        <el-row class="hot-blog-card" v-for="(item,index) in blogCommentNewestList" :key="index" gutter="5"
+                style="margin-bottom: 20px;height: 55px;" @click="blogCardClick(item.blogId)">
+          <el-col :span="6">
+            <el-image :src="text_url" fit="cover" style="height: 55px"></el-image>
+          </el-col>
+          <el-col :span="16">
+            <span style="margin-bottom: 3px">{{ index + 1 }}.@ {{ item.createUserName }} 说：</span>
+            <span style="color: #98a6ad">{{ item.comment }}</span>
+          </el-col>
+        </el-row>
+      </el-tab-pane>
+      <el-tab-pane name="third">
+        <template #label>
+          <el-icon>
+            <fold/>
+          </el-icon>
+        </template>
+        <span>广告招租</span>
+      </el-tab-pane>
+    </el-tabs>
   </div>
 </template>
 
@@ -68,6 +90,7 @@
 
 
 import { ref } from 'vue';
+import { blogTop5Api, commentNewestApi } from '@/utils/api';
 
 export default {
   name: 'RightCard',
@@ -82,7 +105,9 @@ export default {
       background: ref(false),
       disable: ref(false),
       activeName: ref('first'),
-      search_data: ''
+      search_data: '',
+      blogTop5List: [],
+      blogCommentNewestList: []
     }
   },
   methods: {
@@ -92,49 +117,67 @@ export default {
     handleCurrentChange(val) {
       console.log(`current page: ${val}`)
     },
-    handleClick(tab, event){
+    handleClick(tab, event) {
       console.log(tab, event)
     },
     // tag点击事件
-    tagClick(val){
+    async tagClick(val) {
       console.log(val)
     },
-    async blogCardClick(val){
-      await this.$router.push('/blog/read')
+    async blogCardClick(val) {
+      await this.$router.push({ path: '/blog/read', query: { blogId: val } })
+    },
+    async commentNewest() {
+      const { data: result } = await commentNewestApi();
+      this.blogCommentNewestList = result.data;
+    },
+    async blogTop5() {
+      const { data: result } = await blogTop5Api();
+      this.blogTop5List = result.data;
     }
+  },
+  mounted() {
+    this.commentNewest()
+    this.blogTop5()
   }
 }
 </script>
 
 <style lang="less" scoped>
-.card-right{
+.card-right {
   vertical-align: baseline;
   line-height: 1.5;
   flex-direction: column;
   padding-left: 10px;
   margin-right: 10px;
-  .el-col{
+
+  .el-col {
     display: inline-flex;
-    flex-direction:column;
+    flex-direction: column;
     font-size: 12px;
   }
-  .el-icon{
+
+  .el-icon {
     margin-right: 10px;
     font-size: 20px;
     color: #6e6e6e;
   }
-  .card-right-tabs{
+
+  .card-right-tabs {
     text-align: start;
     margin-top: 10px;
-    .el-divider{
+
+    .el-divider {
       margin: 10px 0 10px 0;
     }
-    .el-col{
+
+    .el-col {
       color: #6e6e6e;
     }
   }
 }
+
 .hot-blog-card:hover {
-  background: rgba(179, 216, 255, 0.96);
+  cursor: pointer;
 }
 </style>

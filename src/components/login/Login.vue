@@ -79,7 +79,7 @@ export default {
       /* await只能放在async修饰的函数中，表示异步执行该函数 */
       this.$refs.loginFormRef.validate(async valid => {
         if (!valid) return
-        const { data: result } = await getLogin(this.loginForm)
+        const { data: result } = await getLoginApi(this.loginForm)
         console.log(result)
         window.sessionStorage.setItem('Bearer ', result.data.accessToken)
         window.sessionStorage.setItem('userinfo', JSON.stringify(result.data.userInfoResponse))

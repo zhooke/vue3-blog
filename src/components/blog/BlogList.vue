@@ -15,8 +15,8 @@
         <el-row>
           <p style="font-size: 14px">
             <span style="margin-right: 16px;">园龄：5个月</span>
-            <a style="margin-right: 16px;">粉丝：0</a>
-            <a>粉丝：0</a>
+            <span style="margin-right: 16px;">粉丝：0</span>
+            <span>粉丝：0</span>
           </p>
         </el-row>
       </div>
@@ -85,7 +85,7 @@
 <script>
 
 import { ref } from 'vue';
-import { getBlogList } from '@/utils/api';
+import { getBlogListApi } from '@/utils/api';
 
 export default {
   name: 'ContextList',
@@ -107,7 +107,7 @@ export default {
         total: 0
       },
       userinfo: {}
-}
+    }
   },
   methods: {
     handleSizeChange(val) {
@@ -131,7 +131,7 @@ export default {
       await this.$router.push({ path: '/blog/read', query: { blogId: val } })
     },
     async getBlogList() {
-      const { data: result } = await getBlogList(this.blogRequest)
+      const { data: result } = await getBlogListApi(this.blogRequest)
       this.blogList = result.data
       this.blogRequest.total = result.total
       this.loading = false

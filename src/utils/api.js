@@ -5,7 +5,7 @@ import http from '@/utils/http'
  * @param params
  * @returns {Promise<AxiosResponse<any>>}
  */
-export const getLogin = (params) => {
+export const getLoginApi = (params) => {
   return http
     .post('oauth/token', '', { headers: { Authorization: 'Basic YXBwOmFwcA==' }, params: params });
 }
@@ -15,7 +15,7 @@ export const getLogin = (params) => {
  * @param params
  * @returns {Promise<AxiosResponse<any>>}
  */
-export const getBlogList = (params) => {
+export const getBlogListApi = (params) => {
   return http.post('/blog/list', params)
 }
 
@@ -24,7 +24,7 @@ export const getBlogList = (params) => {
  * @param params
  * @returns {Promise<AxiosResponse<any>>}
  */
-export const getBlogById = (params) => {
+export const getBlogByIdApi = (params) => {
   return http.get('/blog/' + params)
 }
 
@@ -33,7 +33,7 @@ export const getBlogById = (params) => {
  * @param params
  * @returns {Promise<AxiosResponse<any>>}
  */
-export const publishBlog = (params) => {
+export const publishBlogApi = (params) => {
   return http.post('blog/add', params);
 }
 
@@ -42,7 +42,7 @@ export const publishBlog = (params) => {
  * @param params
  * @returns {Promise<AxiosResponse<any>>}
  */
-export const commentList = (params) => {
+export const commentListApi = (params) => {
   return http.post('blog/comment:list', params);
 }
 
@@ -51,6 +51,24 @@ export const commentList = (params) => {
  * @param params
  * @returns {Promise<AxiosResponse<any>>}
  */
-export const commentBlog = (params) => {
+export const commentBlogApi = (params) => {
   return http.post('blog/comment', params);
+}
+
+/**
+ * 最新10条评论
+ * @param params
+ * @returns {Promise<AxiosResponse<any>>}
+ */
+export const commentNewestApi = () => {
+  return http.get('blog/comment/newest');
+}
+
+/**
+ * top5
+ * @param params
+ * @returns {Promise<AxiosResponse<any>>}
+ */
+export const blogTop5Api = () => {
+  return http.get('blog/top5');
 }

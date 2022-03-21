@@ -98,7 +98,7 @@
 </template>
 
 <script>
-import { commentBlog, commentList, getBlogById } from '@/utils/api';
+import { commentBlogApi, commentListApi, getBlogByIdApi } from '@/utils/api';
 
 export default {
   name: 'ReadContext',
@@ -138,7 +138,7 @@ export default {
 
     },
     async getBlog(id) {
-      const { data: result } = await getBlogById(id)
+      const { data: result } = await getBlogByIdApi(id)
       this.blog = result.data
     },
     commentFocus() {
@@ -149,14 +149,14 @@ export default {
     },
     async getCommentList() {
       this.commentRequest.blogId = this.blog.id
-      const { data: result } = await commentList(this.commentRequest)
+      const { data: result } = await commentListApi(this.commentRequest)
       this.commentList = result.data
       this.commentList.pageSize = result.pageSize
       this.commentList.pageIndex = result.pageIndex
     },
     async commentBlog() {
       this.commentContext.blogId = this.blog.id
-      await commentBlog(this.commentContext)
+      await commentBlogApi(this.commentContext)
       await this.getCommentList()
       this.commentContext.comment = ''
     }
