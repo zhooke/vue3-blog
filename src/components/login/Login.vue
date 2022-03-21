@@ -29,7 +29,7 @@
 
 import axios from '@/utils/http'
 import NProgress from 'nprogress';
-import { getLogin } from '@/utils/api';
+import { getLoginApi } from '@/utils/api';
 
 export default {
   // eslint-disable-next-line vue/multi-word-component-names

@@ -173,8 +173,9 @@ export default {
       this.commentRequest.pageIndex = val
       this.getCommentList()
     },
-    getBlogTag() {
-      this.blogTagList = getBlogTagApi(this.blog.id)
+    async getBlogTag() {
+      const { data: result } = await getBlogTagApi(this.blog.id)
+      this.blogTagList = result.data
     }
   },
   mounted() {

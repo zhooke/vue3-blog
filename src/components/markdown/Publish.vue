@@ -36,17 +36,44 @@
             </el-radio-group>
           </el-form-item>
           <el-form-item label="文章标签：">
-            <el-tag
-              v-for="tag in dynamicTags"
-              :key="tag"
-              :disable-transitions="false"
-              closable
-              size="large"
-              style="margin-right: 10px"
-              @close="handleCloseTag(tag)"
-            >
-              {{ tag }}
-            </el-tag>
+            <div class="tag-card">
+              <el-row>
+                <el-col span="24" style="min-height: 40px">
+                  <el-tag
+                    v-for="tag in dynamicTags"
+                    :key="tag"
+                    :disable-transitions="false"
+                    closable
+                    size="large"
+                    style="margin-right: 10px;"
+                    @close="handleCloseTag(tag)"
+                  >
+                    {{ tag.name }}
+                  </el-tag>
+                </el-col>
+              </el-row>
+              <el-row>
+                <el-card>
+                  <el-col span="24">
+                    <span>标签</span>
+                    <el-input v-model="tagInput.name" placeholder="请输入文字搜索，Enter键入可添加自定义标签" @keydown.enter="createTag"/>
+                  </el-col>
+
+                  <p>已添加标签：</p>
+                  <el-col span="24">
+                    <el-checkbox-group v-model="checkedCities" :min="0" :max="5">
+                      <el-checkbox v-for="item in blogTagList" :key="item" :label="item"
+                                   @change="checkboxChange($event,item)"
+                                   name="type">{{
+                          item.name
+                        }}
+                      </el-checkbox>
+                    </el-checkbox-group>
+                  </el-col>
+                </el-card>
+              </el-row>
+            </div>
+
             <!--            <el-input-->
             <!--              v-if="inputVisible"-->
             <!--              ref="InputRef"-->
@@ -57,17 +84,6 @@
             <!--              @blur="handleInputConfirm"-->
             <!--              @keyup.enter="handleInputConfirm"-->
             <!--            />-->
-            <el-popover
-              placement="bottom"
-              title="Title"
-              :width="200"
-              trigger="click"
-            >
-              <template #reference>
-                <el-button size="default" style="color: #a2b0b7">+添加文章标签</el-button>
-              </template>
-              <span>t21312312</span>
-            </el-popover>
           </el-form-item>
 
           <el-form-item label="文章类型：">
@@ -104,7 +120,7 @@
 <script>
 import { nextTick, ref, unref } from 'vue';
 import { ElInput } from 'element-plus';
-import { publishBlogApi } from '@/utils/api';
+import { createTagApi, getTagApi, publishBlogApi } from '@/utils/api';
 
 export default {
   // eslint-disable-next-line vue/multi-word-component-names
@@ -155,10 +171,11 @@ export default {
         picture: '',
         isTop: ref(0),
         isPrivate: ref(0),
-        isOriginal: ref(1)
+        isOriginal: ref(1),
+        tags: ''
       },
       dialogVisible: ref(false),
-      dynamicTags: ['Tag 1', 'Tag 2', 'Tag 3'],
+      dynamicTags: [],
       inputVisible: ref(false),
       inputValue: '',
       InputRef: ref < ElInput >(ElInput),
@@ -166,7 +183,12 @@ export default {
       blogTag: {},
       blogTagList: [],
       buttonRef: ref(),
-      popoverRef: ref()
+      popoverRef: ref(),
+      tagInput: {
+        name: ''
+      },
+      tagChecked: ref(false),
+      checkedCities: ref()
     };
   },
   methods: {
@@ -174,7 +196,10 @@ export default {
       const user = JSON.parse(window.sessionStorage.getItem('userinfo'))
       this.blog.authorId = user.id
       this.blog.authorName = user.nickname
+      this.blog.tags = this.dynamicTags.map(tag => tag.id).join(',')
+
       const { data: result } = await publishBlogApi(this.blog);
+
       console.log(result)
       if (result.code !== 200) {
         this.isSave = true
@@ -220,14 +245,27 @@ export default {
       this.$router.push('/')
     },
     async createTag() {
-      await this.createTagApi(this.blogTag)
+      await createTagApi(this.tagInput)
+      this.blogTag = ''
+      const { data: result } = await getTagApi();
+      this.blogTagList.push(result.data[result.data.length - 1])
     },
     async getTag() {
-      const { data: result } = await this.getTagApi();
+      const { data: result } = await getTagApi();
       this.blogTagList = result.data
     },
     onClickOutside() {
       unref(this.popoverRef)
+    },
+    checkboxChange(val, tag) {
+      if (val) {
+        this.dynamicTags.push(tag)
+      } else {
+        const index = this.dynamicTags.indexOf(tag);
+        if (index > -1) {
+          this.dynamicTags.splice(index, 1);
+        }
+      }
     }
 
   },
@@ -241,6 +279,7 @@ export default {
       // Chrome, Safari, Firefox 4+, Opera 12+ , IE 9+
       return '关闭提示';
     }
+    this.getTag()
   },
   beforeRouteUpdate(to, from, next) {
     // 在当前路由改变，但是该组件被复用时调用
@@ -267,5 +306,17 @@ export default {
 .top-row {
   margin: 10px;
   font-size: 16px;
+}
+
+.tag-card {
+  flex-direction: column;
+  justify-content: start;
+  display: inline-block;
+  text-align: left;
+  width: 100%;
+
+  .el-card {
+    width: 100%;
+  }
 }
 </style>
