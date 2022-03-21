@@ -35,8 +35,9 @@
               <el-row>
                 <el-col>
                   <span>标签：</span>
-                  <el-tag class="ml-2" type="success" v-for="item in 5" :key="item" style="margin-right: 10px">Tag {{
-                      item
+                  <el-tag class="ml-2" type="success" v-for="item in blogTagList" :key="item"
+                          style="margin-right: 10px">Tag {{
+                      item.name
                     }}
                   </el-tag>
                 </el-col>
@@ -65,8 +66,6 @@
         :rows="commentInputRow"
         placeholder="请发表有价值的评论， 博客评论不欢迎灌水，良好的社区氛围需大家一起维护。"
         style="border-style: none;"
-        @focus="commentFocus"
-        @blur="commentBlur"
       >
       </el-input>
       <el-row style="margin-top: 10px;" justify="space-between">
@@ -92,13 +91,22 @@
           <el-button icon="Check" size="small"/>
         </el-col>
       </el-row>
-
+      <el-pagination
+        v-model:currentPage="commentRequest.pageIndex"
+        :page-size="commentRequest.pageSize"
+        small="small"
+        background
+        layout="total, prev, pager, next"
+        :total="commentRequest.total"
+        @size-change="handleSizeChange"
+        @current-change="handleCurrentChange"
+      />
     </el-card>
   </div>
 </template>
 
 <script>
-import { commentBlogApi, commentListApi, getBlogByIdApi } from '@/utils/api';
+import { commentBlogApi, commentListApi, getBlogByIdApi, getBlogTagApi } from '@/utils/api';
 
 export default {
   name: 'ReadContext',
@@ -111,20 +119,22 @@ export default {
       blog: {
         content: ''
       },
-      commentInputRow: 2,
+      commentInputRow: 3,
       commentText: '',
       circleUrl:
         'https://cube.elemecdn.com/3/7c/3ea6beec64369c2642b92c6726f1epng.png',
       commentButtonShow: false,
       commentList: [],
       commentRequest: {
-        pageIndex: 0,
-        pageSize: 10
+        pageIndex: 1,
+        pageSize: 10,
+        total: 0
       },
       commentContext: {
         blogId: '',
         comment: ''
-      }
+      },
+      blogTagList: []
     };
   },
   methods: {
@@ -141,30 +151,37 @@ export default {
       const { data: result } = await getBlogByIdApi(id)
       this.blog = result.data
     },
-    commentFocus() {
-      this.commentInputRow = 3
-    },
-    commentBlur() {
-      this.commentInputRow = 2
-    },
     async getCommentList() {
       this.commentRequest.blogId = this.blog.id
       const { data: result } = await commentListApi(this.commentRequest)
       this.commentList = result.data
-      this.commentList.pageSize = result.pageSize
-      this.commentList.pageIndex = result.pageIndex
+      this.commentRequest.pageSize = result.pageSize
+      this.commentRequest.pageIndex = result.pageIndex
+      this.commentRequest.total = result.total
     },
     async commentBlog() {
       this.commentContext.blogId = this.blog.id
       await commentBlogApi(this.commentContext)
       await this.getCommentList()
       this.commentContext.comment = ''
+    },
+    handleSizeChange(val) {
+      this.commentRequest.pageSize = val
+      this.getCommentList()
+    },
+    handleCurrentChange(val) {
+      this.commentRequest.pageIndex = val
+      this.getCommentList()
+    },
+    getBlogTag() {
+      this.blogTagList = getBlogTagApi(this.blog.id)
     }
   },
   mounted() {
     this.blog.id = this.$route.query.blogId
     this.getBlog(this.blog.id)
     this.getCommentList()
+    this.getBlogTag()
   }
 }
 </script>

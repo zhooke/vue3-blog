@@ -72,3 +72,29 @@ export const commentNewestApi = () => {
 export const blogTop5Api = () => {
   return http.get('blog/top5');
 }
+
+/**
+ * 创建tag
+ * @param params
+ * @returns {Promise<AxiosResponse<any>>}
+ */
+export const createTagApi = (params) => {
+  return http.post('blog/tag', params);
+}
+
+/**
+ * 获取tag列表
+ * @returns {Promise<AxiosResponse<any>>}
+ */
+export const getTagApi = () => {
+  return http.get('blog/tag');
+}
+
+/**
+ * 获取blog对应的tag
+ * @param params
+ * @returns {Promise<AxiosResponse<any>>}
+ */
+export const getBlogTagApi = (params) => {
+  return http.get('blog/tag/relation/' + params);
+}

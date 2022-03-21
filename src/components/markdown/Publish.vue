@@ -47,20 +47,29 @@
             >
               {{ tag }}
             </el-tag>
-            <el-input
-              v-if="inputVisible"
-              ref="InputRef"
-              v-model="inputValue"
-              size="default"
-              style="width: 100px"
-              type="text"
-              @blur="handleInputConfirm"
-              @keyup.enter="handleInputConfirm"
-            />
-            <el-button v-else size="default" style="color: #a2b0b7" @click="showInput">
-              +添加文章标签
-            </el-button>
+            <!--            <el-input-->
+            <!--              v-if="inputVisible"-->
+            <!--              ref="InputRef"-->
+            <!--              v-model="inputValue"-->
+            <!--              size="default"-->
+            <!--              style="width: 100px"-->
+            <!--              type="text"-->
+            <!--              @blur="handleInputConfirm"-->
+            <!--              @keyup.enter="handleInputConfirm"-->
+            <!--            />-->
+            <el-popover
+              placement="bottom"
+              title="Title"
+              :width="200"
+              trigger="click"
+            >
+              <template #reference>
+                <el-button size="default" style="color: #a2b0b7">+添加文章标签</el-button>
+              </template>
+              <span>t21312312</span>
+            </el-popover>
           </el-form-item>
+
           <el-form-item label="文章类型：">
             <el-radio-group v-model="blog.isOriginal">
               <el-radio border label="0">原创</el-radio>
@@ -93,9 +102,9 @@
 </template>
 
 <script>
-import { nextTick, ref } from 'vue';
+import { nextTick, ref, unref } from 'vue';
 import { ElInput } from 'element-plus';
-import {  publishBlogApi } from '@/utils/api';
+import { publishBlogApi } from '@/utils/api';
 
 export default {
   // eslint-disable-next-line vue/multi-word-component-names
@@ -153,7 +162,11 @@ export default {
       inputVisible: ref(false),
       inputValue: '',
       InputRef: ref < ElInput >(ElInput),
-      isSave: ref(false)
+      isSave: ref(false),
+      blogTag: {},
+      blogTagList: [],
+      buttonRef: ref(),
+      popoverRef: ref()
     };
   },
   methods: {
@@ -205,6 +218,16 @@ export default {
     },
     goBack() {
       this.$router.push('/')
+    },
+    async createTag() {
+      await this.createTagApi(this.blogTag)
+    },
+    async getTag() {
+      const { data: result } = await this.getTagApi();
+      this.blogTagList = result.data
+    },
+    onClickOutside() {
+      unref(this.popoverRef)
     }
 
   },
