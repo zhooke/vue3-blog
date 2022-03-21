@@ -8,7 +8,7 @@
       <div class="user-info-card">
         <el-row>
           <p style="color: inherit;cursor: pointer;font-size: 22px;margin: 0!important;">
-            zhooke
+            {{ userinfo.nickname }}
             <el-button size="small" type="primary">关注</el-button>
           </p>
         </el-row>
@@ -105,8 +105,9 @@ export default {
         pageIndex: 0,
         pageSize: 10,
         total: 0
-      }
-    }
+      },
+      userinfo: {}
+}
   },
   methods: {
     handleSizeChange(val) {
@@ -138,6 +139,7 @@ export default {
   },
   mounted() {
     this.getBlogList()
+    this.userinfo = JSON.parse(window.sessionStorage.getItem('userinfo'))
   }
 }
 </script>

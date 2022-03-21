@@ -81,11 +81,11 @@ export default {
         if (!valid) return
         const { data: result } = await getLogin(this.loginForm)
         console.log(result)
-        window.sessionStorage.setItem('Bearer ', result.data.access_token)
+        window.sessionStorage.setItem('Bearer ', result.data.accessToken)
         window.sessionStorage.setItem('userinfo', JSON.stringify(result.data.userInfoResponse))
         axios.interceptors.request.use(config => {
           NProgress.start()
-          config.headers.Authorization = 'Bearer ' + result.data.access_token
+          config.headers.Authorization = 'Bearer ' + result.data.accessToken
           return config
         })
         await this.$router.push('/')
