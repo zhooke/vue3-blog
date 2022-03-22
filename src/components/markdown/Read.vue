@@ -33,8 +33,8 @@
             </el-col>
             <el-col>
               <el-row>
-                <el-col>
-                  <span>标签：</span>
+                <el-col style="display: inline-block;">
+                  <span style="font-size: 14px;color: black">标签：</span>
                   <el-tag class="ml-2" type="success" v-for="item in blogTagList" :key="item"
                           style="margin-right: 10px">{{
                       item.name
@@ -199,7 +199,7 @@ export default {
 }
 
 .card-info {
-  font-size: 10px;
+  font-size: 14px;
   color: #a2b0b7;
   display: inline-block;
   text-align: left;
@@ -212,7 +212,6 @@ export default {
 
   .el-icon {
     margin-right: 5px;
-    font-size: 14px;
   }
 }
 
