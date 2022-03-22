@@ -40,11 +40,18 @@
                   {{ blog.content }}
                 </el-col>
               </el-row>
-              <el-divider style="margin-bottom: 0"/>
+              <el-divider style="margin-bottom: 5px"/>
               <el-row class="card-info" justify="start">
-                <el-col>
-                  <el-tag type="danger" size="small">原创</el-tag>
+                <el-col v-if="blog.isOriginal === 1">
+                  <el-tag type="danger" size="small" style="height: 16px">原创</el-tag>
                 </el-col>
+                <el-col v-else-if="blog.isOriginal === 2">
+                  <el-tag type="success" size="small" style="height: 16px">转摘</el-tag>
+                </el-col>
+                <el-col v-if="blog.isOriginal === 3">
+                  <el-tag type="warning" size="small" style="height: 16px">翻译</el-tag>
+                </el-col>
+
                 <el-col>
                   <span><el-icon><avatar/></el-icon></span>
                   <span>{{ blog.authorName }}</span>
@@ -231,7 +238,7 @@ export default {
   }
 
   .card-info {
-    font-size: 10px;
+    font-size: 14px;
     color: #a2b0b7;
     display: inline-block;
 
@@ -242,7 +249,6 @@ export default {
 
     .el-icon {
       margin-right: 5px;
-      font-size: 14px;
     }
   }
 }
