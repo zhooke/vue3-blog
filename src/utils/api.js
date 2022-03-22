@@ -98,3 +98,12 @@ export const getTagApi = () => {
 export const getBlogTagApi = (params) => {
   return http.get('blog/tag/relation/' + params);
 }
+
+/**
+ * 获取blog用户信息
+ * @param params
+ * @returns {Promise<AxiosResponse<any>>}
+ */
+export const getBlogUserApi = () => {
+  return http.get('blog/user');
+}

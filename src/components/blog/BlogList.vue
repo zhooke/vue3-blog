@@ -14,9 +14,9 @@
         </el-row>
         <el-row>
           <p style="font-size: 14px">
-            <span style="margin-right: 16px;">园龄：5个月</span>
-            <span style="margin-right: 16px;">粉丝：0</span>
-            <span>粉丝：0</span>
+            <span style="margin-right: 16px;">园龄：{{ blogUserInfo.runningDay }}</span>
+            <span style="margin-right: 16px;">粉丝：{{ blogUserInfo.followCount }}</span>
+            <span>文章：{{ blogUserInfo.blogCount }}</span>
           </p>
         </el-row>
       </div>
@@ -85,7 +85,7 @@
 <script>
 
 import { ref } from 'vue';
-import { getBlogListApi } from '@/utils/api';
+import { getBlogListApi, getBlogUserApi } from '@/utils/api';
 
 export default {
   name: 'ContextList',
@@ -106,7 +106,8 @@ export default {
         pageSize: 10,
         total: 0
       },
-      userinfo: {}
+      userinfo: {},
+      blogUserInfo: {}
     }
   },
   methods: {
@@ -135,11 +136,16 @@ export default {
       this.blogList = result.data
       this.blogRequest.total = result.total
       this.loading = false
+    },
+    async getUser() {
+      const { data: result } = await getBlogUserApi()
+      this.blogUserInfo = result.data
     }
   },
   mounted() {
     this.getBlogList()
     this.userinfo = JSON.parse(window.sessionStorage.getItem('userinfo'))
+    this.getUser()
   }
 }
 </script>

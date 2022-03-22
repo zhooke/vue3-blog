@@ -36,7 +36,7 @@
                 <el-col>
                   <span>标签：</span>
                   <el-tag class="ml-2" type="success" v-for="item in blogTagList" :key="item"
-                          style="margin-right: 10px">Tag {{
+                          style="margin-right: 10px">{{
                       item.name
                     }}
                   </el-tag>

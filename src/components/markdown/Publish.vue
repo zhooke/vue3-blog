@@ -1,5 +1,5 @@
 <template>
-  <div class="mavonCreate">
+  <div class="main">
     <el-scrollbar>
       <el-row class="top-row">
         <el-col :span="2">
@@ -61,7 +61,7 @@
 
                   <p>已添加标签：</p>
                   <el-col span="24">
-                    <el-checkbox-group v-model="checkedCities" :min="0" :max="5">
+                    <el-checkbox-group v-model="tagCheckedList" :min="0" :max="5">
                       <el-checkbox v-for="item in blogTagList" :key="item" :label="item"
                                    @change="checkboxChange($event,item)"
                                    name="type">{{
@@ -69,6 +69,9 @@
                         }}
                       </el-checkbox>
                     </el-checkbox-group>
+                  </el-col>
+                  <el-col :span="24" :offset="16" style="font-size: 14px;color: #a2b0b7;">
+                    剩余可添加标签：{{ blogTagList.length }}/10
                   </el-col>
                 </el-card>
               </el-row>
@@ -188,7 +191,7 @@ export default {
         name: ''
       },
       tagChecked: ref(false),
-      checkedCities: ref()
+      tagCheckedList: []
     };
   },
   methods: {
@@ -219,6 +222,11 @@ export default {
     },
     handleCloseTag(tag) {
       this.dynamicTags.splice(this.dynamicTags.indexOf(tag), 1)
+      console.log(this.tagCheckedList)
+      const index = this.tagCheckedList.indexOf(tag);
+      if (index > -1) {
+        this.tagCheckedList.splice(index, 1);
+      }
     },
     handleInputConfirm() {
       if (this.inputValue) {
@@ -250,10 +258,6 @@ export default {
       const { data: result } = await getTagApi();
       this.blogTagList.push(result.data[result.data.length - 1])
     },
-    async getTag() {
-      const { data: result } = await getTagApi();
-      this.blogTagList = result.data
-    },
     onClickOutside() {
       unref(this.popoverRef)
     },
@@ -279,7 +283,7 @@ export default {
       // Chrome, Safari, Firefox 4+, Opera 12+ , IE 9+
       return '关闭提示';
     }
-    this.getTag()
+    this.blogTagList = getTag()
   },
   beforeRouteUpdate(to, from, next) {
     // 在当前路由改变，但是该组件被复用时调用
@@ -303,6 +307,11 @@ export default {
 </script>
 
 <style lang="less" scoped>
+.main {
+  min-width: 1366px;
+  min-height: 768px;
+}
+
 .top-row {
   margin: 10px;
   font-size: 16px;
@@ -318,5 +327,10 @@ export default {
   .el-card {
     width: 100%;
   }
+}
+
+.el-dialog {
+  min-width: 720px;
+  min-height: 740px;
 }
 </style>

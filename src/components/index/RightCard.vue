@@ -26,33 +26,33 @@
           <el-row>
             <el-col :span="12">
               <span>博主昵称</span></el-col>
-            <el-col :span="12">zhooke</el-col>
+            <el-col :span="12">{{ blogUserInfo.nickname }}</el-col>
             <el-divider></el-divider>
           </el-row>
           <el-row>
             <el-col :span="12">运行天数</el-col>
-            <el-col :span="12">2年2个月</el-col>
+            <el-col :span="12">{{ blogUserInfo.runningDay }}</el-col>
             <el-divider></el-divider>
           </el-row>
           <el-row>
             <el-col :span="12">文章数量</el-col>
-            <el-col :span="12">16</el-col>
+            <el-col :span="12">{{ blogUserInfo.blogCount }}</el-col>
             <el-divider></el-divider>
           </el-row>
           <el-row>
             <el-col :span="12">评论数量</el-col>
-            <el-col :span="12">123</el-col>
+            <el-col :span="12">{{ blogUserInfo.commentCount }}</el-col>
             <el-divider></el-divider>
           </el-row>
           <el-row>
             <el-col :span="12">博客粉丝</el-col>
-            <el-col :span="12">123</el-col>
+            <el-col :span="12">{{ blogUserInfo.followCount }}</el-col>
             <el-divider></el-divider>
           </el-row>
         </el-card>
         <p>标签</p>
-        <el-tag v-for="item in 5" :key="item" style="margin: 0 0 10px 10px" @click="tagClick(item.id)">Tag {{
-            item
+        <el-tag v-for="item in blogTagList" :key="item" style="margin: 0 0 10px 10px" @click="tagClick(item)">{{
+            item.name
           }}
         </el-tag>
       </el-tab-pane>
@@ -90,7 +90,7 @@
 
 
 import { ref } from 'vue';
-import { blogTop5Api, commentNewestApi } from '@/utils/api';
+import { blogTop5Api, commentNewestApi, getBlogUserApi, getTagApi } from '@/utils/api';
 
 export default {
   name: 'RightCard',
@@ -107,7 +107,9 @@ export default {
       activeName: ref('first'),
       search_data: '',
       blogTop5List: [],
-      blogCommentNewestList: []
+      blogCommentNewestList: [],
+      blogTagList: [],
+      blogUserInfo: {}
     }
   },
   methods: {
@@ -134,11 +136,21 @@ export default {
     async blogTop5() {
       const { data: result } = await blogTop5Api();
       this.blogTop5List = result.data;
+    },
+    async getTag() {
+      const { data: result } = await getTagApi();
+      this.blogTagList = result.data
+    },
+    async getUser() {
+      const { data: result } = await getBlogUserApi()
+      this.blogUserInfo = result.data
     }
   },
   mounted() {
     this.commentNewest()
     this.blogTop5()
+    this.getTag()
+    this.getUser()
   }
 }
 </script>
