@@ -8,7 +8,7 @@
       <div class="user-info-card">
         <el-row>
           <p style="color: inherit;cursor: pointer;font-size: 22px;margin: 0!important;">
-            {{ userinfo.nickname }}
+            {{ blogUserInfo.nickname }}
             <el-button size="small" type="primary">关注</el-button>
           </p>
         </el-row>
@@ -40,8 +40,11 @@
                   {{ blog.content }}
                 </el-col>
               </el-row>
-              <el-divider/>
+              <el-divider style="margin-bottom: 0"/>
               <el-row class="card-info" justify="start">
+                <el-col>
+                  <el-tag type="danger" size="small">原创</el-tag>
+                </el-col>
                 <el-col>
                   <span><el-icon><avatar/></el-icon></span>
                   <span>{{ blog.authorName }}</span>
@@ -51,7 +54,7 @@
                   <span>{{ blog.createDate }}</span>
                 </el-col>
                 <el-col>
-                  <span><el-icon><search/></el-icon></span>
+                  <span><el-icon><View/></el-icon></span>
                   <span>{{ blog.blogBrowse }}</span>
                 </el-col>
                 <el-col>
@@ -106,7 +109,6 @@ export default {
         pageSize: 10,
         total: 0
       },
-      userinfo: {},
       blogUserInfo: {}
     }
   },
@@ -144,7 +146,6 @@ export default {
   },
   mounted() {
     this.getBlogList()
-    this.userinfo = JSON.parse(window.sessionStorage.getItem('userinfo'))
     this.getUser()
   }
 }
