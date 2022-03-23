@@ -22,7 +22,7 @@
                   <span>{{ blog.createDate }}</span>
                 </el-col>
                 <el-col span="4">
-                  <span><el-icon><search/></el-icon></span>
+                  <span><el-icon><View/></el-icon></span>
                   <span>{{ blog.blogBrowse }}</span>
                 </el-col>
                 <el-col span="4">

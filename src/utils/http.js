@@ -1,6 +1,6 @@
 import NProgress from 'nprogress'
 import 'nprogress/nprogress.css'
-import { ElMessage, ElLoading } from 'element-plus';
+import { ElLoading, ElMessage } from 'element-plus';
 
 import axios from 'axios'
 
@@ -34,13 +34,23 @@ service.interceptors.request.use(config => {
 service.interceptors.response.use(config => {
   NProgress.done()
   if (config.data.code != 200) {
-    ElMessage.error(config.data.message)
+    ElMessage.error(config.data.msg)
   }
   loading.close()
   return config
 }, error => {
-  loading.close()
-  return ElMessage.error('系统错误，请稍后再试');
+  const res = error.response.data
+  console.log(error.response.data)
+  if (res.code === 400) {
+    return ElMessage.error('客户端错误');
+  } else if (res.code === 403) {
+    return ElMessage.error('客户端错误');
+  } else if (res.code === 404) {
+    return ElMessage.error('网络请求不存在');
+  } else if (res.code === 500) {
+    return ElMessage.error(res.msg);
+  }
+  return ElMessage.error('服务器正在开小差');
 })
 
 export default service

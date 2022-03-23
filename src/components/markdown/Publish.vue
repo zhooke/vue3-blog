@@ -253,6 +253,9 @@ export default {
       this.$router.push('/')
     },
     async createTag() {
+      if (this.blogTagList.length >= 10) {
+        return this.$message.warning('最多可添加10个标签')
+      }
       await createTagApi(this.tagInput)
       this.blogTag = ''
       const { data: result } = await getTagApi();
@@ -270,6 +273,10 @@ export default {
           this.dynamicTags.splice(index, 1);
         }
       }
+    },
+    async getTag() {
+      const { data: result } = await getTagApi();
+      this.blogTagList = result.data
     }
 
   },
@@ -283,7 +290,7 @@ export default {
       // Chrome, Safari, Firefox 4+, Opera 12+ , IE 9+
       return '关闭提示';
     }
-    this.blogTagList = getTag()
+    this.getTag()
   },
   beforeRouteUpdate(to, from, next) {
     // 在当前路由改变，但是该组件被复用时调用
