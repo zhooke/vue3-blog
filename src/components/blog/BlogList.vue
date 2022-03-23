@@ -4,7 +4,7 @@
     <el-card :body-style="{padding:'0'}" class="header-card">
       <el-card :body-style="{padding:'0'}" class="header-card-background">
       </el-card>
-      <el-image :src="header_image_url" class="header-image"/>
+      <el-image :src="userinfo.headImgUrl" class="header-image"/>
       <div class="user-info-card">
         <el-row>
           <p style="color: inherit;cursor: pointer;font-size: 22px;margin: 0!important;">
@@ -116,7 +116,10 @@ export default {
         pageSize: 10,
         total: 0
       },
-      blogUserInfo: {}
+      blogUserInfo: {},
+      userinfo: {
+        headImgUrl: ''
+      }
     }
   },
   methods: {
@@ -154,6 +157,7 @@ export default {
   mounted() {
     this.getBlogList()
     this.getUser()
+    this.userinfo = JSON.parse(window.sessionStorage.getItem('userinfo'))
   }
 }
 </script>

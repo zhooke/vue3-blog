@@ -11,7 +11,7 @@
           <template #dropdown>
             <el-dropdown-menu>
               <el-dropdown-item @click="userInfoDialogVisible=true">个人资料</el-dropdown-item>
-              <el-dropdown-item>Action 2</el-dropdown-item>
+              <el-dropdown-item @click="settingDialogVisible=true">参数配置</el-dropdown-item>
               <el-dropdown-item>Action 3</el-dropdown-item>
               <el-dropdown-item>Action 4</el-dropdown-item>
               <el-dropdown-item @click="logout">退出</el-dropdown-item>
@@ -102,17 +102,58 @@
         <span>广告招租</span>
       </el-tab-pane>
     </el-tabs>
+    <!--    个人资料-->
     <el-dialog
       v-model="userInfoDialogVisible"
-      title="Tips"
+      title="个人资料"
       width="30%"
       :before-close="handleClose"
     >
-      <span>This is a message</span>
+      <el-form :model="userinfo" label-width="120px">
+        <el-form-item label="头像">
+<!--          todo 修改头像cover-->
+          <el-avatar :src="userinfo.headImgUrl"/>
+        </el-form-item>
+        <el-form-item label="昵称">
+          <el-input v-model="userinfo.nickname"/>
+        </el-form-item>
+        <el-form-item label="性别">
+          <el-radio-group v-model="userinfo.sex">
+            <el-radio :label="0">男</el-radio>
+            <el-radio :label="1">女</el-radio>
+          </el-radio-group>
+        </el-form-item>
+        <el-form-item label="手机号码">
+          <el-input v-model="userinfo.mobile"/>
+        </el-form-item>
+        <el-form-item label="Git地址">
+          <el-input v-model="userinfo.git"/>
+        </el-form-item>
+      </el-form>
       <template #footer>
       <span class="dialog-footer">
-        <el-button @click="userInfoDialogVisible = false">Cancel</el-button>
-        <el-button type="primary" @click="userInfoDialogVisible = false"
+        <el-button @click="userInfoButShow=false" v-show="userInfoButShow">编辑</el-button>
+        <el-button type="primary" @click="userInfoDialogVisible = false" v-show="!userInfoButShow">保存</el-button
+        >
+      </span>
+      </template>
+    </el-dialog>
+    <!--    个人配置-->
+    <el-dialog
+      v-model="settingDialogVisible"
+      title="Tips"
+      width="30%"
+    >
+      <el-form :model="settingForm" label-width="120px">
+        <el-form-item label="Activity name">
+          <el-input/>
+        </el-form-item>
+
+      </el-form>
+      <template #footer>
+      <span class="dialog-footer">
+        <el-button @click="settingDialogVisible = false">Cancel</el-button>
+        <el-button type="primary" @click="settingDialogVisible = false"
         >Confirm</el-button
         >
       </span>
@@ -146,7 +187,11 @@ export default {
       blogCommentNewestList: [],
       blogTagList: [],
       blogUserInfo: {},
-      userInfoDialogVisible: ref(false)
+      userInfoDialogVisible: ref(false),
+      settingDialogVisible: ref(false),
+      settingForm: ref(),
+      userinfo: ref(),
+      userInfoButShow: ref(true)
     }
   },
   methods: {
@@ -192,6 +237,7 @@ export default {
     this.blogTop5()
     this.getTag()
     this.getUser()
+    this.userinfo = JSON.parse(window.sessionStorage.getItem('userinfo'))
   }
 }
 </script>
@@ -227,6 +273,12 @@ export default {
     .el-col {
       color: #6e6e6e;
     }
+  }
+}
+
+.el-avatar {
+  img {
+    width: 50px;
   }
 }
 

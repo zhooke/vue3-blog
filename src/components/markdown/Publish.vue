@@ -33,6 +33,7 @@
             <el-radio-group v-model="blog.resource">
               <el-radio label="单图"/>
               <el-radio label="三图"/>
+              <el-radio label="默认"/>
             </el-radio-group>
           </el-form-item>
           <el-form-item label="文章标签：">
@@ -91,21 +92,21 @@
 
           <el-form-item label="文章类型：">
             <el-radio-group v-model="blog.isOriginal">
-              <el-radio border label="0">原创</el-radio>
-              <el-radio border label="1">转摘</el-radio>
-              <el-radio border label="2">翻译</el-radio>
+              <el-radio border :label="1">原创</el-radio>
+              <el-radio border :label="2">转摘</el-radio>
+              <el-radio border :label="3">翻译</el-radio>
             </el-radio-group>
           </el-form-item>
           <el-form-item label="发布形式：">
             <el-radio-group v-model="blog.isPrivate">
-              <el-radio label="0">公开</el-radio>
-              <el-radio label="1">私密</el-radio>
+              <el-radio :label="0">公开</el-radio>
+              <el-radio :label="1">私密</el-radio>
             </el-radio-group>
           </el-form-item>
           <el-form-item label="是否置顶：">
             <el-radio-group v-model="blog.isTop">
-              <el-radio label="0">默认</el-radio>
-              <el-radio label="1">置顶</el-radio>
+              <el-radio :label="0">默认</el-radio>
+              <el-radio :label="1">置顶</el-radio>
             </el-radio-group>
           </el-form-item>
         </el-form>
