@@ -9,6 +9,7 @@ import * as ELIcons from '@element-plus/icons-vue'
 import 'mavon-editor/dist/css/index.css'
 import 'element-plus/dist/index.css'
 import './assets/css/global.css'
+import * as antIcons from '@ant-design/icons-vue'
 
 import axios from '@/utils/http'
 
@@ -19,6 +20,9 @@ app.use(ElementPlus)
 app.use(mavonEditor)
 for (const iconName in ELIcons) {
   app.component(iconName, ELIcons[iconName])
+}
+for (const icons in antIcons) {
+  app.component(icons, antIcons[icons])
 }
 app.mount('#app')
 

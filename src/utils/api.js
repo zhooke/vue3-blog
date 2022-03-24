@@ -107,3 +107,12 @@ export const getBlogTagApi = (params) => {
 export const getBlogUserApi = () => {
   return http.get('blog/user');
 }
+
+/**
+ * 获取blog用户信息
+ * @param params
+ * @returns {Promise<AxiosResponse<any>>}
+ */
+export const updateUserInfoApi = (params) => {
+  return http.put('/users', params);
+}

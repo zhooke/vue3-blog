@@ -158,6 +158,7 @@ export default {
     this.getBlogList()
     this.getUser()
     this.userinfo = JSON.parse(window.sessionStorage.getItem('userinfo'))
+    document.title = this.userinfo.nickname + '的博客'
   }
 }
 </script>

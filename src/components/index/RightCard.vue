@@ -1,19 +1,25 @@
 <template>
   <div class="card-right">
-    <el-row justify="start" style="margin: 10px">
+    <el-row justify="space-between" style="margin: 10px">
       <el-row v-if="blogUserInfo === undefined">
         <el-button size="small" type="primary" plain>登陆</el-button>
         <el-button size="small" type="success" plain>注册</el-button>
       </el-row>
       <el-row v-else>
         <el-dropdown>
-          <el-avatar shape="square" :size="30" :src="squareUrl"/>
+          <el-image style="max-width: 30px;max-height: 30px;border-radius: 20%" fit="cover" :src="userinfo.headImgUrl">
+            <template #error>
+              <div class="image-slot">
+                <el-icon>
+                  <icon-picture/>
+                </el-icon>
+              </div>
+            </template>
+          </el-image>
           <template #dropdown>
             <el-dropdown-menu>
               <el-dropdown-item @click="userInfoDialogVisible=true">个人资料</el-dropdown-item>
               <el-dropdown-item @click="settingDialogVisible=true">参数配置</el-dropdown-item>
-              <el-dropdown-item>Action 3</el-dropdown-item>
-              <el-dropdown-item>Action 4</el-dropdown-item>
               <el-dropdown-item @click="logout">退出</el-dropdown-item>
             </el-dropdown-menu>
           </template>
@@ -35,7 +41,7 @@
           </el-col>
           <el-col :span="16">
             <span style="margin-bottom: 3px">{{ index + 1 }}. {{ item.title }}</span>
-            <span style="color: #98a6ad"><el-icon size="16px" style="color: #98a6ad"><video-camera-filled/></el-icon>{{
+            <span style="color: #98a6ad"><el-icon size="16px" style="color: #98a6ad"><View/></el-icon>{{
                 item.blogBrowse
               }}</span>
           </el-col>
@@ -107,12 +113,21 @@
       v-model="userInfoDialogVisible"
       title="个人资料"
       width="30%"
-      :before-close="handleClose"
     >
-      <el-form :model="userinfo" label-width="120px">
+      <el-form :model="userinfo" label-width="80px" :disabled="userInfoDisabled">
         <el-form-item label="头像">
-<!--          todo 修改头像cover-->
-          <el-avatar :src="userinfo.headImgUrl"/>
+          <!--          todo 修改头像cover-->
+          <el-upload
+            :disabled="userInfoDisabled"
+            class="avatar-uploader"
+            action="/api/upload"
+            :show-file-list="false"
+            :on-success="handleAvatarSuccess"
+            :multiple="true"
+          >
+            <el-image fit="cover" :src="userinfo.headImgUrl"
+                      style="max-height: 50px;max-width: 50px;border-radius: 50%"/>
+          </el-upload>
         </el-form-item>
         <el-form-item label="昵称">
           <el-input v-model="userinfo.nickname"/>
@@ -126,15 +141,14 @@
         <el-form-item label="手机号码">
           <el-input v-model="userinfo.mobile"/>
         </el-form-item>
-        <el-form-item label="Git地址">
-          <el-input v-model="userinfo.git"/>
+        <el-form-item label="邮箱">
+          <el-input v-model="userinfo.email"/>
         </el-form-item>
       </el-form>
       <template #footer>
       <span class="dialog-footer">
-        <el-button @click="userInfoButShow=false" v-show="userInfoButShow">编辑</el-button>
-        <el-button type="primary" @click="userInfoDialogVisible = false" v-show="!userInfoButShow">保存</el-button
-        >
+              <el-button @click="userinfoEditBut" v-show="userInfoButShow">编辑</el-button>
+        <el-button type="primary" @click="userinfoEditSaveBut" v-show="!userInfoButShow">保存</el-button>
       </span>
       </template>
     </el-dialog>
@@ -153,9 +167,7 @@
       <template #footer>
       <span class="dialog-footer">
         <el-button @click="settingDialogVisible = false">Cancel</el-button>
-        <el-button type="primary" @click="settingDialogVisible = false"
-        >Confirm</el-button
-        >
+        <el-button type="primary" @click="settingDialogVisible = false">Confirm</el-button>
       </span>
       </template>
     </el-dialog>
@@ -166,7 +178,7 @@
 
 
 import { ref } from 'vue';
-import { blogTop5Api, commentNewestApi, getBlogUserApi, getTagApi } from '@/utils/api';
+import { blogTop5Api, commentNewestApi, getBlogUserApi, getTagApi, updateUserInfoApi } from '@/utils/api';
 
 export default {
   name: 'RightCard',
@@ -190,8 +202,11 @@ export default {
       userInfoDialogVisible: ref(false),
       settingDialogVisible: ref(false),
       settingForm: ref(),
-      userinfo: ref(),
-      userInfoButShow: ref(true)
+      userinfo: {
+        headImgUrl: ''
+      },
+      userInfoButShow: ref(true),
+      userInfoDisabled: ref(true)
     }
   },
   methods: {
@@ -230,14 +245,45 @@ export default {
     async getUser() {
       const { data: result } = await getBlogUserApi()
       this.blogUserInfo = result.data
+    },
+    userinfoEditBut() {
+      this.userInfoButShow = false;
+      this.userInfoDisabled = false
+    },
+    async userinfoEditSaveBut() {
+      this.userInfoDialogVisible = false
+      this.userInfoDisabled = true
+      this.userInfoButShow = true
+      const userinfo = {
+        newNickname: this.userinfo.nickname,
+        newHeadImgUrl: this.userinfo.headImgUrl,
+        newEMail: this.userinfo.email,
+        newMobile: this.userinfo.mobile,
+        newSex: this.userinfo.sex,
+        newAddress: this.userinfo.address
+      }
+      const { data: result } = await updateUserInfoApi(userinfo)
+      console.log(result)
+      if (result.code === 200) {
+        window.sessionStorage.setItem('userinfo', JSON.stringify(result.data))
+        this.$message.success('更新数据成功')
+      }
+    },
+    handleAvatarSuccess(response, uploadFile) {
+      console.log(response)
+      if (response.code === 200) {
+        this.userinfo.headImgUrl = response.data.url
+      } else {
+        this.$message.warning('上传头像失败')
+      }
     }
   },
   mounted() {
+    this.userinfo = JSON.parse(window.sessionStorage.getItem('userinfo'))
     this.commentNewest()
     this.blogTop5()
     this.getTag()
     this.getUser()
-    this.userinfo = JSON.parse(window.sessionStorage.getItem('userinfo'))
   }
 }
 </script>
