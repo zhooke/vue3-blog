@@ -20,6 +20,7 @@
             <el-dropdown-menu>
               <el-dropdown-item @click="userInfoDialogVisible=true">个人资料</el-dropdown-item>
               <el-dropdown-item @click="settingDialogVisible=true">参数配置</el-dropdown-item>
+              <el-dropdown-item @click="tagSettingDialogVisible=true">标签管理</el-dropdown-item>
               <el-dropdown-item @click="logout">退出</el-dropdown-item>
             </el-dropdown-menu>
           </template>
@@ -171,6 +172,59 @@
       </span>
       </template>
     </el-dialog>
+    <!--    标签设置-->
+    <el-dialog
+      v-model="tagSettingDialogVisible"
+      title="Tips"
+      width="30%"
+    >
+      <div class="tag-card">
+        <el-row>
+          <el-col span="24" style="min-height: 40px">
+            <el-tag
+              v-for="tag in dynamicTags"
+              :key="tag"
+              :disable-transitions="false"
+              closable
+              size="large"
+              style="margin-right: 10px;"
+              @close="handleCloseTag(tag)"
+            >
+              {{ tag.name }}
+            </el-tag>
+          </el-col>
+        </el-row>
+        <el-row>
+          <el-card>
+            <el-col span="24">
+              <span>标签</span>
+              <el-input v-model="tagInput.name" placeholder="请输入文字搜索，Enter键入可添加自定义标签" @keydown.enter="createTag"/>
+            </el-col>
+
+            <p>已添加标签：</p>
+            <el-col span="24">
+              <el-checkbox-group v-model="tagCheckedList" :min="0" :max="5">
+                <el-checkbox v-for="item in blogTagList" :key="item" :label="item"
+                             @change="checkboxChange($event,item)"
+                             name="type">{{
+                    item.name
+                  }}
+                </el-checkbox>
+              </el-checkbox-group>
+            </el-col>
+            <el-col :span="24" :offset="16" style="font-size: 14px;color: #a2b0b7;">
+              剩余可添加标签：{{ blogTagList.length }}/10
+            </el-col>
+          </el-card>
+        </el-row>
+      </div>
+      <template #footer>
+      <span class="dialog-footer">
+        <el-button @click="tagSettingDialogVisible = false">Cancel</el-button>
+        <el-button type="primary" @click="tagSettingDialogVisible = false">Confirm</el-button>
+      </span>
+      </template>
+    </el-dialog>
   </div>
 </template>
 
@@ -178,7 +232,7 @@
 
 
 import { ref } from 'vue';
-import { blogTop5Api, commentNewestApi, getBlogUserApi, getTagApi, updateUserInfoApi } from '@/utils/api';
+import { blogTop5Api, commentNewestApi, createTagApi, getBlogUserApi, getTagApi, updateUserInfoApi } from '@/utils/api';
 
 export default {
   name: 'RightCard',
@@ -206,7 +260,14 @@ export default {
         headImgUrl: ''
       },
       userInfoButShow: ref(true),
-      userInfoDisabled: ref(true)
+      userInfoDisabled: ref(true),
+      tagSettingDialogVisible: ref(false),
+      dynamicTags: [],
+      tagInput: {
+        name: ''
+      },
+      tagChecked: ref(false),
+      tagCheckedList: []
     }
   },
   methods: {
@@ -276,6 +337,15 @@ export default {
       } else {
         this.$message.warning('上传头像失败')
       }
+    },
+    async createTag() {
+      if (this.blogTagList.length >= 10) {
+        return this.$message.warning('最多可添加10个标签')
+      }
+      await createTagApi(this.tagInput)
+      this.blogTag = ''
+      const { data: result } = await getTagApi();
+      this.blogTagList.push(result.data[result.data.length - 1])
     }
   },
   mounted() {

@@ -78,16 +78,6 @@
               </el-row>
             </div>
 
-            <!--            <el-input-->
-            <!--              v-if="inputVisible"-->
-            <!--              ref="InputRef"-->
-            <!--              v-model="inputValue"-->
-            <!--              size="default"-->
-            <!--              style="width: 100px"-->
-            <!--              type="text"-->
-            <!--              @blur="handleInputConfirm"-->
-            <!--              @keyup.enter="handleInputConfirm"-->
-            <!--            />-->
           </el-form-item>
 
           <el-form-item label="文章类型：">
