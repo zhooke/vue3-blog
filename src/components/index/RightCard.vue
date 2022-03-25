@@ -6,9 +6,11 @@
         <el-button size="small" type="success" plain>注册</el-button>
       </el-row>
       <el-row v-else>
+        <span style="margin:auto 0;">个人资料</span>
         <el-dropdown>
-          <el-image style="max-width: 30px;max-height: 30px;border-radius: 20%" fit="cover" :src="userinfo.headImgUrl">
-            <template #error>
+          <el-image style="max-width: 30px;max-height: 30px;border-radius: 20%;margin-left: 30px" fit="cover"
+                    :src="userinfo.headImgUrl">
+            <template #error>4
               <div class="image-slot">
                 <el-icon>
                   <icon-picture/>
@@ -113,7 +115,7 @@
     <el-dialog
       v-model="userInfoDialogVisible"
       title="个人资料"
-      width="30%"
+      width="420px"
     >
       <el-form :model="userinfo" label-width="80px" :disabled="userInfoDisabled">
         <el-form-item label="头像">
@@ -157,7 +159,7 @@
     <el-dialog
       v-model="settingDialogVisible"
       title="Tips"
-      width="30%"
+      width="420px"
     >
       <el-form :model="settingForm" label-width="120px">
         <el-form-item label="Activity name">
@@ -173,46 +175,40 @@
       </template>
     </el-dialog>
     <!--    标签设置-->
+<!--    todo 待完善-->
     <el-dialog
       v-model="tagSettingDialogVisible"
-      title="Tips"
-      width="30%"
+      title="设置标签"
+      width="420px"
     >
       <div class="tag-card">
         <el-row>
-          <el-col span="24" style="min-height: 40px">
+          <el-card>
             <el-tag
-              v-for="tag in dynamicTags"
+              v-for="tag in blogTagList"
               :key="tag"
-              :disable-transitions="false"
+              class="mx-1"
               closable
-              size="large"
-              style="margin-right: 10px;"
-              @close="handleCloseTag(tag)"
+              :disable-transitions="false"
+              @close="handleClose(tag)"
+              style="margin: 5px"
             >
               {{ tag.name }}
             </el-tag>
-          </el-col>
-        </el-row>
-        <el-row>
-          <el-card>
-            <el-col span="24">
-              <span>标签</span>
-              <el-input v-model="tagInput.name" placeholder="请输入文字搜索，Enter键入可添加自定义标签" @keydown.enter="createTag"/>
-            </el-col>
+            <el-input
+              v-if="inputVisible"
+              ref="InputRef"
+              v-model="inputValue"
+              class="ml-1 w-20"
+              size="small"
+              @keyup.enter="handleInputConfirm"
+              @blur="handleInputConfirm"
+            />
+            <el-button v-else class="button-new-tag ml-1" size="small" @click="showInput">
+              + New Tag
+            </el-button>
 
-            <p>已添加标签：</p>
-            <el-col span="24">
-              <el-checkbox-group v-model="tagCheckedList" :min="0" :max="5">
-                <el-checkbox v-for="item in blogTagList" :key="item" :label="item"
-                             @change="checkboxChange($event,item)"
-                             name="type">{{
-                    item.name
-                  }}
-                </el-checkbox>
-              </el-checkbox-group>
-            </el-col>
-            <el-col :span="24" :offset="16" style="font-size: 14px;color: #a2b0b7;">
+            <el-col :span="24" :offset="14" style="font-size: 12px;color: #a2b0b7;">
               剩余可添加标签：{{ blogTagList.length }}/10
             </el-col>
           </el-card>
@@ -400,5 +396,17 @@ export default {
 
 .hot-blog-card:hover {
   cursor: pointer;
+}
+
+.tag-card {
+  flex-direction: column;
+  justify-content: start;
+  display: inline-block;
+  text-align: left;
+  width: 100%;
+
+  .el-input {
+    width: 350px;
+  }
 }
 </style>
