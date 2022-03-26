@@ -13,7 +13,9 @@ const service = axios.create({
 })
 
 const tokenStr = window.sessionStorage.getItem('Bearer ')
-service.defaults.headers.Authorization = 'Bearer ' + tokenStr
+if (tokenStr !== null) {
+  service.defaults.headers.Authorization = 'Bearer ' + tokenStr
+}
 
 // 在request拦截器中展示进度条
 service.interceptors.request.use(config => {
@@ -23,7 +25,7 @@ service.interceptors.request.use(config => {
     text: 'Loading'
     // background: 'rgba(0, 0, 0, 0.7)'
   })
-  if (!config.headers.Authorization && tokenStr !== undefined) {
+  if (!config.headers.Authorization && tokenStr !== null) {
     console.log('添加了token')
     config.headers.Authorization = 'Bearer ' + tokenStr
   }

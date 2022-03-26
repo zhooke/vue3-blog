@@ -51,7 +51,7 @@ const router = createRouter({
   mode: 'history'
 })
 
-const filterRouters = ['/login']
+const filterRouters = ['/login', '/blog/list', '/blog/read']
 // 挂载路由守卫
 router.beforeEach((to, from, next) => {
   // to 将要访问的路径

@@ -1,7 +1,7 @@
 <template>
   <div class="card-right">
     <el-row justify="space-between" style="margin: 10px">
-      <el-row v-if="blogUserInfo === undefined">
+      <el-row v-if="tokenStr === null">
         <el-button size="small" type="primary" plain>登陆</el-button>
         <el-button size="small" type="success" plain>注册</el-button>
       </el-row>
@@ -175,7 +175,7 @@
       </template>
     </el-dialog>
     <!--    标签设置-->
-<!--    todo 待完善-->
+    <!--    todo 待完善-->
     <el-dialog
       v-model="tagSettingDialogVisible"
       title="设置标签"
@@ -253,7 +253,15 @@ export default {
       settingDialogVisible: ref(false),
       settingForm: ref(),
       userinfo: {
-        headImgUrl: ''
+        address: '',
+        createTime: '2021-10-19T03:57:45.000+00:00',
+        email: 'zhooke@foxmail.com',
+        headImgUrl: 'https://gimg2.baidu.com/image_search/src=http%3A%2F%2Fbpic.588ku.com%2Fillus_water_img%2F19%2F03%2F11%2F007a84ad62a040e14ff60b589891e896.jpg%21%2Fwatermark%2Furl%2FL3dhdGVyL3dhdGVyX2JhY2tfNDAwXzIwMC5wbmc%3D%2Frepeat%2Ftrue&refer=http%3A%2F%2Fbpic.588ku.com&app=2002&size=f9999,10000&q=a80&n=0&g=0n&fmt=jpeg?sec=1637315290&t=a96b839b23b598e1f6b4f4be40bf79cc',
+        id: 100011,
+        mobile: '15352058954',
+        nickname: 'zhooke',
+        sex: 0,
+        username: 'dzvhva7rard4krdjlh'
       },
       userInfoButShow: ref(true),
       userInfoDisabled: ref(true),
@@ -263,13 +271,15 @@ export default {
         name: ''
       },
       tagChecked: ref(false),
-      tagCheckedList: []
+      tagCheckedList: [],
+      tokenStr: ''
     }
   },
   methods: {
     logout() {
       window.sessionStorage.clear()
-      this.$router.push('/login')
+      this.$router.push('/blog/list')
+      location.reload()
     },
     handleSizeChange(val) {
       console.log(`${val} items per page`)
@@ -345,7 +355,12 @@ export default {
     }
   },
   mounted() {
-    this.userinfo = JSON.parse(window.sessionStorage.getItem('userinfo'))
+    const user = JSON.parse(window.sessionStorage.getItem('userinfo'))
+    if (user) {
+      this.userinfo = user
+    }
+    this.tokenStr = window.sessionStorage.getItem('Bearer ')
+
     this.commentNewest()
     this.blogTop5()
     this.getTag()
