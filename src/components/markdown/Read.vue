@@ -100,6 +100,7 @@
         :total="commentRequest.total"
         @size-change="handleSizeChange"
         @current-change="handleCurrentChange"
+        v-show="commentRequest.total >10"
       />
     </el-card>
   </div>

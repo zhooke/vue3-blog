@@ -1,7 +1,7 @@
 <template>
   <div>
     <!--              个人资料展示-->
-    <el-card :body-style="{padding:'0'}" class="header-card">
+    <el-card :body-style="{padding:'0'}" class="header-card" id="top">
       <el-card :body-style="{padding:'0'}" class="header-card-background">
       </el-card>
       <el-image :src="userinfo.headImgUrl" class="header-image"/>
@@ -127,10 +127,16 @@ export default {
       console.log(`${val} items per page`)
       this.blogRequest.pageSize = val
       this.getBlogList()
+      this.backTop()
     },
     handleCurrentChange(val) {
       this.blogRequest.pageIndex = val
       this.getBlogList()
+      this.backTop()
+    },
+    backTop() {
+      const element = document.getElementById('top');
+      element.scrollIntoView()
     },
     handleClick(tab, event) {
       console.log(tab, event)
