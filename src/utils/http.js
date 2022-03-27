@@ -43,6 +43,7 @@ service.interceptors.response.use(config => {
 }, error => {
   const res = error.response.data
   console.log(error.response.data)
+  loading.close()
   if (res.code === 400) {
     return ElMessage.error('客户端错误');
   } else if (res.code === 403) {

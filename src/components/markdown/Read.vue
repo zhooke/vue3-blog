@@ -47,8 +47,9 @@
           </el-row>
         </el-col>
         <el-col span="6" style="margin-top: 15px">
-          <el-link type="primary" style="margin-right: 10px">编辑</el-link>
-          <el-link type="info">版权</el-link>
+          <el-button v-show="userinfo !== null && userinfo.id===blog.createUserId" type="primary" round size="small">编辑</el-button>
+          <el-button type="info" round size="small">版权</el-button>
+          <el-button v-show="userinfo !== null && userinfo.id===blog.createUserId" type="danger" round size="small" @click="deleteBlog">删除</el-button>
         </el-col>
       </el-row>
     </el-card>
@@ -107,7 +108,7 @@
 </template>
 
 <script>
-import { commentBlogApi, commentListApi, getBlogByIdApi, getBlogTagApi } from '@/utils/api';
+import { commentBlogApi, commentListApi, deleteBlogApi, getBlogByIdApi, getBlogTagApi } from '@/utils/api';
 
 export default {
   name: 'ReadContext',
@@ -135,7 +136,8 @@ export default {
         blogId: '',
         comment: ''
       },
-      blogTagList: []
+      blogTagList: [],
+      userinfo: {}
     };
   },
   methods: {
@@ -177,9 +179,23 @@ export default {
     async getBlogTag() {
       const { data: result } = await getBlogTagApi(this.blog.id)
       this.blogTagList = result.data
+    },
+    deleteBlog(){
+      this.$confirm('您确定要删除该博客吗？').then(async () => {
+        deleteBlogApi(this.blog.id).then(result => {
+          if (result.data.code === 200) {
+            this.$message.success('删除成功')
+            this.$router.push('/blog/list')
+          }
+        })
+      }).catch(() => {
+        return false;
+      })
     }
   },
   mounted() {
+    this.userinfo = JSON.parse(window.sessionStorage.getItem('userinfo'))
+
     this.blog.id = this.$route.query.blogId
     this.getBlog(this.blog.id)
     this.getCommentList()
