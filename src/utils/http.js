@@ -36,7 +36,7 @@ service.interceptors.request.use(config => {
 service.interceptors.response.use(config => {
   NProgress.done()
   if (config.data.code != 200) {
-    ElMessage.error(config.data.msg)
+    ElMessage.error(config.data.message)
   }
   loading.close()
   return config
@@ -50,7 +50,7 @@ service.interceptors.response.use(config => {
   } else if (res.code === 404) {
     return ElMessage.error('网络请求不存在');
   } else if (res.code === 500) {
-    return ElMessage.error(res.msg);
+    return ElMessage.error(res.message);
   }
   return ElMessage.error('服务器正在开小差');
 })

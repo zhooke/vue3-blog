@@ -116,3 +116,12 @@ export const getBlogUserApi = () => {
 export const updateUserInfoApi = (params) => {
   return http.put('/users', params);
 }
+
+/**
+ * 注册
+ * @param params
+ * @returns {Promise<AxiosResponse<any>>}
+ */
+export const registerUserApi = (params) => {
+  return http.post('/users/register', params);
+}

@@ -2,8 +2,7 @@
   <div class="card-right">
     <el-row justify="space-between" style="margin: 10px">
       <el-row v-if="tokenStr === null">
-        <el-button size="small" type="primary" plain>登陆</el-button>
-        <el-button size="small" type="success" plain>注册</el-button>
+        <LoginRegister/>
       </el-row>
       <el-row v-else>
         <span style="margin:auto 0;">个人资料</span>
@@ -229,9 +228,11 @@
 
 import { ref } from 'vue';
 import { blogTop5Api, commentNewestApi, createTagApi, getBlogUserApi, getTagApi, updateUserInfoApi } from '@/utils/api';
+import LoginRegister from '@/components/login/LoginRegister';
 
 export default {
   name: 'RightCard',
+  components: { LoginRegister },
   data() {
     return {
       header_image_url: 'https://gimg2.baidu.com/image_search/src=http%3A%2F%2Fhbimg.b0.upaiyun.com%2F4fa94a8d213a0991007a99f37035cc06715b980c558e9-En6TDM_fw658&refer=http%3A%2F%2Fhbimg.b0.upaiyun.com&app=2002&size=f9999,10000&q=a80&n=0&g=0n&fmt=jpeg?sec=1649476198&t=9cd9bfde665ffde6b4ebd9ee2cd0ed9a',
@@ -335,6 +336,7 @@ export default {
         window.sessionStorage.setItem('userinfo', JSON.stringify(result.data))
         this.$message.success('更新数据成功')
       }
+      location.reload()
     },
     handleAvatarSuccess(response, uploadFile) {
       console.log(response)

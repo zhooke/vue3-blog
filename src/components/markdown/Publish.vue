@@ -201,6 +201,7 @@ export default {
       }
       this.$message.success('发布成功');
       await this.goBack()
+      window.onbeforeunload = null
     },
     imgAdd(pos, $file) {
 
