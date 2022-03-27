@@ -280,7 +280,6 @@ export default {
     logout() {
       window.sessionStorage.clear()
       this.$router.push('/blog/list')
-      location.reload()
     },
     handleSizeChange(val) {
       console.log(`${val} items per page`)

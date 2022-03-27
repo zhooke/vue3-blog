@@ -5,13 +5,13 @@
         <h4 style="color: #5c5e6e;margin-left: 20px">MENU</h4>
         <el-col>
           <el-menu class="card-left" router>
-            <el-menu-item index="/blog/list">
+            <el-menu-item index="1" :route="{path:'/blog/list',query:{userId : userinfo === null ? null : userinfo.id}}">
               <el-icon style="color: rgba(27,134,249,0.71)">
                 <eleme-filled/>
               </el-icon>
               <span>博客</span>
             </el-menu-item>
-            <el-menu-item index="/blog/list">
+            <el-menu-item index="2" :route="{path:'/blog/list'}">
               <el-icon style="color: #00d1b2">
                 <HomeFilled/>
               </el-icon>
@@ -29,19 +29,19 @@
               </el-icon>
               <span>草稿</span>
             </el-menu-item>
-            <el-menu-item index="5">
+            <el-menu-item index="/">
               <el-icon style="color: #ffd257">
                 <promotion/>
               </el-icon>
               <span>联系</span>
             </el-menu-item>
-            <el-menu-item index="6">
+            <el-menu-item index="/">
               <el-icon style="color: #00d1b2">
                 <histogram/>
               </el-icon>
               <span>订阅</span>
             </el-menu-item>
-            <el-menu-item index="7">
+            <el-menu-item index="/">
               <el-icon style="color: #48c774">
                 <setting/>
               </el-icon>
@@ -54,7 +54,7 @@
         <h4 style="color: #5c5e6e;margin-left: 20px">LINKS</h4>
         <el-col>
           <el-menu class="card-left">
-            <el-menu-item index="1">
+            <el-menu-item index="/">
               <span>Git</span>
             </el-menu-item>
           </el-menu>
@@ -65,7 +65,15 @@
 
 <script>
 export default {
-  name: 'LeftCard'
+  name: 'LeftCard',
+  data(){
+    return {
+      userinfo: {}
+    }
+  },
+  mounted() {
+    this.userinfo = JSON.parse(window.sessionStorage.getItem('userinfo'))
+  }
 }
 </script>
 

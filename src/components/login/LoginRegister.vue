@@ -219,7 +219,6 @@ export default {
         this.LoginDialogVisible = false
         await this.$router.push('/')
         this.$message.success('登陆成功！')
-        location.reload()
       })
     },
     validatePass(rule, value, callback) {

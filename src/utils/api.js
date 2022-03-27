@@ -125,3 +125,12 @@ export const updateUserInfoApi = (params) => {
 export const registerUserApi = (params) => {
   return http.post('/users/register', params);
 }
+
+/**
+ * 删除blog
+ * @param params
+ * @returns {Promise<AxiosResponse<any>>}
+ */
+export const deleteBlogApi = (params) => {
+  return http.delete('/blog/' + params);
+}
