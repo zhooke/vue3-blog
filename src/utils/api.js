@@ -7,7 +7,7 @@ import http from '@/utils/http'
  */
 export const getLoginApi = (params) => {
   return http
-    .post('oauth/token', '', { headers: { Authorization: 'Basic YXBwOmFwcA==' }, params: params });
+    .post('oauth/login', '', { params: params });
 }
 
 /**

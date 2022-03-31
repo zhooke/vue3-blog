@@ -360,7 +360,7 @@ export default {
     if (user) {
       this.userinfo = user
     }
-    this.tokenStr = window.sessionStorage.getItem('Bearer ')
+    this.tokenStr = window.sessionStorage.getItem('AccessToken')
 
     this.commentNewest()
     this.blogTop5()
