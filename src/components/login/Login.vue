@@ -81,11 +81,13 @@ export default {
         if (!valid) return
         const { data: result } = await getLoginApi(this.loginForm)
         console.log(result)
-        window.sessionStorage.setItem('Bearer ', result.data.accessToken)
-        window.sessionStorage.setItem('userinfo', JSON.stringify(result.data.userInfoResponse))
+        window.sessionStorage.setItem('AccessToken', result.data.AccessToken)
+        window.sessionStorage.setItem('AccessTokenKey', result.data.AccessTokenKey)
+        window.sessionStorage.setItem('userinfo', JSON.stringify(result.data.UserInfo))
         axios.interceptors.request.use(config => {
           NProgress.start()
-          config.headers.Authorization = 'Bearer ' + result.data.accessToken
+          config.headers.Authorization = 'Bearer ' + result.data.AccessToken
+          config.headers.AccessTokenKey = result.data.AccessTokenKey
           return config
         })
         await this.$router.push('/')

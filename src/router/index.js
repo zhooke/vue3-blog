@@ -60,7 +60,7 @@ router.beforeEach((to, from, next) => {
 //  next()放行，next('/login')强制跳转
   if (filterRouters.indexOf(to.path) !== -1) return next()
   // 获取token
-  const tokenStr = window.sessionStorage.getItem('Bearer ')
+  const tokenStr = window.sessionStorage.getItem('AccessToken')
   if (!tokenStr) return next('/login')
   next()
 })

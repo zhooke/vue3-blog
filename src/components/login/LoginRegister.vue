@@ -44,7 +44,7 @@
             :on-success="handleAvatarSuccess"
             :multiple="true"
           >
-          <el-avatar :src="registerForm.headImgUrl" :size="40" />
+            <el-avatar :src="registerForm.headImgUrl" :size="40"/>
           </el-upload>
         </el-form-item>
         <!--        用户名-->
@@ -209,11 +209,13 @@ export default {
         this.loginForm.password = md5(this.loginForm.password)
         const { data: result } = await getLoginApi(this.loginForm)
         console.log(result)
-        window.sessionStorage.setItem('Bearer ', result.data.accessToken)
-        window.sessionStorage.setItem('userinfo', JSON.stringify(result.data.userInfoResponse))
+        window.sessionStorage.setItem('AccessToken', result.data.AccessToken)
+        window.sessionStorage.setItem('AccessTokenKey', result.data.AccessTokenKey)
+        window.sessionStorage.setItem('userinfo', JSON.stringify(result.data.UserInfo))
         axios.interceptors.request.use(config => {
           NProgress.start()
-          config.headers.Authorization = 'Bearer ' + result.data.accessToken
+          config.headers.Authorization = 'Bearer ' + result.data.AccessToken
+          config.headers.AccessTokenKey = result.data.AccessTokenKey
           return config
         })
         this.LoginDialogVisible = false
@@ -239,8 +241,8 @@ export default {
         callback()
       }
     },
-    register(){
-      this.$refs.registerFormRef.validate(async  valid => {
+    register() {
+      this.$refs.registerFormRef.validate(async valid => {
         if (!valid) return
         this.registerForm.password = md5(this.registerForm.password)
         this.registerForm.checkPassword = md5(this.registerForm.checkPassword)

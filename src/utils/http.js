@@ -12,9 +12,11 @@ const service = axios.create({
   // transformRequest: data => qs.stringify(data)    //post请求参数处理,防止post请求跨域
 })
 
-const tokenStr = window.sessionStorage.getItem('Bearer ')
+const tokenStr = window.sessionStorage.getItem('AccessToken')
+const AccessTokenKey = window.sessionStorage.getItem('AccessTokenKey')
 if (tokenStr !== null) {
   service.defaults.headers.Authorization = 'Bearer ' + tokenStr
+  service.defaults.headers.AccessTokenKey = AccessTokenKey
 }
 
 // 在request拦截器中展示进度条
@@ -28,6 +30,7 @@ service.interceptors.request.use(config => {
   if (!config.headers.Authorization && tokenStr !== null) {
     console.log('添加了token')
     config.headers.Authorization = 'Bearer ' + tokenStr
+    config.headers.AccessTokenKey = AccessTokenKey
   }
   return config
 })
@@ -35,10 +38,10 @@ service.interceptors.request.use(config => {
 // 在response拦截器中关闭进度条
 service.interceptors.response.use(config => {
   NProgress.done()
-  if (config.data.code != 200) {
-    ElMessage.error(config.data.message)
-  }
   loading.close()
+  if (config.data.code != 200) {
+    return ElMessage.error(config.data.message)
+  }
   return config
 }, error => {
   const res = error.response.data
