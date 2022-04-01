@@ -43,15 +43,14 @@
               <el-divider style="margin-bottom: 5px"/>
               <el-row class="card-info" justify="start">
                 <el-col v-if="blog.isOriginal === 1">
-                  <el-tag type="danger" size="small" style="height: 16px">原创</el-tag>
+                  <el-tag type="success" size="small" style="height: 16px">原创</el-tag>
                 </el-col>
                 <el-col v-else-if="blog.isOriginal === 2">
-                  <el-tag type="success" size="small" style="height: 16px">转摘</el-tag>
+                  <el-tag type="danger" size="small" style="height: 16px">转摘</el-tag>
                 </el-col>
                 <el-col v-if="blog.isOriginal === 3">
                   <el-tag type="warning" size="small" style="height: 16px">翻译</el-tag>
                 </el-col>
-
                 <el-col>
                   <span><el-icon><avatar/></el-icon></span>
                   <span>{{ blog.authorName }}</span>

@@ -47,9 +47,13 @@
           </el-row>
         </el-col>
         <el-col span="6" style="margin-top: 15px">
-          <el-button v-show="userinfo !== null && userinfo.id===blog.createUserId" type="primary" round size="small">编辑</el-button>
+          <el-button v-show="userinfo !== null && userinfo.id===blog.createUserId" type="primary" round size="small">
+            编辑
+          </el-button>
           <el-button type="info" round size="small">版权</el-button>
-          <el-button v-show="userinfo !== null && userinfo.id===blog.createUserId" type="danger" round size="small" @click="deleteBlog">删除</el-button>
+          <el-button v-show="userinfo !== null && userinfo.id===blog.createUserId" type="danger" round size="small"
+                     @click="deleteBlog">删除
+          </el-button>
         </el-col>
       </el-row>
     </el-card>
@@ -180,7 +184,7 @@ export default {
       const { data: result } = await getBlogTagApi(this.blog.id)
       this.blogTagList = result.data
     },
-    deleteBlog(){
+    deleteBlog() {
       this.$confirm('您确定要删除该博客吗？').then(async () => {
         deleteBlogApi(this.blog.id).then(result => {
           if (result.data.code === 200) {
@@ -208,7 +212,6 @@ export default {
 .markdown {
   width: 100%;
   height: 100%;
-  padding-right: 5px;
 }
 
 .v-note-wrapper {
