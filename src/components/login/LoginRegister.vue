@@ -206,8 +206,8 @@ export default {
       /* await只能放在async修饰的函数中，表示异步执行该函数 */
       this.$refs.loginFormRef.validate(async valid => {
         if (!valid) return
-        this.loginForm.password = md5(this.loginForm.password)
-        const { data: result } = await getLoginApi(this.loginForm)
+        const passwordMd5 = md5(this.loginForm.password)
+        const { data: result } = await getLoginApi({ username: this.loginForm.username, password: passwordMd5 })
         console.log(result)
         window.sessionStorage.setItem('AccessToken', result.data.AccessToken)
         window.sessionStorage.setItem('AccessTokenKey', result.data.AccessTokenKey)
@@ -221,6 +221,7 @@ export default {
         this.LoginDialogVisible = false
         await this.$router.push('/')
         this.$message.success('登陆成功！')
+        location.reload()
       })
     },
     validatePass(rule, value, callback) {
