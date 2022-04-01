@@ -280,6 +280,7 @@ export default {
     logout() {
       window.sessionStorage.clear()
       this.$router.push('/blog/list')
+      this.$message.success('退出成功')
       location.reload()
     },
     handleSizeChange(val) {
