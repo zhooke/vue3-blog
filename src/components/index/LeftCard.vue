@@ -1,72 +1,84 @@
 <template>
   <div>
-      <p>BLOG MENU</p>
-      <el-row>
-        <h4 style="color: #5c5e6e;margin-left: 20px">MENU</h4>
-        <el-col>
-          <el-menu class="card-left" router>
-            <el-menu-item index="1" :route="{path:'/blog/list',query:{userId : userinfo === null ? null : userinfo.id}}">
-              <el-icon style="color: rgba(27,134,249,0.71)">
-                <eleme-filled/>
-              </el-icon>
-              <span>博客</span>
-            </el-menu-item>
-            <el-menu-item index="2" :route="{path:'/blog/list'}">
-              <el-icon style="color: #00d1b2">
-                <HomeFilled/>
-              </el-icon>
-              <span>首页</span>
-            </el-menu-item>
-            <el-menu-item index="/publish">
-              <el-icon style="color: #ff6b81">
-                <edit-pen/>
-              </el-icon>
-              <span>发布</span>
-            </el-menu-item>
-            <el-menu-item index="/blog/draft">
-              <el-icon style="color: #10ac84">
-                <box/>
-              </el-icon>
-              <span>草稿</span>
-            </el-menu-item>
-            <el-menu-item index="/">
-              <el-icon style="color: #ffd257">
-                <promotion/>
-              </el-icon>
-              <span>联系</span>
-            </el-menu-item>
-            <el-menu-item index="/">
-              <el-icon style="color: #00d1b2">
-                <histogram/>
-              </el-icon>
-              <span>订阅</span>
-            </el-menu-item>
-            <el-menu-item index="/">
-              <el-icon style="color: #48c774">
-                <setting/>
-              </el-icon>
-              <span>管理</span>
-            </el-menu-item>
-          </el-menu>
-        </el-col>
-      </el-row>
-      <el-row>
-        <h4 style="color: #5c5e6e;margin-left: 20px">LINKS</h4>
-        <el-col>
-          <el-menu class="card-left">
-            <el-menu-item index="/">
-              <span>Git</span>
-            </el-menu-item>
-          </el-menu>
-        </el-col>
-      </el-row>
+    <p>BLOG MENU</p>
+    <el-row>
+      <h4 style="color: #5c5e6e;margin-left: 20px">MENU</h4>
+      <el-col>
+        <el-menu class="card-left" router>
+          <el-menu-item index="1" :route="{path:'/blog/list',query:{userId : userinfo === null ? null : userinfo.id}}">
+            <el-icon style="color: rgba(27,134,249,0.71)">
+              <eleme-filled/>
+            </el-icon>
+            <span>博客</span>
+          </el-menu-item>
+          <el-menu-item index="2" :route="{path:'/blog/list'}">
+            <el-icon style="color: #00d1b2">
+              <HomeFilled/>
+            </el-icon>
+            <span>首页</span>
+          </el-menu-item>
+          <el-menu-item index="/publish">
+            <el-icon style="color: #ff6b81">
+              <edit-pen/>
+            </el-icon>
+            <span>发布</span>
+          </el-menu-item>
+          <el-menu-item index="/blog/draft">
+            <el-icon style="color: #10ac84">
+              <box/>
+            </el-icon>
+            <span>草稿</span>
+          </el-menu-item>
+          <el-menu-item index="/">
+            <el-icon style="color: #ffd257">
+              <promotion/>
+            </el-icon>
+            <span>联系</span>
+          </el-menu-item>
+          <el-menu-item index="/">
+            <el-icon style="color: #00d1b2">
+              <histogram/>
+            </el-icon>
+            <span>订阅</span>
+          </el-menu-item>
+          <el-menu-item index="/">
+            <el-icon style="color: #48c774">
+              <setting/>
+            </el-icon>
+            <span>管理</span>
+          </el-menu-item>
+        </el-menu>
+      </el-col>
+    </el-row>
+    <el-row>
+      <h4 style="color: #5c5e6e;margin-left: 20px">LINKS</h4>
+      <el-col>
+        <el-menu class="card-left">
+          <el-menu-item index="/">
+            <el-icon style="color: #48c774">
+              <info-filled/>
+            </el-icon>
+            <span>信息</span>
+          </el-menu-item>
+          <el-menu-item index="/">
+            <el-icon style="color: #48c774">
+              <CreditCard/>
+            </el-icon>
+            <span>捐赠</span>
+          </el-menu-item>
+        </el-menu>
+      </el-col>
+    </el-row>
   </div>
 </template>
 
 <script>
+import { InfoFilled } from '@element-plus/icons-vue';
+
 export default {
   name: 'LeftCard',
-  data(){
+  components: { InfoFilled },
+  data() {
     return {
       userinfo: {}
     }
