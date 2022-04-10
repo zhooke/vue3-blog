@@ -26,7 +26,7 @@
       <el-card v-for="(blog, index) in blogList" :key="index" :body-style="{padding:'0'}" class="article-card">
         <el-row style="height: 200px;width: 100%;" type="flex">
           <el-col :span="6" style="height: 200px">
-            <el-image :src="header_url" fit="cover" style="width: 100%; height: 100%"/>
+            <el-image :src="blog.picture === '' ? header_url : blog.picture" fit="cover" style="width: 100%; height: 100%"/>
           </el-col>
           <el-col :span="18">
             <el-card class="card-main" @click="blogCardClick(blog.id)">
@@ -37,7 +37,7 @@
               </el-row>
               <el-row>
                 <el-col class="card-context">
-                  {{ blog.content }}
+                  <VueShowdown :markdown="blog.content" />
                 </el-col>
               </el-row>
               <el-divider style="margin-bottom: 5px"/>
@@ -233,16 +233,15 @@ export default {
     height: 20%;
     text-overflow: ellipsis;
     line-height: 1.5;
-    font-size: 22px;
+    font-size: 18px;
     color: #555;
     margin-bottom: 10px;
   }
 
   .card-context {
-    height: 70%;
     flex-wrap: wrap;
-    min-height: 100px;
-    line-height: 25px;
+    height: 100px;
+    line-height: 15px;
     font-size: 14px;
     color: #a2b0b7;
     word-break: break-word;
@@ -295,7 +294,7 @@ export default {
   //justify-content: center;
   height: 200px;
   width: 100%;
-  margin-bottom: 30px;
+  margin-bottom: 20px;
   border-radius: 10px;
   background: var(--el-color-primary-light-9);
   color: var(--el-color-primary);

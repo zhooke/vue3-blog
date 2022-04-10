@@ -10,6 +10,7 @@ import 'mavon-editor/dist/css/index.css'
 import 'element-plus/dist/index.css'
 import './assets/css/global.css'
 import * as antIcons from '@ant-design/icons-vue'
+import { VueShowdownPlugin } from 'vue-showdown'
 
 import axios from '@/utils/http'
 
@@ -18,6 +19,14 @@ app.use(store)
 app.use(router)
 app.use(ElementPlus)
 app.use(mavonEditor)
+app.use(VueShowdownPlugin, {
+  // set default flavor of showdown
+  flavor: 'github',
+  // set default options of showdown (will override the flavor options)
+  options: {
+    emoji: false
+  }
+})
 for (const iconName in ELIcons) {
   app.component(iconName, ELIcons[iconName])
 }
