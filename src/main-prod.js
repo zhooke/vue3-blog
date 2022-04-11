@@ -4,38 +4,40 @@ import router from './router'
 import store from './store'
 import ElementPlus from 'element-plus'
 import mavonEditor from 'mavon-editor'
-import NProgress from 'nprogress'
-import 'nprogress/nprogress.css'
+import * as ELIcons from '@element-plus/icons-vue'
 
 import 'mavon-editor/dist/css/index.css'
 import 'element-plus/dist/index.css'
+import './assets/css/global.css'
+import * as antIcons from '@ant-design/icons-vue'
+import { VueShowdownPlugin } from 'vue-showdown'
 
-import axios from 'axios'
+import axios from '@/utils/http'
 
 const app = createApp(App)
 app.use(store)
 app.use(router)
 app.use(ElementPlus)
 app.use(mavonEditor)
+app.use(VueShowdownPlugin, {
+  // set default flavor of showdown
+  flavor: 'github',
+  // set default options of showdown (will override the flavor options)
+  options: {
+    emoji: false
+  }
+})
+for (const iconName in ELIcons) {
+  app.component(iconName, ELIcons[iconName])
+}
+for (const icons in antIcons) {
+  app.component(icons, antIcons[icons])
+}
 app.mount('#app')
 
-/* 配置请求的根路径 */
-axios.defaults.baseURL = 'https://www.liulongbin.top:8888/api/private/v1/'
-// 在request拦截器中展示进度条
-axios.interceptors.request.use(config => {
-  NProgress.start()
-  config.headers.Authorization = window.sessionStorage.getItem('token')
-  return config
-})
-// 在response拦截器中关闭进度条
-axios.interceptors.response.use(config => {
-  NProgress.done()
-  return config
-})
-
-app.config.$http = axios
+// window.router = router
+app.config.globalProperties.$http = axios
 app.config.productionTip = false
-app.config.$token = 'eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ3YW5nIiwiY3JlYXRlZCI6MTQ4OTA3OTk4MTM5MywiZXhwIjoxNDg5Njg0NzgxfQ.RC-BYCe_UZ2URtWddUpWXIp4NMsoeq2O6UF-8tVplqXY1-CI9u1-a-9DAAJGfNWkHE81mpnR3gXzfrBAB3WUAg'
 
 // app.filter('dataFormat', function (originVal) {
 //   const df = new Date(originVal)
