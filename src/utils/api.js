@@ -134,3 +134,12 @@ export const registerUserApi = (params) => {
 export const deleteBlogApi = (params) => {
   return http.delete('/blog/' + params);
 }
+
+/**
+ * 获取博客草稿列表接口
+ * @param params
+ * @returns {Promise<AxiosResponse<any>>}
+ */
+export const getBlogDraftListApi = (params) => {
+  return http.post('/blog/draft', params)
+}
