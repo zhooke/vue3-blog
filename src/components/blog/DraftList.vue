@@ -97,7 +97,7 @@ export default {
       console.log(val)
     },
     async blogCardClick(val) {
-      await this.$router.push({ path: '/blog/read/draft', query: { blogId: val } })
+      await this.$router.push({ path: '/blog/read', query: { blogId: val } })
     },
     async getBlogDraftList() {
       const { data: result } = await getBlogDraftListApi(this.page);
