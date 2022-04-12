@@ -21,6 +21,10 @@ const routes = [
       {
         path: '/blog/draft',
         component: () => import('../components/blog/DraftList')
+      },
+      {
+        path: '/blog/read/draft',
+        component: () => import('../components/markdown/ReadDraft')
       }
     ]
   },
