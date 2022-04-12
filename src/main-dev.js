@@ -9,7 +9,6 @@ import * as ELIcons from '@element-plus/icons-vue'
 import 'mavon-editor/dist/css/index.css'
 import 'element-plus/dist/index.css'
 import './assets/css/global.css'
-import * as antIcons from '@ant-design/icons-vue'
 import { VueShowdownPlugin } from 'vue-showdown'
 
 import axios from '@/utils/http'
@@ -30,9 +29,9 @@ app.use(VueShowdownPlugin, {
 for (const iconName in ELIcons) {
   app.component(iconName, ELIcons[iconName])
 }
-for (const icons in antIcons) {
-  app.component(icons, antIcons[icons])
-}
+// for (const icons in antIcons) {
+//   app.component(icons, antIcons[icons])
+// }
 app.mount('#app')
 
 // window.router = router
