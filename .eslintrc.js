@@ -11,7 +11,7 @@ module.exports = {
     parser: 'babel-eslint'
   },
   rules: {
-    'no-console': process.env.NODE_ENV === 'production' ? 'warn' : 'off',
+    'no-console': process.env.NODE_ENV === 'production' ? 'off' : 'off',
     'no-debugger': process.env.NODE_ENV === 'production' ? 'warn' : 'off',
     'arrow-parens': 0,                                              //箭头函数用小括号括起来
     'generator-star-spacing': 0,                                    //生成器函数*的前后空格

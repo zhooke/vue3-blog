@@ -38,8 +38,8 @@ export default {
   data() {
     return {
       loginForm: {
-        username: '15352058954',
-        password: '123',
+        username: '',
+        password: '',
         grant_type: 'password'
       },
       loginFormRules: {
