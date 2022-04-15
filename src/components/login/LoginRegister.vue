@@ -7,6 +7,7 @@
       v-model="LoginDialogVisible"
       title="用户登陆"
       width="450px"
+      :close-on-click-modal="false"
     >
       <!--        登陆表单区-->
       <el-form ref="loginFormRef" :model="loginForm" :rules="loginFormRules" class="login_form" label-width="90px">
@@ -33,6 +34,7 @@
       v-model="registerDialogVisible"
       title="注册"
       width="450px"
+      :close-on-click-modal="false"
     >
       <!--        登陆表单区-->
       <el-form ref="registerFormRef" :model="registerForm" :rules="registerFormRules" label-width="90px">
@@ -60,12 +62,12 @@
           <el-input v-model="registerForm.password" placeholder="请输入密码"
                     type="password"></el-input>
         </el-form-item>
-        <el-form-item label="用户密码" prop="checkPassword">
-          <el-input v-model="registerForm.checkPassword" placeholder="请再次输入密码"
-                    type="password"></el-input>
-        </el-form-item>
-        <el-form-item label="邮箱" prop="EMail">
-          <el-input v-model="registerForm.EMail" placeholder="请输入邮箱地址"></el-input>
+        <!--        <el-form-item label="用户密码" prop="checkPassword">-->
+        <!--          <el-input v-model="registerForm.checkPassword" placeholder="请再次输入密码"-->
+        <!--                    type="password"></el-input>-->
+        <!--        </el-form-item>-->
+        <el-form-item label="邀请码" prop="inviteCode">
+          <el-input v-model="registerForm.inviteCode" placeholder="请输入邀请码"></el-input>
         </el-form-item>
       </el-form>
       <template #footer>
@@ -162,39 +164,46 @@ export default {
             max: 15,
             message: '长度在 3 到 15 个字符',
             trigger: 'blur'
-          },
-          { validator: this.validatePass, trigger: 'blur' }
+          }
+          // { validator: this.validatePass, trigger: 'blur' }
 
         ],
-        checkPassword: [
-          {
-            required: true,
-            message: '请再次输入登陆密码',
-            trigger: 'blur'
-          },
-          {
-            min: 3,
-            max: 15,
-            message: '长度在 3 到 15 个字符',
-            trigger: 'blur'
-          },
-          { validator: this.validatePass2, trigger: 'blur' }
-        ],
+        // checkPassword: [
+        //   {
+        //     required: true,
+        //     message: '请再次输入登陆密码',
+        //     trigger: 'blur'
+        //   },
+        //   {
+        //     min: 3,
+        //     max: 15,
+        //     message: '长度在 3 到 15 个字符',
+        //     trigger: 'blur'
+        //   },
+        //   { validator: this.validatePass2, trigger: 'blur' }
+        // ],
         EMail: [
           {
             required: true,
             message: '请输入邮箱地址',
             trigger: 'blur'
           }
+        ],
+        inviteCode: [
+          {
+            required: true,
+            message: '邀请码不能为空',
+            trigger: 'blur'
+          }
         ]
       },
       registerDialogVisible: ref(false),
       registerForm: {
-        username: '',
+        nickname: '',
         password: '',
         checkPassword: '',
-        grant_type: 'password',
-        headImgUrl: 'https://cube.elemecdn.com/3/7c/3ea6beec64369c2642b92c6726f1epng.png'
+        headImgUrl: 'https://cube.elemecdn.com/3/7c/3ea6beec64369c2642b92c6726f1epng.png',
+        inviteCode: ''
       }
     }
   },
@@ -245,14 +254,23 @@ export default {
     register() {
       this.$refs.registerFormRef.validate(async valid => {
         if (!valid) return
-        this.registerForm.password = md5(this.registerForm.password)
+        const md5Password = md5(this.registerForm.password)
         this.registerForm.checkPassword = md5(this.registerForm.checkPassword)
-        await registerUserApi(this.registerForm)
-        this.registerDialogVisible = false
-        this.$message.success('注册成功')
-        this.loginForm.username = this.registerForm.mobile
-        this.loginForm.password = this.registerForm.password
-        this.login()
+        const { data: result } = await registerUserApi({
+          nickname: this.registerForm.nickname,
+          password: md5Password,
+          mobile: this.registerForm.mobile,
+          headImgUrl: this.registerForm.headImgUrl,
+          inviteCode: this.registerForm.inviteCode
+        })
+        if (result.code === 200) {
+          this.$refs.registerFormRef.resetFields()
+          this.registerDialogVisible = false
+          this.$message.success('注册成功')
+          this.loginForm.username = this.registerForm.mobile
+          this.loginForm.password = md5Password
+          this.login()
+        }
       })
     },
     handleAvatarSuccess(response, uploadFile) {
