@@ -6,14 +6,15 @@
         <img alt="" src="@/assets/logo.png"/>
       </div>
       <!--        登陆表单区-->
-      <el-form ref="loginFormRef" :model="loginForm" :rules="loginFormRules" class="login_form" label-width="0px">
+      <el-form ref="loginFormRef" :model="loginForm" :rules="loginFormRules" class="login_form" label-width="80px">
         <!--        用户名-->
-        <el-form-item prop="username">
-          <el-input v-model="loginForm.username" prefix-icon="el-icon-user"></el-input>
+        <el-form-item label="用户名" prop="username">
+          <el-input v-model="loginForm.username" placeholder="请输入昵称" prefix-icon="el-icon-user"></el-input>
         </el-form-item>
         <!--        密码-->
-        <el-form-item prop="password">
-          <el-input v-model="loginForm.password" prefix-icon="el-icon-lock" type="password"></el-input>
+        <el-form-item prop="password" label="密码">
+          <el-input v-model="loginForm.password" placeholder="请输入密码" prefix-icon="el-icon-lock"
+                    type="password"></el-input>
         </el-form-item>
         <!--        按钮-->
         <el-form-item class="btns">
@@ -111,7 +112,7 @@ export default {
 
 .login_box {
   width: 450px;
-  height: 300px;
+  height: 260px;
   background-color: #fff;
   background-image: linear-gradient(to right, cornsilk, #efff91);
   border-radius: 3px;
@@ -152,6 +153,7 @@ export default {
   bottom: 0;
   width: 100%;
   padding: 0 20px;
+  margin: 0 auto;
   box-sizing: border-box;
 }
 </style>
