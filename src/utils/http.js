@@ -49,6 +49,10 @@ service.interceptors.response.use(config => {
   loading.close()
   if (res.code === 400) {
     return ElMessage.error('客户端错误');
+  } else if (res.code === 401) {
+    window.sessionStorage.clear()
+    location.reload()
+    return ElMessage.error('请重新登陆');
   } else if (res.code === 403) {
     return ElMessage.error('客户端错误');
   } else if (res.code === 404) {
