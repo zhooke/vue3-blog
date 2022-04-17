@@ -31,8 +31,6 @@
           </el-form-item>
           <el-form-item label="封面摘要：">
             <el-radio-group v-model="blog.resource">
-              <el-radio label="单图"/>
-              <el-radio label="三图"/>
               <el-radio label="默认"/>
             </el-radio-group>
           </el-form-item>
@@ -156,12 +154,11 @@ export default {
         subfield: true // 单双栏模式
         // preview: true // 预览
       },
-      handbook: '#### how to use mavonEditor in nuxt.js',
       blog: {
         authorId: '',
         authorName: '',
         title: '',
-        content: '#### how to use mavonEditor in nuxt.js',
+        content: '',
         picture: '',
         isTop: ref(0),
         isPrivate: ref(0),
@@ -250,6 +247,7 @@ export default {
       }
       await createTagApi(this.tagInput)
       this.blogTag = ''
+      this.tagInput.name = ''
       const { data: result } = await getTagApi();
       this.blogTagList.push(result.data[result.data.length - 1])
     },
