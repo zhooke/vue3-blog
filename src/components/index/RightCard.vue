@@ -39,7 +39,7 @@
         <el-row class="hot-blog-card" v-for="(item,index) in blogTop5List" :key="index" gutter="5"
                 style="margin-bottom: 20px;height: 55px;" @click="blogCardClick(item.id)">
           <el-col :span="6">
-            <el-image :src="text_url" fit="cover" style="height: 55px"></el-image>
+            <el-image :src="item.picture === '' ? text_url : item.picture" fit="cover" style="height: 55px;border-radius: 30%"></el-image>
           </el-col>
           <el-col :span="16">
             <span style="margin-bottom: 3px">{{ index + 1 }}. {{ item.title }}</span>
@@ -235,10 +235,7 @@ export default {
   components: { LoginRegister },
   data() {
     return {
-      header_image_url: 'https://gimg2.baidu.com/image_search/src=http%3A%2F%2Fhbimg.b0.upaiyun.com%2F4fa94a8d213a0991007a99f37035cc06715b980c558e9-En6TDM_fw658&refer=http%3A%2F%2Fhbimg.b0.upaiyun.com&app=2002&size=f9999,10000&q=a80&n=0&g=0n&fmt=jpeg?sec=1649476198&t=9cd9bfde665ffde6b4ebd9ee2cd0ed9a',
-      header_url: 'https://img2.baidu.com/it/u=2723317969,2981355550&fm=26&fmt=auto',
       text_url: 'https://gimg2.baidu.com/image_search/src=http%3A%2F%2Finews.gtimg.com%2Fnewsapp_match%2F0%2F11020033428%2F0.jpg&refer=http%3A%2F%2Finews.gtimg.com&app=2002&size=f9999,10000&q=a80&n=0&g=0n&fmt=auto?sec=1649771328&t=364f380b566aba545f1acfc37d0b1f85',
-      squareUrl: 'https://cube.elemecdn.com/9/c2/f0ee8a3c7c9638a54940382568c9dpng.png',
       currentPage4: ref(4),
       pageSize4: ref(4),
       small: ref(false),
