@@ -106,7 +106,7 @@ export default {
 <style lang="less" scoped>
 .login_container {
   height: 100%;
-  background-image: url("https://cube.elemecdn.com/6/94/4d3ea53c084bad6931a56d5158a48jpeg.jpeg");
+  background-image: url("https://tensua-file.oss-cn-hangzhou.aliyuncs.com/images/4d3ea53c084bad6931a56d5158a48jpeg.jpeg");
   background-size: 100%;
 }
 

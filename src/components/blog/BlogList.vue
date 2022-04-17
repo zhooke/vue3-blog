@@ -121,7 +121,7 @@ export default {
         address: '',
         createTime: '2021-10-19T03:57:45.000+00:00',
         email: 'zhooke@foxmail.com',
-        headImgUrl: 'https://gimg2.baidu.com/image_search/src=http%3A%2F%2Fbpic.588ku.com%2Fillus_water_img%2F19%2F03%2F11%2F007a84ad62a040e14ff60b589891e896.jpg%21%2Fwatermark%2Furl%2FL3dhdGVyL3dhdGVyX2JhY2tfNDAwXzIwMC5wbmc%3D%2Frepeat%2Ftrue&refer=http%3A%2F%2Fbpic.588ku.com&app=2002&size=f9999,10000&q=a80&n=0&g=0n&fmt=jpeg?sec=1637315290&t=a96b839b23b598e1f6b4f4be40bf79cc',
+        headImgUrl: 'https://tensua-file.oss-cn-hangzhou.aliyuncs.com/images/52aa879dbcae433c82e803b6723e2f56.jpg',
         id: 100011,
         mobile: '15352058954',
         nickname: 'zhooke',
@@ -193,7 +193,7 @@ export default {
 
   .header-card-background {
     padding: 0 !important;
-    background-image: url(https://gimg2.baidu.com/image_search/src=http%3A%2F%2Fimg.haote.com%2Fupload%2Fnews%2F20180719%2F153200415280055.jpg&refer=http%3A%2F%2Fimg.haote.com&app=2002&size=f9999,10000&q=a80&n=0&g=0n&fmt=jpeg?sec=1636632616&t=1f405008387f5c124673a92f70d509cd);
+    background-image: url(https://tensua-file.oss-cn-hangzhou.aliyuncs.com/images/backimage.jpg);
     position: relative;
     display: flex;
     justify-content: center;
