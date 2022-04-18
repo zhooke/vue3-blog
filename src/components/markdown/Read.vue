@@ -58,7 +58,8 @@
       </el-row>
     </el-card>
     <mavon-editor v-model="blog.content" :editable="false" :html="false" :subfield="false"
-                  :toolbars="markdownOption" codeStyle="foundation" defaultOpen="preview" style="width: 100%">
+                  :toolbars="markdownOption" codeStyle="foundation" defaultOpen="preview"
+                  style="width: 100%;z-index: 100">
     </mavon-editor>
     <!--    评论输入框-->
     <el-card class="comment-card" justify="space-between">
