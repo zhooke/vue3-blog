@@ -13,15 +13,15 @@
             <header-card/>
           </el-header>
           <el-main noresize="true" class="page-component__scroll">
-            <el-scrollbar class="scrollbar">
-              <!--              中心内容-->
-      <!--              添加:key="$route.fullPath
-      由于这两个路由的$route.fullPath并不一样, 所以组件被强制不复用, 相关钩子加载顺序为:
-      beforeRouteUpdate => created => mounted（通过绑定一个fullPath，可以识别当前页面路由的完整地址，
-      当地址发生改变(包括参数改变)则重新渲染页面(例如动态路由参数的变化）
-      -->
-              <router-view :key="$route.fullPath"></router-view>
-            </el-scrollbar>
+            <!--            <el-scrollbar>-->
+            <!--              中心内容-->
+            <!--              添加:key="$route.fullPath
+            由于这两个路由的$route.fullPath并不一样, 所以组件被强制不复用, 相关钩子加载顺序为:
+            beforeRouteUpdate => created => mounted（通过绑定一个fullPath，可以识别当前页面路由的完整地址，
+            当地址发生改变(包括参数改变)则重新渲染页面(例如动态路由参数的变化）
+            -->
+            <router-view :key="$route.fullPath"></router-view>
+            <!--            </el-scrollbar>-->
             <el-backtop
               target=".page-component__scroll .el-scrollbar__wrap"
               :bottom="100"
@@ -45,7 +45,6 @@
 </template>
 
 <script>
-import { ref } from 'vue';
 import leftCard from '@/components/index/LeftCard';
 import headerCard from '@/components/index/HeaderCard';
 import rightCard from '@/components/index/RightCard';

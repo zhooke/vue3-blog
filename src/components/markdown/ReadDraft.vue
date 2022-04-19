@@ -1,56 +1,58 @@
 <template>
-  <div class="markdown">
-    <el-breadcrumb separator-icon="ArrowRight">
-      <el-breadcrumb-item :to="{ path: '/blog/draft' }">草稿箱</el-breadcrumb-item>
-      <el-breadcrumb-item>文章</el-breadcrumb-item>
-    </el-breadcrumb>
-    <el-card class="card-info">
-      <el-row justify="space-between">
-        <el-col span="18">
-          <el-tag v-if="blog.isOriginal === 0" type="danger" size="large" effect="dark">原创</el-tag>
-          <el-tag v-if="blog.isOriginal === 1" type="danger" size="large" effect="dark">转摘</el-tag>
-          <el-row style="margin-left: 10px">
-            <el-col style="margin-bottom: 10px">
-              <el-row>
-                <el-col span="4">
-                  <span><el-icon><avatar/></el-icon></span>
-                  <span>{{ blog.authorName }}</span>
-                </el-col>
-                <el-col span="12">
-                  <span><el-icon><clock/></el-icon></span>
-                  <span>{{ blog.createDate }}</span>
-                </el-col>
-              </el-row>
-            </el-col>
-            <el-col>
-              <el-row>
-                <el-col style="display: inline-block;">
-                  <span style="font-size: 14px;color: black">标签：</span>
-                  <el-tag class="ml-2" type="success" v-for="item in blogTagList" :key="item"
-                          style="margin-right: 10px">{{
-                      item.name
-                    }}
-                  </el-tag>
-                </el-col>
-              </el-row>
-            </el-col>
-          </el-row>
-        </el-col>
-        <el-col span="6" style="margin-top: 15px">
-          <el-button v-show="userinfo !== null && userinfo.id===blog.createUserId" type="primary" round size="small">
-            编辑
-          </el-button>
-          <el-button type="info" round size="small">发布</el-button>
-          <el-button v-show="userinfo !== null && userinfo.id===blog.createUserId" type="danger" round size="small"
-                     @click="deleteBlog">删除
-          </el-button>
-        </el-col>
-      </el-row>
-    </el-card>
-    <mavon-editor v-model="blog.content" :editable="false" :html="false" :subfield="false"
-                  :toolbars="markdownOption" codeStyle="foundation" defaultOpen="preview" style="width: 100%">
-    </mavon-editor>
-  </div>
+  <el-scrollbar>
+    <div class="markdown">
+      <el-breadcrumb separator-icon="ArrowRight">
+        <el-breadcrumb-item :to="{ path: '/blog/draft' }">草稿箱</el-breadcrumb-item>
+        <el-breadcrumb-item>文章</el-breadcrumb-item>
+      </el-breadcrumb>
+      <el-card class="card-info">
+        <el-row justify="space-between">
+          <el-col span="18">
+            <el-tag v-if="blog.isOriginal === 0" type="danger" size="large" effect="dark">原创</el-tag>
+            <el-tag v-if="blog.isOriginal === 1" type="danger" size="large" effect="dark">转摘</el-tag>
+            <el-row style="margin-left: 10px">
+              <el-col style="margin-bottom: 10px">
+                <el-row>
+                  <el-col span="4">
+                    <span><el-icon><avatar/></el-icon></span>
+                    <span>{{ blog.authorName }}</span>
+                  </el-col>
+                  <el-col span="12">
+                    <span><el-icon><clock/></el-icon></span>
+                    <span>{{ blog.createDate }}</span>
+                  </el-col>
+                </el-row>
+              </el-col>
+              <el-col>
+                <el-row>
+                  <el-col style="display: inline-block;">
+                    <span style="font-size: 14px;color: black">标签：</span>
+                    <el-tag class="ml-2" type="success" v-for="item in blogTagList" :key="item"
+                            style="margin-right: 10px">{{
+                        item.name
+                      }}
+                    </el-tag>
+                  </el-col>
+                </el-row>
+              </el-col>
+            </el-row>
+          </el-col>
+          <el-col span="6" style="margin-top: 15px">
+            <el-button v-show="userinfo !== null && userinfo.id===blog.createUserId" type="primary" round size="small"
+                       @click="editBlog">
+              编辑
+            </el-button>
+            <el-button v-show="userinfo !== null && userinfo.id===blog.createUserId" type="danger" round size="small"
+                       @click="deleteBlog">删除
+            </el-button>
+          </el-col>
+        </el-row>
+      </el-card>
+      <mavon-editor v-model="blog.content" :editable="false" :html="false" :subfield="false"
+                    :toolbars="markdownOption" codeStyle="foundation" defaultOpen="preview" style="width: 100%">
+      </mavon-editor>
+    </div>
+  </el-scrollbar>
 </template>
 
 <script>
@@ -102,6 +104,9 @@ export default {
       }).catch(() => {
         return false;
       })
+    },
+    editBlog() {
+      this.$router.push({ name: 'edit', params: this.blog })
     }
   },
   mounted() {
