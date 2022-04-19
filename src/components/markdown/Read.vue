@@ -7,7 +7,7 @@
     <el-card class="card-info">
 
       <el-row justify="space-between">
-        <el-col span="18">
+        <el-col span="18" style="margin-right:0">
           <el-tag v-if="blog.isOriginal === 0" type="danger" size="large" effect="dark">原创</el-tag>
           <el-tag v-if="blog.isOriginal === 1" type="danger" size="large" effect="dark">转摘</el-tag>
           <el-row style="margin-left: 10px">
@@ -47,7 +47,8 @@
           </el-row>
         </el-col>
         <el-col span="6" style="margin-top: 15px">
-          <el-button v-show="userinfo !== null && userinfo.id===blog.createUserId" type="primary" round size="small">
+          <el-button v-show="userinfo !== null && userinfo.id===blog.createUserId" type="primary" round size="small"
+                     @click="editBlog">
             编辑
           </el-button>
           <el-button type="info" round size="small">版权</el-button>
@@ -196,6 +197,9 @@ export default {
       }).catch(() => {
         return false;
       })
+    },
+    editBlog() {
+      this.$router.push({ name: 'edit', params: this.blog })
     }
   },
   mounted() {

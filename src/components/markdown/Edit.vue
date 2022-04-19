@@ -3,10 +3,17 @@
     <el-scrollbar>
       <el-row class="top-row">
         <el-col :span="2">
+          <!--          <el-breadcrumb separator-icon="ArrowRight"  size="large">-->
+          <!--          <el-breadcrumb-item :to="{ path: '/' }">首页</el-breadcrumb-item>-->
+          <!--          <el-breadcrumb-item>发布</el-breadcrumb-item>-->
+          <!--        </el-breadcrumb>-->
           <el-button icon="ArrowLeftBold" size="large" @click="goBack">返回首页</el-button>
         </el-col>
-        <el-col :span="20">
+        <el-col :span="18">
           <el-input v-model="blog.title" clearable placeholder="请输入标题" size="large"/>
+        </el-col>
+        <el-col :span="2">
+          <el-button size="large" type="primary" @click="saveDraft">保存草稿</el-button>
         </el-col>
         <el-col :span="2">
           <el-button size="large" type="danger" @click="dialogVisible = true">发布文章</el-button>
@@ -27,8 +34,6 @@
           </el-form-item>
           <el-form-item label="封面摘要：">
             <el-radio-group v-model="blog.resource">
-              <el-radio label="单图"/>
-              <el-radio label="三图"/>
               <el-radio label="默认"/>
             </el-radio-group>
           </el-form-item>
@@ -78,21 +83,21 @@
 
           <el-form-item label="文章类型：">
             <el-radio-group v-model="blog.isOriginal">
-              <el-radio border :label="1">原创</el-radio>
-              <el-radio border :label="2">转摘</el-radio>
-              <el-radio border :label="3">翻译</el-radio>
+              <el-radio border label="1">原创</el-radio>
+              <el-radio border label="2">转摘</el-radio>
+              <el-radio border label="3">翻译</el-radio>
             </el-radio-group>
           </el-form-item>
           <el-form-item label="发布形式：">
             <el-radio-group v-model="blog.isPrivate">
-              <el-radio :label="0">公开</el-radio>
-              <el-radio :label="1">私密</el-radio>
+              <el-radio label="0">公开</el-radio>
+              <el-radio label="1">私密</el-radio>
             </el-radio-group>
           </el-form-item>
           <el-form-item label="是否置顶：">
             <el-radio-group v-model="blog.isTop">
-              <el-radio :label="0">默认</el-radio>
-              <el-radio :label="1">置顶</el-radio>
+              <el-radio label="0">默认</el-radio>
+              <el-radio label="1">置顶</el-radio>
             </el-radio-group>
           </el-form-item>
         </el-form>
@@ -110,7 +115,7 @@
 <script>
 import { nextTick, ref, unref } from 'vue';
 import { ElInput } from 'element-plus';
-import { createTagApi, getTagApi, publishBlogApi } from '@/utils/api';
+import { createTagApi, getTagApi, updateBlogApi } from '@/utils/api';
 
 export default {
   // eslint-disable-next-line vue/multi-word-component-names
@@ -152,12 +157,12 @@ export default {
         subfield: true // 单双栏模式
         // preview: true // 预览
       },
-      handbook: '#### how to use mavonEditor in nuxt.js',
       blog: {
+        blogId: '',
         authorId: '',
         authorName: '',
         title: '',
-        content: '#### how to use mavonEditor in nuxt.js',
+        content: '',
         picture: '',
         isTop: ref(0),
         isPrivate: ref(0),
@@ -182,20 +187,19 @@ export default {
     };
   },
   methods: {
-    async save() {
+    async update() {
       const user = JSON.parse(window.sessionStorage.getItem('userinfo'))
       this.blog.authorId = user.id
       this.blog.authorName = user.nickname
       this.blog.tags = this.dynamicTags.map(tag => tag.id).join(',')
 
-      const { data: result } = await publishBlogApi(this.blog);
+      const { data: result } = await updateBlogApi(this.blog);
 
       console.log(result)
       if (result.code !== 200) {
         this.isSave = true
         return this.$message.error(result.data)
       }
-      this.$message.success('发布成功');
       await this.goBack()
       window.onbeforeunload = null
     },
@@ -235,10 +239,11 @@ export default {
     onSubmit() {
       this.dialogVisible = false
       this.isSave = true
-      this.save()
+      this.update()
+      this.$message.success('发布成功');
     },
     goBack() {
-      this.$router.push('/')
+      this.$router.back()
     },
     async createTag() {
       if (this.blogTagList.length >= 10) {
@@ -246,6 +251,7 @@ export default {
       }
       await createTagApi(this.tagInput)
       this.blogTag = ''
+      this.tagInput.name = ''
       const { data: result } = await getTagApi();
       this.blogTagList.push(result.data[result.data.length - 1])
     },
@@ -265,10 +271,18 @@ export default {
     async getTag() {
       const { data: result } = await getTagApi();
       this.blogTagList = result.data
+    },
+    saveDraft() {
+      this.blog.isDraft = 1
+      this.isSave = true
+      this.update()
+      this.$message.success('保存成功');
     }
-
   },
   mounted() {
+    // todo 考虑是否将发布和编辑合并
+    this.blog = this.$route.params
+    this.blog.blogId = this.$route.params.id
     window.onbeforeunload = function (e) {
       e = e || window.event;
       // 兼容IE8和Firefox 4之前的版本
@@ -286,9 +300,11 @@ export default {
     // 由于会渲染同样的 Foo 组件，因此组件实例会被复用。而这个钩子就会在这个情况下被调用。
     // 可以访问组件实例 `this`
     // 不支持传递回调(因为this实例已经创建可以获取到，所以没必要)
+    console.log('beforeRouteUpdate调用了')
     next()
   },
   beforeRouteLeave(to, from) {
+    console.log('beforeRouteLeave')
     if (this.isSave) {
       return;
     }

@@ -9,8 +9,11 @@
           <!--        </el-breadcrumb>-->
           <el-button icon="ArrowLeftBold" size="large" @click="goBack">返回首页</el-button>
         </el-col>
-        <el-col :span="20">
+        <el-col :span="18">
           <el-input v-model="blog.title" clearable placeholder="请输入标题" size="large"/>
+        </el-col>
+        <el-col :span="2">
+          <el-button size="large" type="primary" @click="saveDraft">保存草稿</el-button>
         </el-col>
         <el-col :span="2">
           <el-button size="large" type="danger" @click="dialogVisible = true">发布文章</el-button>
@@ -163,7 +166,8 @@ export default {
         isTop: ref(0),
         isPrivate: ref(0),
         isOriginal: ref(1),
-        tags: ''
+        tags: '',
+        isDraft: ref(0)
       },
       dialogVisible: ref(false),
       dynamicTags: [],
@@ -196,7 +200,6 @@ export default {
         this.isSave = true
         return this.$message.error(result.data)
       }
-      this.$message.success('发布成功');
       await this.goBack()
       window.onbeforeunload = null
     },
@@ -237,6 +240,7 @@ export default {
       this.dialogVisible = false
       this.isSave = true
       this.save()
+      this.$message.success('发布成功');
     },
     goBack() {
       this.$router.push('/')
@@ -267,6 +271,12 @@ export default {
     async getTag() {
       const { data: result } = await getTagApi();
       this.blogTagList = result.data
+    },
+    saveDraft() {
+      this.blog.isDraft = 1
+      this.isSave = true
+      this.save()
+      this.$message.success('保存成功');
     }
 
   },
