@@ -1,97 +1,100 @@
 <template>
-  <div>
-    <!--              个人资料展示-->
-    <el-card :body-style="{padding:'0'}" class="header-card" id="top">
-      <el-card :body-style="{padding:'0'}" class="header-card-background">
+  <el-scrollbar>
+    <div>
+      <!--              个人资料展示-->
+      <el-card :body-style="{padding:'0'}" class="header-card" id="top">
+        <el-card :body-style="{padding:'0'}" class="header-card-background">
+        </el-card>
+        <el-image :src="userinfo.headImgUrl" class="header-image"/>
+        <div class="user-info-card">
+          <el-row>
+            <p style="color: inherit;cursor: pointer;font-size: 22px;margin: 0!important;">
+              {{ blogUserInfo.nickname }}
+              <el-button size="small" type="primary">关注</el-button>
+            </p>
+          </el-row>
+          <el-row>
+            <p style="font-size: 14px">
+              <span style="margin-right: 16px;">园龄：{{ blogUserInfo.runningDay }}</span>
+              <span style="margin-right: 16px;">粉丝：{{ blogUserInfo.followCount }}</span>
+              <span>文章：{{ blogUserInfo.blogCount }}</span>
+            </p>
+          </el-row>
+        </div>
       </el-card>
-      <el-image :src="userinfo.headImgUrl" class="header-image"/>
-      <div class="user-info-card">
-        <el-row>
-          <p style="color: inherit;cursor: pointer;font-size: 22px;margin: 0!important;">
-            {{ blogUserInfo.nickname }}
-            <el-button size="small" type="primary">关注</el-button>
-          </p>
-        </el-row>
-        <el-row>
-          <p style="font-size: 14px">
-            <span style="margin-right: 16px;">园龄：{{ blogUserInfo.runningDay }}</span>
-            <span style="margin-right: 16px;">粉丝：{{ blogUserInfo.followCount }}</span>
-            <span>文章：{{ blogUserInfo.blogCount }}</span>
-          </p>
-        </el-row>
-      </div>
-    </el-card>
-    <!--              正文部分-->
-    <div v-loading="loading" class="content-tag">
-      <el-card v-for="(blog, index) in blogList" :key="index" :body-style="{padding:'0'}" class="article-card">
-        <el-row style="height: 200px;width: 100%;" type="flex">
-          <el-col :span="6" style="height: 200px">
-            <el-image :src="blog.picture === '' ? header_url : blog.picture" fit="cover" style="width: 100%; height: 100%"/>
-          </el-col>
-          <el-col :span="18">
-            <el-card class="card-main" @click="blogCardClick(blog.id)">
-              <el-row>
-                <el-col class="card-title">
-                  {{ blog.title }}
-                </el-col>
-              </el-row>
-              <el-row>
-                <el-col class="card-context">
-                  <VueShowdown :markdown="blog.content" />
-                </el-col>
-              </el-row>
-              <el-divider style="margin-bottom: 5px"/>
-              <el-row class="card-info" justify="start">
-                <el-col v-if="blog.isOriginal === 1">
-                  <el-tag type="success" size="small" style="height: 16px">原创</el-tag>
-                </el-col>
-                <el-col v-else-if="blog.isOriginal === 2">
-                  <el-tag type="danger" size="small" style="height: 16px">转摘</el-tag>
-                </el-col>
-                <el-col v-if="blog.isOriginal === 3">
-                  <el-tag type="warning" size="small" style="height: 16px">翻译</el-tag>
-                </el-col>
-                <el-col v-show="blog.isTop === 1">
-                  <el-tag  size="small" style="height: 16px">置顶</el-tag>
-                </el-col>
-                <el-col>
-                  <span><el-icon><avatar/></el-icon></span>
-                  <span>{{ blog.authorName }}</span>
-                </el-col>
-                <el-col>
-                  <span><el-icon><clock/></el-icon></span>
-                  <span>{{ blog.createDate }}</span>
-                </el-col>
-                <el-col>
-                  <span><el-icon><View/></el-icon></span>
-                  <span>{{ blog.blogBrowse }}</span>
-                </el-col>
-                <el-col>
-                  <span><el-icon><edit-pen/></el-icon></span>
-                  <span>{{ blog.commentNum === null ? 0 : blog.commentNum }}</span>
-                </el-col>
-              </el-row>
-            </el-card>
-          </el-col>
-        </el-row>
-      </el-card>
-      <div class="demo-pagination-block">
-        <el-pagination
-          v-model:currentPage="blogRequest.pageIndex"
-          v-model:page-size="blogRequest.pageSize"
-          :background="background"
-          :disabled="disabled"
-          :page-sizes="[10, 20, 30, 40]"
-          :small="small"
-          :total="blogRequest.total"
-          layout="total, sizes, prev, pager, next, jumper"
-          @size-change="handleSizeChange"
-          @current-change="handleCurrentChange"
-        >
-        </el-pagination>
+      <!--              正文部分-->
+      <div v-loading="loading" class="content-tag">
+        <el-card v-for="(blog, index) in blogList" :key="index" :body-style="{padding:'0'}" class="article-card">
+          <el-row style="height: 200px;width: 100%;" type="flex">
+            <el-col :span="6" style="height: 200px">
+              <el-image :src="blog.picture === '' ? header_url : blog.picture" fit="cover"
+                        style="width: 100%; height: 100%"/>
+            </el-col>
+            <el-col :span="18">
+              <el-card class="card-main" @click="blogCardClick(blog.id)">
+                <el-row>
+                  <el-col class="card-title">
+                    {{ blog.title }}
+                  </el-col>
+                </el-row>
+                <el-row>
+                  <el-col class="card-context">
+                    <VueShowdown :markdown="blog.content"/>
+                  </el-col>
+                </el-row>
+                <el-divider style="margin-bottom: 5px"/>
+                <el-row class="card-info" justify="start">
+                  <el-col v-if="blog.isOriginal === 1">
+                    <el-tag type="success" size="small" style="height: 16px">原创</el-tag>
+                  </el-col>
+                  <el-col v-else-if="blog.isOriginal === 2">
+                    <el-tag type="danger" size="small" style="height: 16px">转摘</el-tag>
+                  </el-col>
+                  <el-col v-if="blog.isOriginal === 3">
+                    <el-tag type="warning" size="small" style="height: 16px">翻译</el-tag>
+                  </el-col>
+                  <el-col v-show="blog.isTop === 1">
+                    <el-tag size="small" style="height: 16px">置顶</el-tag>
+                  </el-col>
+                  <el-col>
+                    <span><el-icon><avatar/></el-icon></span>
+                    <span>{{ blog.authorName }}</span>
+                  </el-col>
+                  <el-col>
+                    <span><el-icon><clock/></el-icon></span>
+                    <span>{{ blog.createDate }}</span>
+                  </el-col>
+                  <el-col>
+                    <span><el-icon><View/></el-icon></span>
+                    <span>{{ blog.blogBrowse }}</span>
+                  </el-col>
+                  <el-col>
+                    <span><el-icon><edit-pen/></el-icon></span>
+                    <span>{{ blog.commentNum === null ? 0 : blog.commentNum }}</span>
+                  </el-col>
+                </el-row>
+              </el-card>
+            </el-col>
+          </el-row>
+        </el-card>
+        <div class="demo-pagination-block">
+          <el-pagination
+            v-model:currentPage="blogRequest.pageIndex"
+            v-model:page-size="blogRequest.pageSize"
+            :background="background"
+            :disabled="disabled"
+            :page-sizes="[10, 20, 30, 40]"
+            :small="small"
+            :total="blogRequest.total"
+            layout="total, sizes, prev, pager, next, jumper"
+            @size-change="handleSizeChange"
+            @current-change="handleCurrentChange"
+          >
+          </el-pagination>
+        </div>
       </div>
     </div>
-  </div>
+  </el-scrollbar>
 </template>
 
 <script>

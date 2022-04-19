@@ -200,7 +200,7 @@ export default {
         this.isSave = true
         return this.$message.error(result.data)
       }
-      await this.goBack()
+      await this.$router.push('/')
       window.onbeforeunload = null
     },
     imgAdd(pos, $file) {
@@ -239,11 +239,12 @@ export default {
     onSubmit() {
       this.dialogVisible = false
       this.isSave = true
+      this.blog.isDraft = 0
       this.update()
       this.$message.success('发布成功');
     },
     goBack() {
-      this.$router.back()
+      this.$router.push('/')
     },
     async createTag() {
       if (this.blogTagList.length >= 10) {

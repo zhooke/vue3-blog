@@ -1,60 +1,62 @@
 <template>
-  <div>
-    <el-breadcrumb separator-icon="ArrowRight">
-      <el-breadcrumb-item :to="{ path: '/' }">首页</el-breadcrumb-item>
-      <el-breadcrumb-item>草稿箱</el-breadcrumb-item>
-    </el-breadcrumb>
-    <div style="min-height: 550px">
-      <el-card v-for="(blog, index) in blogDraftList" :key="index" class="article-card" :body-style="{padding:'0'}">
-        <el-row style="height: 200px;width: 100%;" type="flex">
-          <el-col :span="6" style="height: 200px">
-            <el-image fit="cover" style="width: 100%; height: 100%"
-                      :src="blog.picture === '' ? header_url : blog.picture"/>
-          </el-col>
-          <el-col :span="18">
-            <el-card class="card-main" @click="blogCardClick(blog.id)">
-              <el-row>
-                <el-col class="card-title">
-                  {{ blog.title }}
-                </el-col>
-              </el-row>
-              <el-row>
-                <el-col class="card-context">
-                  <VueShowdown :markdown="blog.content"/>
-                </el-col>
-              </el-row>
-              <el-divider/>
-              <el-row class="card-info" justify="start">
-                <el-col>
-                  <span><el-icon><avatar/></el-icon></span>
-                  <span>{{ blog.authorName }}</span>
-                </el-col>
-                <el-col>
-                  <span><el-icon><clock/></el-icon></span>
-                  <span>{{ blog.createDate }}</span>
-                </el-col>
-              </el-row>
-            </el-card>
-          </el-col>
-        </el-row>
-      </el-card>
+  <el-scrollbar>
+    <div>
+      <el-breadcrumb separator-icon="ArrowRight">
+        <el-breadcrumb-item :to="{ path: '/' }">首页</el-breadcrumb-item>
+        <el-breadcrumb-item>草稿箱</el-breadcrumb-item>
+      </el-breadcrumb>
+      <div style="min-height: 550px">
+        <el-card v-for="(blog, index) in blogDraftList" :key="index" class="article-card" :body-style="{padding:'0'}">
+          <el-row style="height: 200px;width: 100%;" type="flex">
+            <el-col :span="6" style="height: 200px">
+              <el-image fit="cover" style="width: 100%; height: 100%"
+                        :src="blog.picture === '' ? header_url : blog.picture"/>
+            </el-col>
+            <el-col :span="18">
+              <el-card class="card-main" @click="blogCardClick(blog.id)">
+                <el-row>
+                  <el-col class="card-title">
+                    {{ blog.title }}
+                  </el-col>
+                </el-row>
+                <el-row>
+                  <el-col class="card-context">
+                    <VueShowdown :markdown="blog.content"/>
+                  </el-col>
+                </el-row>
+                <el-divider/>
+                <el-row class="card-info" justify="start">
+                  <el-col>
+                    <span><el-icon><avatar/></el-icon></span>
+                    <span>{{ blog.authorName }}</span>
+                  </el-col>
+                  <el-col>
+                    <span><el-icon><clock/></el-icon></span>
+                    <span>{{ blog.createDate }}</span>
+                  </el-col>
+                </el-row>
+              </el-card>
+            </el-col>
+          </el-row>
+        </el-card>
+      </div>
+      <div class="demo-pagination-block">
+        <el-pagination
+          v-model:currentPage="page.pageIndex"
+          v-model:page-size="page.pageSize"
+          :page-sizes="[10, 20, 30, 40]"
+          :small="small"
+          :disabled="disabled"
+          :background="background"
+          layout="total, sizes, prev, pager, next, jumper"
+          :total="blogDraftList.total"
+          @size-change="handleSizeChange"
+          @current-change="handleCurrentChange"
+        >
+        </el-pagination>
+      </div>
     </div>
-    <div class="demo-pagination-block">
-      <el-pagination
-        v-model:currentPage="page.pageIndex"
-        v-model:page-size="page.pageSize"
-        :page-sizes="[10, 20, 30, 40]"
-        :small="small"
-        :disabled="disabled"
-        :background="background"
-        layout="total, sizes, prev, pager, next, jumper"
-        :total="blogDraftList.total"
-        @size-change="handleSizeChange"
-        @current-change="handleCurrentChange"
-      >
-      </el-pagination>
-    </div>
-  </div>
+  </el-scrollbar>
 </template>
 
 <script>

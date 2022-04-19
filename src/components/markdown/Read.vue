@@ -1,116 +1,118 @@
 <template>
-  <div class="markdown">
-    <el-breadcrumb separator-icon="ArrowRight">
-      <el-breadcrumb-item :to="{ path: '/' }">首页</el-breadcrumb-item>
-      <el-breadcrumb-item>文章</el-breadcrumb-item>
-    </el-breadcrumb>
-    <el-card class="card-info">
+  <el-scrollbar>
+    <div class="markdown">
+      <el-breadcrumb separator-icon="ArrowRight">
+        <el-breadcrumb-item :to="{ path: '/' }">首页</el-breadcrumb-item>
+        <el-breadcrumb-item>文章</el-breadcrumb-item>
+      </el-breadcrumb>
+      <el-card class="card-info">
 
-      <el-row justify="space-between">
-        <el-col span="18" style="margin-right:0">
-          <el-tag v-if="blog.isOriginal === 0" type="danger" size="large" effect="dark">原创</el-tag>
-          <el-tag v-if="blog.isOriginal === 1" type="danger" size="large" effect="dark">转摘</el-tag>
-          <el-row style="margin-left: 10px">
-            <el-col style="margin-bottom: 10px">
-              <el-row>
-                <el-col span="4">
-                  <span><el-icon><avatar/></el-icon></span>
-                  <span>{{ blog.authorName }}</span>
-                </el-col>
-                <el-col span="12">
-                  <span><el-icon><clock/></el-icon></span>
-                  <span>{{ blog.createDate }}</span>
-                </el-col>
-                <el-col span="4">
-                  <span><el-icon><View/></el-icon></span>
-                  <span>{{ blog.blogBrowse }}</span>
-                </el-col>
-                <el-col span="4">
-                  <span><el-icon><edit-pen/></el-icon></span>
-                  <span>{{ blog.commentNum === null ? 0 : blog.commentNum }}</span>
-                </el-col>
-              </el-row>
-            </el-col>
-            <el-col>
-              <el-row>
-                <el-col style="display: inline-block;">
-                  <span style="font-size: 14px;color: black">标签：</span>
-                  <el-tag class="ml-2" type="success" v-for="item in blogTagList" :key="item"
-                          style="margin-right: 10px">{{
-                      item.name
-                    }}
-                  </el-tag>
-                </el-col>
-              </el-row>
+        <el-row justify="space-between">
+          <el-col span="18" style="margin-right:0">
+            <el-tag v-if="blog.isOriginal === 0" type="danger" size="large" effect="dark">原创</el-tag>
+            <el-tag v-if="blog.isOriginal === 1" type="danger" size="large" effect="dark">转摘</el-tag>
+            <el-row style="margin-left: 10px">
+              <el-col style="margin-bottom: 10px">
+                <el-row>
+                  <el-col span="4">
+                    <span><el-icon><avatar/></el-icon></span>
+                    <span>{{ blog.authorName }}</span>
+                  </el-col>
+                  <el-col span="12">
+                    <span><el-icon><clock/></el-icon></span>
+                    <span>{{ blog.createDate }}</span>
+                  </el-col>
+                  <el-col span="4">
+                    <span><el-icon><View/></el-icon></span>
+                    <span>{{ blog.blogBrowse }}</span>
+                  </el-col>
+                  <el-col span="4">
+                    <span><el-icon><edit-pen/></el-icon></span>
+                    <span>{{ blog.commentNum === null ? 0 : blog.commentNum }}</span>
+                  </el-col>
+                </el-row>
+              </el-col>
+              <el-col>
+                <el-row>
+                  <el-col style="display: inline-block;">
+                    <span style="font-size: 14px;color: black">标签：</span>
+                    <el-tag class="ml-2" type="success" v-for="item in blogTagList" :key="item"
+                            style="margin-right: 10px">{{
+                        item.name
+                      }}
+                    </el-tag>
+                  </el-col>
+                </el-row>
 
-            </el-col>
-          </el-row>
-        </el-col>
-        <el-col span="6" style="margin-top: 15px">
-          <el-button v-show="userinfo !== null && userinfo.id===blog.createUserId" type="primary" round size="small"
-                     @click="editBlog">
-            编辑
-          </el-button>
-          <el-button type="info" round size="small">版权</el-button>
-          <el-button v-show="userinfo !== null && userinfo.id===blog.createUserId" type="danger" round size="small"
-                     @click="deleteBlog">删除
-          </el-button>
-        </el-col>
-      </el-row>
-    </el-card>
-    <mavon-editor v-model="blog.content" :editable="false" :html="false" :subfield="false"
-                  :toolbars="markdownOption" codeStyle="foundation" defaultOpen="preview"
-                  style="width: 100%;z-index: 100">
-    </mavon-editor>
-    <!--    评论输入框-->
-    <el-card class="comment-card" justify="space-between">
-      <p>发表评论</p>
-      <el-input
-        v-model="commentContext.comment"
-        type="textarea"
-        maxlength="1000"
-        show-word-limit
-        :rows="commentInputRow"
-        placeholder="请发表有价值的评论， 博客评论不欢迎灌水，良好的社区氛围需大家一起维护。"
-        style="border-style: none;"
-      >
-      </el-input>
-      <el-row style="margin-top: 10px;" justify="space-between">
-        <!--        todo 添加表情包和图片功能-->
-        <el-col span="12">
-        </el-col>
-        <el-col span="12">
-          <el-button type="success" icon="Check" @click="commentBlog">发表</el-button>
-        </el-col>
-      </el-row>
+              </el-col>
+            </el-row>
+          </el-col>
+          <el-col span="6" style="margin-top: 15px">
+            <el-button v-show="userinfo !== null && userinfo.id===blog.createUserId" type="primary" round size="small"
+                       @click="editBlog">
+              编辑
+            </el-button>
+            <el-button type="info" round size="small">版权</el-button>
+            <el-button v-show="userinfo !== null && userinfo.id===blog.createUserId" type="danger" round size="small"
+                       @click="deleteBlog">删除
+            </el-button>
+          </el-col>
+        </el-row>
+      </el-card>
+      <mavon-editor v-model="blog.content" :editable="false" :html="false" :subfield="false"
+                    :toolbars="markdownOption" codeStyle="foundation" defaultOpen="preview"
+                    style="width: 100%;z-index: 100">
+      </mavon-editor>
+      <!--    评论输入框-->
+      <el-card class="comment-card" justify="space-between">
+        <p>发表评论</p>
+        <el-input
+          v-model="commentContext.comment"
+          type="textarea"
+          maxlength="1000"
+          show-word-limit
+          :rows="commentInputRow"
+          placeholder="请发表有价值的评论， 博客评论不欢迎灌水，良好的社区氛围需大家一起维护。"
+          style="border-style: none;"
+        >
+        </el-input>
+        <el-row style="margin-top: 10px;" justify="space-between">
+          <!--        todo 添加表情包和图片功能-->
+          <el-col span="12">
+          </el-col>
+          <el-col span="12">
+            <el-button type="success" icon="Check" @click="commentBlog">发表</el-button>
+          </el-col>
+        </el-row>
 
-      <el-divider content-position="left">评论列表</el-divider>
-      <el-row justify="space-between" v-for="item in commentList" :key="item" style="margin-bottom: 10px">
-        <el-col span="16" class="comment-text-left-col">
-          <el-avatar :size="30" :src="item.headImgUrl === null ?circleUrl :item.headImgUrl" fit="cover"/>
-          <div style="flex-direction:column;margin-left: 10px">
-            <p>{{ item.createUserName }} {{ item.createDate }}</p>
-            <span class="comment-text">{{ item.comment }}</span>
-          </div>
-        </el-col>
-        <el-col span="8" style="flex-direction:row;margin-top: 10px">
-          <el-button icon="Edit" size="small">回复</el-button>
-          <el-button icon="Check" size="small"/>
-        </el-col>
-      </el-row>
-      <el-pagination
-        v-model:currentPage="commentRequest.pageIndex"
-        :page-size="commentRequest.pageSize"
-        small="small"
-        background
-        layout="total, prev, pager, next"
-        :total="commentRequest.total"
-        @size-change="handleSizeChange"
-        @current-change="handleCurrentChange"
-        v-show="commentRequest.total >10"
-      />
-    </el-card>
-  </div>
+        <el-divider content-position="left">评论列表</el-divider>
+        <el-row justify="space-between" v-for="item in commentList" :key="item" style="margin-bottom: 10px">
+          <el-col span="16" class="comment-text-left-col">
+            <el-avatar :size="30" :src="item.headImgUrl === null ?circleUrl :item.headImgUrl" fit="cover"/>
+            <div style="flex-direction:column;margin-left: 10px">
+              <p>{{ item.createUserName }} {{ item.createDate }}</p>
+              <span class="comment-text">{{ item.comment }}</span>
+            </div>
+          </el-col>
+          <el-col span="8" style="flex-direction:row;margin-top: 10px">
+            <el-button icon="Edit" size="small">回复</el-button>
+            <el-button icon="Check" size="small"/>
+          </el-col>
+        </el-row>
+        <el-pagination
+          v-model:currentPage="commentRequest.pageIndex"
+          :page-size="commentRequest.pageSize"
+          small="small"
+          background
+          layout="total, prev, pager, next"
+          :total="commentRequest.total"
+          @size-change="handleSizeChange"
+          @current-change="handleCurrentChange"
+          v-show="commentRequest.total >10"
+        />
+      </el-card>
+    </div>
+  </el-scrollbar>
 </template>
 
 <script>
