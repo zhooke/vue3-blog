@@ -16,7 +16,7 @@
           <el-button size="large" type="primary" @click="saveDraft">保存草稿</el-button>
         </el-col>
         <el-col :span="2">
-          <el-button size="large" type="danger" @click="dialogVisible = true">发布文章</el-button>
+          <el-button size="large" type="danger" @click="dialogVisible = true">更新文章</el-button>
         </el-col>
       </el-row>
       <mavon-editor v-model="blog.content" :toolbars="markdownOption" style="min-height:800px;width: 100%"
@@ -103,7 +103,7 @@
         </el-form>
         <template #footer>
       <span class="dialog-footer">
-          <el-button type="danger" @click="onSubmit">发布文章</el-button>
+          <el-button type="danger" @click="onSubmit">更新文章</el-button>
           <el-button @click="dialogVisible = false">返回</el-button>
       </span>
         </template>
@@ -241,7 +241,7 @@ export default {
       this.isSave = true
       this.blog.isDraft = 0
       this.update()
-      this.$message.success('发布成功');
+      this.$message.success('更新成功');
     },
     goBack() {
       this.$router.push('/')
