@@ -36,13 +36,13 @@
           </el-icon>
         </template>
         <p>热门文章</p>
-        <el-row class="hot-blog-card" v-for="(item,index) in blogTop5List" :key="index" gutter="5"
-                style="margin-bottom: 20px;height: 55px;" @click="blogCardClick(item.id)">
+        <el-row class="hot-blog-card" v-for="(item,index) in blogTop5List" :key="index" gutter="20"
+                @click="blogCardClick(item.id)">
           <el-col :span="6">
-            <el-image :src="item.picture === '' ? text_url : item.picture" fit="cover" style="height: 55px;border-radius: 30%"></el-image>
+            <el-image :src="item.picture === '' ? text_url : item.picture" fit="cover"></el-image>
           </el-col>
           <el-col :span="16">
-            <span style="margin-bottom: 3px">{{ index + 1 }}. {{ item.title }}</span>
+            <span class="hot-blog-title">{{ index + 1 }}. {{ item.title }}</span>
             <span style="color: #98a6ad"><el-icon size="16px" style="color: #98a6ad"><View/></el-icon>{{
                 item.blogBrowse
               }}</span>
@@ -90,13 +90,13 @@
           </el-icon>
         </template>
         <p>最新评论</p>
-        <el-row class="hot-blog-card" v-for="(item,index) in blogCommentNewestList" :key="index" gutter="5"
-                style="margin-bottom: 20px;height: 55px;" @click="blogCardClick(item.blogId)">
+        <el-row class="hot-blog-card" v-for="(item,index) in blogCommentNewestList" :key="index" gutter="20"
+                @click="blogCardClick(item.blogId)">
           <el-col :span="6">
             <el-image :src="text_url" fit="cover" style="height: 55px"></el-image>
           </el-col>
           <el-col :span="16">
-            <span style="margin-bottom: 3px">{{ index + 1 }}.@ {{ item.createUserName }} 说：</span>
+            <span style="margin-bottom: 3px;height: 36px">{{ index + 1 }}.@ {{ item.createUserName }} 说：</span>
             <span style="color: #98a6ad">{{ item.comment }}</span>
           </el-col>
         </el-row>
@@ -407,6 +407,27 @@ export default {
   img {
     width: 50px;
   }
+}
+
+.hot-blog-card {
+  margin-bottom: 20px;
+  height: 55px;
+
+  .el-image {
+    height: 55px;
+    width: 55px;
+    border-radius: 30%;
+  }
+}
+
+.hot-blog-title {
+  height: 36px;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  margin-bottom: 3px;
 }
 
 .hot-blog-card:hover {
