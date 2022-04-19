@@ -6,6 +6,7 @@
         <el-breadcrumb-item>文章</el-breadcrumb-item>
       </el-breadcrumb>
       <el-card class="card-info">
+        <p style="font-size: 20px;color: #000000;font-weight: 600">{{ blog.title }}</p>
 
         <el-row justify="space-between">
           <el-col span="18" style="margin-right:0">
