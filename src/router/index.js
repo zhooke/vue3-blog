@@ -34,6 +34,7 @@ const routes = [
   },
   {
     path: '/edit',
+    name: 'edit',
     component: () => import('../components/markdown/Edit')
   },
   {

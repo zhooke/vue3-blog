@@ -143,3 +143,12 @@ export const deleteBlogApi = (params) => {
 export const getBlogDraftListApi = (params) => {
   return http.post('/blog/draft', params)
 }
+
+/**
+ * 更新blog
+ * @param params
+ * @returns {*}
+ */
+export const updateBlogApi = (params) => {
+  return http.post('/blog/update', params)
+}
