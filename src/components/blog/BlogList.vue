@@ -173,6 +173,7 @@ export default {
   },
   mounted() {
     this.blogRequest.userId = this.$route.query.userId
+    this.blogRequest.title = this.$route.query.title;
     this.getBlogList()
     this.getUser()
     const user = JSON.parse(window.sessionStorage.getItem('userinfo'))

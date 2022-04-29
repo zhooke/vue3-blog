@@ -54,7 +54,7 @@
       <h4 style="color: #5c5e6e;margin-left: 20px">LINKS</h4>
       <el-col>
         <el-menu class="card-left">
-          <el-menu-item index="/">
+          <el-menu-item index="/other/Info">
             <el-icon style="color: #48c774">
               <info-filled/>
             </el-icon>

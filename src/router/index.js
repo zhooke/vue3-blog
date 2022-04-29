@@ -25,6 +25,10 @@ const routes = [
       {
         path: '/blog/read/draft',
         component: () => import('../components/markdown/ReadDraft')
+      },
+      {
+        path: '/other/Info',
+        component: () => import('../components/other/Info')
       }
     ]
   },
@@ -56,7 +60,7 @@ const router = createRouter({
   mode: 'history'
 })
 
-const filterRouters = ['/login', '/blog/list', '/blog/read']
+const filterRouters = ['/login', '/blog/list', '/blog/read', '/other/Info']
 // 挂载路由守卫
 router.beforeEach((to, from, next) => {
   // to 将要访问的路径
