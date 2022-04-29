@@ -152,3 +152,7 @@ export const getBlogDraftListApi = (params) => {
 export const updateBlogApi = (params) => {
   return http.post('/blog/update', params)
 }
+
+export const getDictionaryApi = (params) => {
+  return http.get('/system/dictionary/value',{ params: { type_name: params } })
+}

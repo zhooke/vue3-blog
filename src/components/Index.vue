@@ -77,7 +77,6 @@ export default {
   width: 100%;
   overflow: hidden;
   background-color: #f5f6f7;
-  overflow-x: hidden;
 }
 
 .el-aside {
