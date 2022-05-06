@@ -96,7 +96,9 @@
             <el-image :src="text_url" fit="cover" style="height: 55px"></el-image>
           </el-col>
           <el-col :span="16">
-            <span style="margin-bottom: 3px;height: 36px">{{ index + 1 }}.@ {{ item.createUserName }} 说：</span>
+            <span style="margin-bottom: 3px;height: 36px">{{
+                index + 1
+              }}.@ {{ item.createUserName === null ? "帅气的路人甲" : item.createUserName }} 说：</span>
             <span style="color: #98a6ad">{{ item.comment }}</span>
           </el-col>
         </el-row>
@@ -255,7 +257,7 @@ export default {
         createTime: '',
         email: '',
         headImgUrl: '',
-        id: 100011,
+        id: 1000000,
         mobile: '',
         nickname: '',
         sex: 0,
@@ -297,7 +299,7 @@ export default {
       await this.$router.push({ path: '/blog/read', query: { blogId: val } })
     },
     async commentNewest() {
-      const { data: result } = await commentNewestApi();
+      const { data: result } = await commentNewestApi({ blogAuthorId: this.userinfo.id });
       this.blogCommentNewestList = result.data;
     },
     async blogTop5() {

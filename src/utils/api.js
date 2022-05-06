@@ -60,8 +60,8 @@ export const commentBlogApi = (params) => {
  * @param params
  * @returns {Promise<AxiosResponse<any>>}
  */
-export const commentNewestApi = () => {
-  return http.get('blog/comment/newest');
+export const commentNewestApi = (params) => {
+  return http.get('blog/comment/newest', { params: params });
 }
 
 /**
@@ -154,5 +154,5 @@ export const updateBlogApi = (params) => {
 }
 
 export const getDictionaryApi = (params) => {
-  return http.get('/system/dictionary/value',{ params: { type_name: params } })
+  return http.get('/system/dictionary/value', { params: { type_name: params } })
 }
