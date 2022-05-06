@@ -128,7 +128,8 @@ export default {
         navigation: true // 导航目录
       },
       blog: {
-        content: ''
+        content: '',
+        createUserId: ''
       },
       commentInputRow: 3,
       commentText: '',
@@ -173,6 +174,7 @@ export default {
     },
     async commentBlog() {
       this.commentContext.blogId = this.blog.id
+      this.commentContext.blogAuthorId = this.blog.createUserId
       await commentBlogApi(this.commentContext)
       await this.getCommentList()
       this.commentContext.comment = ''
