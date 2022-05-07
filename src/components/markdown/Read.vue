@@ -91,7 +91,8 @@
           <el-col span="16" class="comment-text-left-col">
             <el-avatar :size="30" :src="item.headImgUrl === null ?circleUrl :item.headImgUrl" fit="cover"/>
             <div style="flex-direction:column;margin-left: 10px">
-              <p>{{ item.createUserName }} {{ item.createDate }}</p>
+              <p>{{ item.createUserName === null ? item.ipAddress : item.createUserName }} | {{ item.browserModel }} |
+                {{ item.createDate }}</p>
               <span class="comment-text">{{ item.comment }}</span>
             </div>
           </el-col>
@@ -144,7 +145,8 @@ export default {
       },
       commentContext: {
         blogId: '',
-        comment: ''
+        comment: '',
+        browserModel: ''
       },
       blogTagList: [],
       userinfo: {}
@@ -175,6 +177,7 @@ export default {
     async commentBlog() {
       this.commentContext.blogId = this.blog.id
       this.commentContext.blogAuthorId = this.blog.createUserId
+      this.commentContext.browserModel = this.getExplorer()
       await commentBlogApi(this.commentContext)
       await this.getCommentList()
       this.commentContext.comment = ''
@@ -205,6 +208,31 @@ export default {
     },
     editBlog() {
       this.$router.push({ name: 'edit', params: this.blog })
+    },
+    getExplorer() {
+
+      const explorer = window.navigator.userAgent;
+      //Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/100.0.4896.88 Safari/537.36
+      let start = 0;
+      const compare = function (s) {
+        start = explorer.indexOf(s)
+        return (start >= 0);
+      };
+      const ie11 = (function () {
+        return ('ActiveXObject' in window)
+      })();
+      if (compare('MSIE') || ie11) {
+
+      } else if (compare('Firefox') && !ie11) {
+
+      } else if (compare('Chrome') && !ie11) {
+
+      } else if (compare('Opera') && !ie11) {
+
+      } else if (compare('Safari') && !ie11) {
+
+      }
+      return explorer.substring(start);
     }
   },
   mounted() {
@@ -273,7 +301,7 @@ export default {
 
     p {
       font-size: 14px;
-      color: #a2b0b7;
+      color: #7e888b;
     }
   }
 }

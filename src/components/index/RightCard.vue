@@ -98,7 +98,7 @@
           <el-col :span="16">
             <span style="margin-bottom: 3px;height: 36px">{{
                 index + 1
-              }}.@ {{ item.createUserName === null ? "帅气的路人甲" : item.createUserName }} 说：</span>
+              }}.@ {{ item.createUserName === null ? item.ipAddress : item.createUserName }} 说：</span>
             <span style="color: #98a6ad">{{ item.comment }}</span>
           </el-col>
         </el-row>
