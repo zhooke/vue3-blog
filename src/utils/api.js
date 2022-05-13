@@ -156,3 +156,12 @@ export const updateBlogApi = (params) => {
 export const getDictionaryApi = (params) => {
   return http.get('/system/dictionary/value', { params: { type_name: params } })
 }
+
+/**
+ * 评论回复
+ * @param params
+ * @returns {Promise<AxiosResponse<any>>}
+ */
+export const commentReplyApi = (params) => {
+  return http.post('/blog/comment/reply', params)
+}
