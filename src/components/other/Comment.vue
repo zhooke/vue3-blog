@@ -33,9 +33,27 @@
           </div>
         </el-col>
         <el-col span="8" style="flex-direction:row;margin-top: 10px">
-          <el-button icon="Edit" size="small">回复</el-button>
-          <el-button icon="Check" size="small"/>
+          <el-button icon="Edit" size="small" @click="item.commentInput=!item.commentInput">回复</el-button>
+          <!--          <el-button icon="Check" size="small"/>-->
         </el-col>
+        <el-input
+          v-show="item.commentInput"
+          v-model="replyCommentData.comment"
+          type="text"
+          maxlength="500"
+          show-word-limit
+          :autofocus="true"
+          clearable
+          autosize
+          @blur="item.commentInput=false"
+          class="reply-comment"
+          @keydown.enter="replyComment(item)"
+        >
+          <template #prepend>
+            @{{ item.createUserName === null ? item.ipAddress : item.createUserName }}:
+          </template>
+        </el-input>
+<!--        todo 添加回复内容显示-->
       </el-row>
       <el-pagination
         v-model:currentPage="commentRequest.pageIndex"
@@ -53,14 +71,18 @@
 </template>
 
 <script>
-import { commentBlogApi, commentListApi } from '@/utils/api';
+import { commentBlogApi, commentListApi, commentReplyApi } from '@/utils/api';
 
 export default {
   // eslint-disable-next-line vue/multi-word-component-names
   name: 'Comment',
-  props: ['blog'],
-  setup(props) {
-    console.log(props)
+  props: {
+    blog: {
+      type: Object,
+      default() {
+        return null;
+      }
+    }
   },
   data() {
     return {
@@ -81,12 +103,19 @@ export default {
         id: '',
         content: '',
         createUserId: ''
+      },
+      commentInput: false,
+      replyCommentData: {
+        blogId: '',
+        comment: '',
+        browserModel: '',
+        commentId: 0,
+        blogAuthorId: 0
       }
     }
   },
   methods: {
     async getCommentList() {
-      this.commentRequest.blogId = this.blogInfo.id
       const { data: result } = await commentListApi(this.commentRequest)
       this.commentList = result.data
       this.commentRequest.pageSize = result.pageSize
@@ -132,14 +161,30 @@ export default {
 
       }
       return explorer.substring(start);
+    },
+    async replyComment(val) {
+      console.log(val)
+      this.replyCommentData.blogId = this.blogInfo.id
+      this.replyCommentData.blogAuthorId = val.blogAuthorId
+      this.replyCommentData.browserModel = this.getExplorer()
+      this.replyCommentData.commentId = val.id
+      await commentReplyApi(this.replyCommentData);
+      await this.getCommentList()
+      this.replyCommentData = {}
     }
   },
   mounted() {
     this.userinfo = JSON.parse(window.sessionStorage.getItem('userinfo'))
-    // this.blog.id = this.$route.query.blogId
-    // this.blog = props
-    this.getCommentList()
-    console.log('初始化')
+    this.blogInfo = this.blog
+  },
+  watch: {
+    blog: {
+      handler(newVal, oldVal) {
+        this.commentRequest.blogId = newVal.id
+        this.commentRequest.blogAuthorId = newVal.createUserId
+        this.getCommentList()
+      }
+    }
   }
 }
 </script>
@@ -175,6 +220,11 @@ export default {
       font-size: 14px;
       color: #7e888b;
     }
+  }
+
+  .reply-comment {
+    margin-top: 10px;
+    border-style: none;
   }
 }
 </style>
