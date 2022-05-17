@@ -1,10 +1,17 @@
 <template>
-  <div>
+  <div class="left-box">
     <p>BLOG MENU</p>
     <el-row>
       <el-col>
         <h4 style="color: #5c5e6e;text-align: start;margin-left: 20px;">MENU</h4>
-        <el-menu class="card-left" router>
+        <!--        <el-row justify="space-around">-->
+        <!--          <el-col span="8"><h4 style="color: #5c5e6e;text-align: start;margin-left: 20px;">MENU</h4></el-col>-->
+        <!--          <el-col span="8" style="margin: auto 0 ">-->
+        <!--            <el-button type="info" size="small" icon="Fold" circle @click="collapse=!collapse"/>-->
+        <!--          </el-col>-->
+        <!--        </el-row>-->
+        <!--        todo 添加收起功能-->
+        <el-menu class="card-left" router :collapse="collapse">
           <el-menu-item index="1" :route="{path:'/blog/list',query:{userId : userinfo === null ? null : userinfo.id}}">
             <el-icon style="color: rgba(27,134,249,0.71)">
               <eleme-filled/>
@@ -47,14 +54,14 @@
             </el-icon>
             <span>管理</span>
           </el-menu-item>
-      <h4 style="color: #5c5e6e;text-align: start;margin-left: 20px;">LINKS</h4>
+          <h4 style="color: #5c5e6e;text-align: start;margin-left: 20px;">LINKS</h4>
           <el-menu-item index="/other/Info">
             <el-icon style="color: #48c774">
               <info-filled/>
             </el-icon>
             <span>信息</span>
           </el-menu-item>
-          <el-menu-item index="/">
+          <el-menu-item index="/other/donation">
             <el-icon style="color: #48c774">
               <CreditCard/>
             </el-icon>
@@ -74,7 +81,8 @@ export default {
   components: { InfoFilled },
   data() {
     return {
-      userinfo: {}
+      userinfo: {},
+      collapse: false
     }
   },
   mounted() {

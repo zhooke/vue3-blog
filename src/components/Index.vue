@@ -29,7 +29,7 @@
             ></el-backtop>
           </el-main>
         </el-container>
-        <el-aside>
+        <el-aside class="right-aside">
           <!--          右侧边栏-->
           <el-scrollbar>
             <right-card/>
@@ -81,11 +81,15 @@ export default {
 
 .el-aside {
   height: 95vh;
-  width: 250px;
+}
 
-  .left-aside {
-    background-color: #fff
-  }
+.left-aside {
+  background-color: #fff;
+  max-width: 200px;
+}
+
+.right-aside {
+  max-width: 235px;
 }
 
 .el-header {
