@@ -16,7 +16,7 @@ const routes = [
       },
       {
         path: '/blog/read',
-        component: () => import('../components/markdown/Read')
+        component: () => import('../components/blog/Read')
       },
       {
         path: '/blog/draft',
@@ -24,7 +24,7 @@ const routes = [
       },
       {
         path: '/blog/read/draft',
-        component: () => import('../components/markdown/ReadDraft')
+        component: () => import('../components/blog/ReadDraft')
       },
       {
         path: '/other/Info',
@@ -38,12 +38,12 @@ const routes = [
   },
   {
     path: '/publish',
-    component: () => import('../components/markdown/Publish')
+    component: () => import('../components/blog/Publish')
   },
   {
     path: '/edit',
     name: 'edit',
-    component: () => import('../components/markdown/Edit')
+    component: () => import('../components/blog/Edit')
   },
   {
     path: '/login',

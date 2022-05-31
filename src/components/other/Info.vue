@@ -5,7 +5,7 @@
       <div v-for="item in contents" :key="item" class="info-content">
         <VueShowdown :markdown="item.typeValue"/>
       </div>
-      <comment :blog="blog"/>
+      <!--      <comment :blog="blog"></comment>-->
     </el-scrollbar>
   </div>
 
@@ -13,17 +13,16 @@
 
 <script>
 import { getDictionaryApi } from '@/utils/api';
-import Comment from '@/components/other/Comment';
 
 export default {
   // eslint-disable-next-line vue/multi-word-component-names
   name: 'Info',
-  components: { Comment },
   data() {
     return {
       contents: [],
       blog: {
-        createUserId: 1000000
+        createUserId: 1000000,
+        commentType: 2
       }
     }
   },

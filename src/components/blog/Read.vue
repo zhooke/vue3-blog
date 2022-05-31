@@ -72,7 +72,7 @@
 
 <script>
 import { deleteBlogApi, getBlogByIdApi, getBlogTagApi } from '@/utils/api';
-import Comment from '@/components/other/Comment';
+import Comment from '@/components/plugs/Comment';
 
 export default {
   name: 'ReadContext',
@@ -106,6 +106,7 @@ export default {
     async getBlog(id) {
       const { data: result } = await getBlogByIdApi(id)
       this.blog = result.data
+      this.blog.commentType = 1
     },
     async getBlogTag() {
       const { data: result } = await getBlogTagApi(this.blog.id)
