@@ -126,6 +126,8 @@ export default {
       this.commentContext.blogId = this.blogInfo.id
       this.commentContext.blogAuthorId = this.blogInfo.createUserId
       this.commentContext.browserModel = this.getExplorer()
+      this.commentContext.commentType = this.blogInfo.commentType
+      console.log(this.blogInfo)
       await commentBlogApi(this.commentContext)
       await this.getCommentList()
       this.commentContext.comment = ''
@@ -168,6 +170,7 @@ export default {
       this.replyCommentData.blogAuthorId = val.blogAuthorId
       this.replyCommentData.browserModel = this.getExplorer()
       this.replyCommentData.commentId = val.id
+      this.replyCommentData.commentType = this.commentRequest.commentType
       await commentReplyApi(this.replyCommentData);
       await this.getCommentList()
       this.replyCommentData = {}
@@ -175,14 +178,16 @@ export default {
   },
   mounted() {
     this.userinfo = JSON.parse(window.sessionStorage.getItem('userinfo'))
-    this.blogInfo = this.blog
   },
   watch: {
     blog: {
       handler(newVal, oldVal) {
         this.commentRequest.blogId = newVal.id
-        this.commentRequest.blogAuthorId = newVal.createUserId
+        this.commentRequest.blogAuthorId = newVal.blogAuthorId
+        this.commentRequest.commentType = newVal.commentType
         this.getCommentList()
+        this.blogInfo = newVal
+        console.log('----', this.blogInfo)
       }
     }
   }

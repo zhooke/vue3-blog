@@ -10,15 +10,15 @@
   "dependencies": {
     "@element-plus/icons-vue": "^1.1.4",
     "axios": "^0.26.1",
-    "core-js": "^3.6.5",
-    "element-plus": "^2.1.9",
+    "core-js": "^3.22.7",
+    "element-plus": "^2.2.2",
     "js-md5": "^0.7.3",
     "lodash": "^4.17.21",
     "mavon-editor": "^@3.0.0-beta",
     "nprogress": "^0.2.0",
-    "vue": "^3.2.32",
-    "vue-router": "^4.0.14",
-    "vue-showdown": "^3.2.0",
+    "vue": "^3.2.36",
+    "vue-router": "^4.0.15",
+    "vue-showdown": "^3.3.0",
     "vuex": "^4.0.2"
   },
   "devDependencies": {
