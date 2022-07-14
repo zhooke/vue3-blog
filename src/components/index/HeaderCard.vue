@@ -29,7 +29,7 @@ export default {
 }
 </script>
 
-<style scoped>
+<style scoped lang="less">
 .header-search {
   width: 100%;
   padding: 3px 0;
