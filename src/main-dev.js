@@ -19,15 +19,15 @@ app.use(router)
 app.use(ElementPlus)
 app.use(mavonEditor)
 app.use(VueShowdownPlugin, {
-  // set default flavor of showdown
-  flavor: 'github',
-  // set default options of showdown (will override the flavor options)
-  options: {
-    emoji: false
-  }
+    // set default flavor of showdown
+    flavor: 'github',
+    // set default options of showdown (will override the flavor options)
+    options: {
+        emoji: false
+    }
 })
 for (const iconName in ELIcons) {
-  app.component(iconName, ELIcons[iconName])
+    app.component(iconName, ELIcons[iconName])
 }
 // for (const icons in antIcons) {
 //   app.component(icons, antIcons[icons])

@@ -1,6 +1,7 @@
 // vue.config.js
 const production = process.env.NODE_ENV === 'production'
 module.exports = {
+  lintOnSave: process.env.NODE_ENV !== 'production',
   chainWebpack: config => {
     // 发布模式
     config.when(production, config => {
