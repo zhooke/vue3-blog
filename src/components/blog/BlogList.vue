@@ -185,10 +185,11 @@ export default {
 }
 </script>
 
-<style lang="less" scoped>
+<style lang="less">
 .header-card {
   height: 300px;
-  width: 100%;
+  width: 99%;
+  margin: 0 auto;
   position: relative;
   display: flex;
   flex-direction: column;
@@ -228,6 +229,11 @@ export default {
   }
 }
 
+.article-card:hover {
+  box-shadow: 0 1px 6px rgba(217, 213, 213, 0.93);
+  border: 2px solid #ff6b81;
+  transition: all 0.2s ease-in-out;
+}
 
 .card-main {
   text-align: left;
@@ -295,10 +301,11 @@ export default {
   flex-direction: column;
   z-index: 1;
 
+  margin: 0 auto;
   //align-items: center;
-  //justify-content: center;
+  // justify-content: center;
   height: 200px;
-  width: 100%;
+  width: 99%;
   margin-bottom: 20px;
   border-radius: 10px;
   background: var(--el-color-primary-light-9);
