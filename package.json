@@ -14,7 +14,7 @@
     "element-plus": "^2.2.2",
     "js-md5": "^0.7.3",
     "lodash": "^4.17.21",
-    "mavon-editor": "^@3.0.0-beta",
+    "copy-mavon-editor": "^2.9.15",
     "nprogress": "^0.2.0",
     "vue": "^3.2.37",
     "vue-router": "^4.0.16",
