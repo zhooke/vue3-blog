@@ -13,7 +13,8 @@
       <el-form ref="loginFormRef" :model="loginForm" :rules="loginFormRules" class="login_form" label-width="90px">
         <!--        用户名-->
         <el-form-item label="用户名" prop="username">
-          <el-input v-model="loginForm.username" placeholder="请输入用户名或手机号" prefix-icon="el-icon-user"></el-input>
+          <el-input v-model="loginForm.username" placeholder="请输入用户名或手机号"
+                    prefix-icon="el-icon-user"></el-input>
         </el-form-item>
         <!--        密码-->
         <el-form-item label="用户密码" prop="password">
@@ -261,7 +262,8 @@ export default {
           password: md5Password,
           mobile: this.registerForm.mobile,
           headImgUrl: this.registerForm.headImgUrl,
-          inviteCode: this.registerForm.inviteCode
+          inviteCode: this.registerForm.inviteCode,
+          userType: 'BLOG'
         })
         if (result.code === 200) {
           this.$refs.registerFormRef.resetFields()
