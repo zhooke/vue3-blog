@@ -10,7 +10,7 @@
 
         <el-row justify="space-between">
           <el-col span="18" style="margin-right:0">
-            <el-tag v-if="blog.isOriginal === 1" type="danger" size="large" effect="dark">原创</el-tag>
+            <el-tag v-if="blog.isOriginal === 1" type="success" size="large" effect="dark">原创</el-tag>
             <el-tag v-if="blog.isOriginal === 0" type="danger" size="large" effect="dark">转摘</el-tag>
             <el-row style="margin-left: 10px">
               <el-col style="margin-bottom: 10px">
