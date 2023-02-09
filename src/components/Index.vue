@@ -31,9 +31,8 @@
         </el-container>
         <el-aside class="right-aside">
           <!--          右侧边栏-->
-          <el-scrollbar>
-            <right-card/>
-          </el-scrollbar>
+          <right-card/>
+
         </el-aside>
       </el-container>
       <el-footer>

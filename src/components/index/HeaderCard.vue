@@ -32,7 +32,11 @@ export default {
 <style scoped lang="less">
 .header-search {
   width: 100%;
-  padding: 3px 0;
+  margin-top: 5px;
+
+  /deep/ .el-input__wrapper {
+    padding: 0 !important;
+  }
 }
 
 </style>

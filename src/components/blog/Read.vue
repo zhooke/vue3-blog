@@ -36,7 +36,7 @@
               <el-col>
                 <el-row>
                   <el-col style="display: inline-block;">
-                    <span style="font-size: 14px;color: black">标签：</span>
+                    <span style="font-size: 14px;color: #5b676b;">标签：</span>
                     <el-tag class="ml-2" type="success" v-for="item in blogTagList" :key="item"
                             style="margin-right: 10px">{{
                         item.name
@@ -159,8 +159,9 @@ export default {
 
 <style lang="less" scoped>
 .markdown {
-  width: 100%;
+  width: calc(100% - 10px);
   height: 100%;
+  margin: 0 auto;
 }
 
 .v-note-wrapper {
