@@ -4970,6 +4970,11 @@ jsonfile@^6.0.1:
   optionalDependencies:
     graceful-fs "^4.1.6"
 
+juejin-markdown-themes@^1.29.5:
+  version "1.29.5"
+  resolved "https://registry.npmmirror.com/juejin-markdown-themes/-/juejin-markdown-themes-1.29.5.tgz#4a7021b2b5f48b24ef13191d866f537c19beafc8"
+  integrity sha512-/SwyTprzBWZYPdLD8pZ7/egYdjfeIb4cPBYnqXaXoFQ/djDN5pa+lDMW0rsizQlNRfJ75uDo//g2d9Dz+jEdkg==
+
 kind-of@^6.0.2:
   version "6.0.3"
   resolved "https://registry.npmmirror.com/kind-of/-/kind-of-6.0.3.tgz"

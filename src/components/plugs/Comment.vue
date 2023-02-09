@@ -200,6 +200,7 @@ export default {
   text-align: left;
   width: 100%;
   margin-top: 10px;
+  box-shadow: none !important;
 
   .comment-text {
     line-height: 25px;

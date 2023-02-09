@@ -24,7 +24,7 @@
       <!--                    @save="save">-->
       <!--      </mavon-editor>-->
       <Editor :value="blog.content" :locale="zhHans" :plugins="plugins" @change="handleChange"
-              :editorConfig="editorConfig"
+              :editorConfig="editorConfig" :uploadImages="uploadImage"
               style="width: 100%;z-index: 100;height: calc(100vh - 100px);">
       </Editor>
       <el-dialog
@@ -126,9 +126,11 @@ import frontmatter from '@bytemd/plugin-frontmatter'
 import highlight from '@bytemd/plugin-highlight'
 import footnotes from '@bytemd/plugin-footnotes'
 import gemoji from '@bytemd/plugin-gemoji'
-import zhHans from '../../locales/zh_Hans.json'
-
 import { Editor } from '@bytemd/vue-next'
+import zhHans from '../../locales/zh_Hans.json'
+import 'juejin-markdown-themes/dist/channing-cyan.min.css'
+import 'bytemd/dist/index.css' // 导入编辑器样式
+
 
 const plugins = [
   gfm(),
@@ -305,6 +307,9 @@ export default {
     },
     handleChange(v) {
       this.blog.content = v
+    },
+    uploadImage(v) {
+      console.log(v)
     }
 
   },

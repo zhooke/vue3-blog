@@ -81,6 +81,8 @@ import gfm from '@bytemd/plugin-gfm'
 import frontmatter from '@bytemd/plugin-frontmatter'
 
 import { Viewer } from '@bytemd/vue-next'
+import 'juejin-markdown-themes/dist/channing-cyan.min.css'
+import 'bytemd/dist/index.css' // 导入编辑器样式
 
 const plugins = [
   gfm(),
@@ -171,6 +173,7 @@ export default {
   display: inline-block;
   text-align: left;
   width: 100%;
+  box-shadow: none !important;
 
   .el-col {
     display: inline-flex;
