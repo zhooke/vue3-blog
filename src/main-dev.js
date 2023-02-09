@@ -10,6 +10,8 @@ import 'mavon-editor/dist/css/index.css'
 import 'element-plus/dist/index.css'
 import './assets/css/global.css'
 import { VueShowdownPlugin } from 'vue-showdown'
+import 'bytemd/dist/index.css'
+
 
 import axios from '@/utils/http'
 
@@ -19,15 +21,16 @@ app.use(router)
 app.use(ElementPlus)
 app.use(mavonEditor)
 app.use(VueShowdownPlugin, {
-    // set default flavor of showdown
-    flavor: 'github',
-    // set default options of showdown (will override the flavor options)
-    options: {
-        emoji: false
-    }
+  // set default flavor of showdown
+  flavor: 'github',
+  ishljs: false,
+  // set default options of showdown (will override the flavor options)
+  options: {
+    emoji: false
+  }
 })
 for (const iconName in ELIcons) {
-    app.component(iconName, ELIcons[iconName])
+  app.component(iconName, ELIcons[iconName])
 }
 // for (const icons in antIcons) {
 //   app.component(icons, antIcons[icons])

@@ -8,8 +8,15 @@
     "lint": "vue-cli-service lint"
   },
   "dependencies": {
+    "@bytemd/plugin-footnotes": "^1.12.4",
+    "@bytemd/plugin-frontmatter": "^1.20.2",
+    "@bytemd/plugin-gemoji": "^1.20.2",
+    "@bytemd/plugin-gfm": "^1.20.2",
+    "@bytemd/plugin-highlight": "^1.20.2",
+    "@bytemd/vue-next": "^1.20.2",
     "@element-plus/icons-vue": "^1.1.4",
     "axios": "^0.26.1",
+    "bytemd": "^1.20.2",
     "core-js": "^3.26.1",
     "element-plus": "^2.2.26",
     "js-md5": "^0.7.3",

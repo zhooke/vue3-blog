@@ -60,10 +60,14 @@
           </el-col>
         </el-row>
       </el-card>
-      <mavon-editor v-model="blog.content" :editable="false" :html="false" :subfield="false"
-                    :toolbars="markdownOption" codeStyle="foundation" defaultOpen="preview"
-                    style="width: 100%;z-index: 100">
-      </mavon-editor>
+      <!--      <mavon-editor v-model="blog.content" :editable="false" :html="false" :subfield="false"-->
+      <!--                    :toolbars="markdownOption" codeStyle="foundation" defaultOpen="preview"-->
+      <!--                    style="width: 100%;z-index: 100">-->
+      <!--      </mavon-editor>-->
+      <Viewer :value="blog.content" :plugins="plugins" @change="handleChange"
+              style="width: 100%;z-index: 100;text-align: justify !important;">
+
+      </Viewer>
       <!--    评论输入框-->
       <comment :blog="blog"></comment>
     </div>
@@ -73,12 +77,23 @@
 <script>
 import { deleteBlogApi, getBlogByIdApi, getBlogTagApi } from '@/utils/api';
 import Comment from '@/components/plugs/Comment';
+import gfm from '@bytemd/plugin-gfm'
+import frontmatter from '@bytemd/plugin-frontmatter'
+
+import { Viewer } from '@bytemd/vue-next'
+
+const plugins = [
+  gfm(),
+  frontmatter()
+  // Add more plugins here
+]
 
 export default {
   name: 'ReadContext',
-  components: { Comment },
+  components: { Comment, Viewer },
   data() {
     return {
+      plugins,
       markdownOption: {
         fullscreen: true, // 全屏编辑
         navigation: true // 导航目录
@@ -126,6 +141,9 @@ export default {
     },
     editBlog() {
       this.$router.push({ name: 'edit', params: this.blog })
+    },
+    handleChange(v) {
+      this.blog.content = v
     }
   },
   mounted() {

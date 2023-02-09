@@ -58,7 +58,8 @@
                 <el-card>
                   <el-col span="24">
                     <span>标签</span>
-                    <el-input v-model="tagInput.name" placeholder="请输入文字搜索，Enter键入可添加自定义标签" @keydown.enter="createTag"/>
+                    <el-input v-model="tagInput.name" placeholder="请输入文字搜索，Enter键入可添加自定义标签"
+                              @keydown.enter="createTag"/>
                   </el-col>
 
                   <p>已添加标签：</p>
@@ -116,12 +117,24 @@
 import { nextTick, ref, unref } from 'vue';
 import { ElInput } from 'element-plus';
 import { createTagApi, getTagApi, updateBlogApi } from '@/utils/api';
+import gfm from '@bytemd/plugin-gfm'
+import frontmatter from '@bytemd/plugin-frontmatter'
 
+import { Editor } from '@bytemd/vue-next'
+
+const plugins = [
+  gfm(),
+  frontmatter()
+  // Add more plugins here
+]
 export default {
   // eslint-disable-next-line vue/multi-word-component-names
   name: 'Create',
+  // eslint-disable-next-line vue/no-unused-components
+  components: { Editor },
   data() {
     return {
+      plugins,
       markdownOption: {
         bold: true, // 粗体
         italic: true, // 斜体

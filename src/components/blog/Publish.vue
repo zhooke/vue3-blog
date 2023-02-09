@@ -19,10 +19,14 @@
           <el-button size="large" type="danger" @click="dialogVisible = true">发布文章</el-button>
         </el-col>
       </el-row>
-      <mavon-editor v-model="blog.content" :toolbars="markdownOption" style="min-height:800px;width: 100%"
-                    @imgAdd="imgAdd" @imgDel="imgDel"
-                    @save="save">
-      </mavon-editor>
+      <!--      <mavon-editor v-model="blog.content" :toolbars="markdownOption" style="min-height:800px;width: 100%"-->
+      <!--                    @imgAdd="imgAdd" @imgDel="imgDel"-->
+      <!--                    @save="save">-->
+      <!--      </mavon-editor>-->
+      <Editor :value="blog.content" :locale="zhHans" :plugins="plugins" @change="handleChange"
+              :editorConfig="editorConfig"
+              style="width: 100%;z-index: 100;height: calc(100vh - 100px);">
+      </Editor>
       <el-dialog
         v-model="dialogVisible"
         :before-close="handleCloseDialog"
@@ -58,7 +62,8 @@
                 <el-card>
                   <el-col span="24">
                     <span>标签</span>
-                    <el-input v-model="tagInput.name" placeholder="请输入文字搜索，Enter键入可添加自定义标签" @keydown.enter="createTag"/>
+                    <el-input v-model="tagInput.name" placeholder="请输入文字搜索，Enter键入可添加自定义标签"
+                              @keydown.enter="createTag"/>
                   </el-col>
 
                   <p>已添加标签：</p>
@@ -116,12 +121,32 @@
 import { nextTick, ref, unref } from 'vue';
 import { ElInput } from 'element-plus';
 import { createTagApi, getTagApi, publishBlogApi } from '@/utils/api';
+import gfm from '@bytemd/plugin-gfm'
+import frontmatter from '@bytemd/plugin-frontmatter'
+import highlight from '@bytemd/plugin-highlight'
+import footnotes from '@bytemd/plugin-footnotes'
+import gemoji from '@bytemd/plugin-gemoji'
+import zhHans from '../../locales/zh_Hans.json'
 
+import { Editor } from '@bytemd/vue-next'
+
+const plugins = [
+  gfm(),
+  frontmatter(),
+  highlight(),
+  footnotes(),
+  gemoji()
+  // Add more plugins here
+]
 export default {
   // eslint-disable-next-line vue/multi-word-component-names
   name: 'Create',
+  components: { Editor },
   data() {
     return {
+      plugins,
+      zhHans,
+      editorConfig: {},
       markdownOption: {
         bold: true, // 粗体
         italic: true, // 斜体
@@ -277,6 +302,9 @@ export default {
       this.isSave = true
       this.save()
       this.$message.success('保存成功');
+    },
+    handleChange(v) {
+      this.blog.content = v
     }
 
   },
