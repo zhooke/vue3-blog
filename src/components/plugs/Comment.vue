@@ -187,7 +187,6 @@ export default {
         this.commentRequest.commentType = newVal.commentType
         this.getCommentList()
         this.blogInfo = newVal
-        console.log('----', this.blogInfo)
       }
     }
   }

@@ -64,10 +64,9 @@
       <!--                    :toolbars="markdownOption" codeStyle="foundation" defaultOpen="preview"-->
       <!--                    style="width: 100%;z-index: 100">-->
       <!--      </mavon-editor>-->
-      <Viewer :value="blog.content" :plugins="plugins" @change="handleChange"
-              style="width: 100%;z-index: 100;text-align: justify !important;">
-
-      </Viewer>
+      <MarkDown :value="blog.content" :plugins="plugins" @change="handleChange" mode="tab" :showViewer="true"
+                style="width: 100%;text-align: justify !important;">
+      </MarkDown>
       <!--    评论输入框-->
       <comment :blog="blog"></comment>
     </div>
@@ -80,9 +79,10 @@ import Comment from '@/components/plugs/Comment';
 import gfm from '@bytemd/plugin-gfm'
 import frontmatter from '@bytemd/plugin-frontmatter'
 
-import { Viewer } from '@bytemd/vue-next'
+import { Editor, Viewer } from '@bytemd/vue-next'
 import 'juejin-markdown-themes/dist/channing-cyan.min.css'
-import 'bytemd/dist/index.css' // 导入编辑器样式
+import 'bytemd/dist/index.css'
+import MarkDown from '@/components/plugs/MarkDown.vue'; // 导入编辑器样式
 
 const plugins = [
   gfm(),
@@ -92,7 +92,7 @@ const plugins = [
 
 export default {
   name: 'ReadContext',
-  components: { Comment, Viewer },
+  components: { MarkDown, Comment, Viewer, Editor },
   data() {
     return {
       plugins,

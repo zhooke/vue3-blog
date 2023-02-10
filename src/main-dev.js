@@ -10,12 +10,12 @@ import 'mavon-editor/dist/css/index.css'
 import 'element-plus/dist/index.css'
 import './assets/css/global.css'
 import { VueShowdownPlugin } from 'vue-showdown'
-import 'bytemd/dist/index.css'
 
 
 import axios from '@/utils/http'
 
 const app = createApp(App)
+app.config.warnHandler = () => null
 app.use(store)
 app.use(router)
 app.use(ElementPlus)
