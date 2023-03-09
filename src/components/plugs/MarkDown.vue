@@ -8,6 +8,7 @@
       @change="handleChange"
       :uploadImages="uploadImage"
       v-if="defShowEditor"
+      :mode="defMode"
     />
     <Viewer
       :value="defValue"
@@ -65,6 +66,9 @@ export default {
     },
     showViewer: {
       type: Boolean
+    },
+    mode: {
+      type: String
     }
   },
   watch: {
@@ -73,6 +77,7 @@ export default {
       this.defValue = val
       this.defShowEditor = this.showEditor
       this.defShowViewer = this.showViewer
+      this.defMode = this.mode
     }
   },
   data() {
@@ -80,6 +85,7 @@ export default {
       defPlugins,
       zhHans,
       defValue: '',
+      defMode: 'split',
       defShowEditor: false,
       defShowViewer: false
     }
@@ -91,7 +97,7 @@ export default {
       this.$emit('input', v)
       this.defValue = v
     },
-    // 上传图片 点击触发上传图片事件，大家获取文件把图片上传服务器然后返回url既可
+    // 上传图片 点击触发上传图片事件，获取文件把图片上传服务器然后返回url既可
     async uploadImage(files) {
       console.log('files', files)
       return [

@@ -7,7 +7,7 @@
       v-model="LoginDialogVisible"
       title="用户登陆"
       width="450px"
-      :close-on-click-modal="false"
+      @close="resetLoginForm"
     >
       <!--        登陆表单区-->
       <el-form ref="loginFormRef" :model="loginForm" :rules="loginFormRules" class="login_form" label-width="90px">
@@ -210,6 +210,7 @@ export default {
   },
   methods: {
     resetLoginForm() {
+      console.log('-----')
       this.$refs.loginFormRef.resetFields()
     },
     login() {

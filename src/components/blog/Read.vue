@@ -60,11 +60,7 @@
           </el-col>
         </el-row>
       </el-card>
-      <!--      <mavon-editor v-model="blog.content" :editable="false" :html="false" :subfield="false"-->
-      <!--                    :toolbars="markdownOption" codeStyle="foundation" defaultOpen="preview"-->
-      <!--                    style="width: 100%;z-index: 100">-->
-      <!--      </mavon-editor>-->
-      <MarkDown :value="blog.content" :plugins="plugins" @change="handleChange" mode="tab" :showViewer="true"
+      <MarkDown :value="blog.content" @change="handleChange" mode="tab" :showViewer="true"
                 style="width: 100%;text-align: justify !important;">
       </MarkDown>
       <!--    评论输入框-->
@@ -79,7 +75,6 @@ import Comment from '@/components/plugs/Comment';
 import gfm from '@bytemd/plugin-gfm'
 import frontmatter from '@bytemd/plugin-frontmatter'
 
-import { Editor, Viewer } from '@bytemd/vue-next'
 import 'juejin-markdown-themes/dist/channing-cyan.min.css'
 import 'bytemd/dist/index.css'
 import MarkDown from '@/components/plugs/MarkDown.vue'; // 导入编辑器样式
@@ -92,14 +87,10 @@ const plugins = [
 
 export default {
   name: 'ReadContext',
-  components: { MarkDown, Comment, Viewer, Editor },
+  components: { MarkDown, Comment },
   data() {
     return {
       plugins,
-      markdownOption: {
-        fullscreen: true, // 全屏编辑
-        navigation: true // 导航目录
-      },
       blog: {
         content: '',
         createUserId: ''
