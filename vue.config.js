@@ -6,19 +6,19 @@ module.exports = {
     // 发布模式
     config.when(production, config => {
       config.entry('app').clear().add('./src/main-prod.js')
-      config.set('externals', {
-          vue: 'Vue',
-          'vue-router': 'VueRouter',
-          vuex: 'Vuex',
-          axios: 'axios',
-          lodash: '_',
-          nprogress: 'NProgress',
-          'element-plus': 'ElementPlus'
-        }
-      )
+      // config.set('externals', {
+      //     vue: 'Vue',
+      //     'vue-router': 'VueRouter',
+      //     vuex: 'Vuex',
+      //     axios: 'axios',
+      //     lodash: '_',
+      //     nprogress: 'NProgress',
+      //     'element-plus': 'ElementPlus'
+      //   }
+      // )
 
       config.plugin('html').tap(args => {
-        args[0].isProd = true
+        args[0].isProd = false
         return args
       })
     })
