@@ -19,18 +19,10 @@
           <el-button size="large" type="danger" @click="dialogVisible = true">发布文章</el-button>
         </el-col>
       </el-row>
-      <!--      <mavon-editor v-model="blog.content" :toolbars="markdownOption" style="min-height:800px;width: 100%"-->
-      <!--                    @imgAdd="imgAdd" @imgDel="imgDel"-->
-      <!--                    @save="save">-->
-      <!--      </mavon-editor>-->
-      <MarkDown :value="blog.content" :plugins="plugins" @change="handleChange" :defShowEditor="true"
+      <MarkDown :value="blog.content" @change="handleChange" :defShowEditor="true"
                 style="width: 100%;z-index: 100;height: calc(100vh - 100px);">
 
       </MarkDown>
-      <!--      <Editor :value="blog.content" :locale="zhHans" :plugins="plugins" @change="handleChange"-->
-      <!--              :editorConfig="editorConfig" :uploadImages="uploadImage"-->
-      <!--              style="width: 100%;z-index: 100;height: calc(100vh - 100px);">-->
-      <!--      </Editor>-->
       <el-dialog
         v-model="dialogVisible"
         :before-close="handleCloseDialog"
@@ -152,7 +144,6 @@ export default {
     return {
       plugins,
       zhHans,
-      editorConfig: {},
       blog: {
         authorId: '',
         authorName: '',
