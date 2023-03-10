@@ -3,34 +3,30 @@ import App from './App.vue'
 import router from './router'
 import store from './store'
 import ElementPlus from 'element-plus'
-import mavonEditor from 'mavon-editor'
 import * as ELIcons from '@element-plus/icons-vue'
-import { Editor, Viewer } from 'bytemd'
-import gfm from '@bytemd/plugin-gfm'
 
 import 'mavon-editor/dist/css/index.css'
 import 'element-plus/dist/index.css'
 import './assets/css/global.css'
 import { VueShowdownPlugin } from 'vue-showdown'
 
+
 import axios from '@/utils/http'
 
 const app = createApp(App)
+app.config.warnHandler = () => null
 app.use(store)
 app.use(router)
 app.use(ElementPlus)
-app.use(mavonEditor)
 app.use(VueShowdownPlugin, {
   // set default flavor of showdown
   flavor: 'github',
+  ishljs: false,
   // set default options of showdown (will override the flavor options)
   options: {
     emoji: false
   }
 })
-app.use(Editor)
-app.use(Viewer)
-app.use(gfm)
 for (const iconName in ELIcons) {
   app.component(iconName, ELIcons[iconName])
 }

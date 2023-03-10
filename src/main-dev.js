@@ -3,7 +3,6 @@ import App from './App.vue'
 import router from './router'
 import store from './store'
 import ElementPlus from 'element-plus'
-import mavonEditor from 'mavon-editor'
 import * as ELIcons from '@element-plus/icons-vue'
 
 import 'mavon-editor/dist/css/index.css'
@@ -19,7 +18,6 @@ app.config.warnHandler = () => null
 app.use(store)
 app.use(router)
 app.use(ElementPlus)
-app.use(mavonEditor)
 app.use(VueShowdownPlugin, {
   // set default flavor of showdown
   flavor: 'github',
