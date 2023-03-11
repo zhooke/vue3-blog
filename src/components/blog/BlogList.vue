@@ -180,6 +180,7 @@ export default {
     if (user) {
       this.userinfo = user
     }
+    // todo 需要解决其他页面刷新后title改变问题
     document.title = this.userinfo.nickname + '的博客'
   }
 }

@@ -39,7 +39,7 @@
           <p>热门文章</p>
           <el-row class="hot-blog-card" v-for="(item,index) in blogTop5List" :key="index" gutter="20"
                   @click="blogCardClick(item.id)">
-            <el-col :span="6">
+            <el-col :span="8">
               <el-image :src="item.picture === '' ? text_url : item.picture" fit="cover"></el-image>
             </el-col>
             <el-col :span="16">
@@ -94,7 +94,8 @@
           <el-row class="hot-blog-card" v-for="(item,index) in blogCommentNewestList" :key="index" gutter="20"
                   @click="blogCardClick(item.blogId)">
             <el-col :span="6">
-              <el-image :src="text_url" fit="cover" style="height: 55px"></el-image>
+              <el-icon size="40"><UserFilled /></el-icon>
+<!--              <el-image :src="text_url" fit="cover" style="height: 55px"></el-image>-->
             </el-col>
             <el-col :span="16">
             <span style="margin-bottom: 3px;height: 36px">{{
@@ -240,7 +241,7 @@ export default {
   components: { LoginRegister },
   data() {
     return {
-      text_url: 'https://gimg2.baidu.com/image_search/src=http%3A%2F%2Finews.gtimg.com%2Fnewsapp_match%2F0%2F11020033428%2F0.jpg&refer=http%3A%2F%2Finews.gtimg.com&app=2002&size=f9999,10000&q=a80&n=0&g=0n&fmt=auto?sec=1649771328&t=364f380b566aba545f1acfc37d0b1f85',
+      text_url: 'https://bpic.588ku.com/element_origin_min_pic/01/48/73/4357443aa53522b.jpg',
       currentPage4: ref(4),
       pageSize4: ref(4),
       small: ref(false),
