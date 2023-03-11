@@ -5,7 +5,6 @@ import store from './store'
 import ElementPlus from 'element-plus'
 import * as ELIcons from '@element-plus/icons-vue'
 
-import 'mavon-editor/dist/css/index.css'
 import 'element-plus/dist/index.css'
 import './assets/css/global.css'
 import { VueShowdownPlugin } from 'vue-showdown'

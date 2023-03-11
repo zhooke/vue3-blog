@@ -20,6 +20,7 @@
     "@bytemd/plugin-mermaid": "^1.20.2",
     "@bytemd/vue-next": "^1.20.2",
     "@element-plus/icons-vue": "^1.1.4",
+    "@vueuse/core": "^9.13.0",
     "axios": "^0.26.1",
     "bytemd": "^1.20.2",
     "core-js": "^3.26.1",
