@@ -19,6 +19,7 @@ module.exports = {
 
       config.plugin('html').tap(args => {
         args[0].isProd = false
+        args[0].title = 'zhooke'
         return args
       })
     })
@@ -28,6 +29,7 @@ module.exports = {
       config.entry('app').clear().add('./src/main-dev.js')
       config.plugin('html').tap(args => {
         args[0].isProd = false
+        args[0].title = 'zhooke'
         return args
       })
     })

@@ -44,6 +44,7 @@ service.interceptors.response.use(config => {
   }
   return config
 }, error => {
+  NProgress.done()
   const res = error.response.data
   console.log(error.response.data)
   loading.close()

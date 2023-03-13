@@ -19,9 +19,8 @@
           <el-button size="large" type="danger" @click="dialogVisible = true">发布文章</el-button>
         </el-col>
       </el-row>
-      <MarkDown :value="blog.content" @change="handleChange" :defShowEditor="true"
+      <MarkDown :value="blog.content" :showEditor="true" @change="handleChange"
                 style="width: 100%;z-index: 100;height: calc(100vh - 100px);">
-
       </MarkDown>
       <el-dialog
         v-model="dialogVisible"
@@ -117,33 +116,14 @@
 import { nextTick, ref, unref } from 'vue';
 import { ElInput } from 'element-plus';
 import { createTagApi, getTagApi, publishBlogApi } from '@/utils/api';
-import gfm from '@bytemd/plugin-gfm'
-import frontmatter from '@bytemd/plugin-frontmatter'
-import highlight from '@bytemd/plugin-highlight'
-import footnotes from '@bytemd/plugin-footnotes'
-import gemoji from '@bytemd/plugin-gemoji'
-import zhHans from '../../locales/zh_Hans.json'
-import 'juejin-markdown-themes/dist/channing-cyan.min.css'
-import 'bytemd/dist/index.css' // 导入编辑器样式
 import MarkDown from '@/components/plugs/MarkDown.vue'; // 导入编辑器样式
 
-
-const plugins = [
-  gfm(),
-  frontmatter(),
-  highlight(),
-  footnotes(),
-  gemoji()
-  // Add more plugins here
-]
 export default {
   // eslint-disable-next-line vue/multi-word-component-names
-  name: 'Create',
+  name: 'Publish',
   components: { MarkDown },
   data() {
     return {
-      plugins,
-      zhHans,
       blog: {
         authorId: '',
         authorName: '',

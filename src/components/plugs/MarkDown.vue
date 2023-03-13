@@ -1,20 +1,20 @@
 <template>
   <div class="details">
     <Editor
-      class="editor"
       :value="defValue"
       :plugins="defPlugins"
       :locale="zhHans"
       @change="handleChange"
       :uploadImages="uploadImage"
-      v-if="defShowEditor"
-      :mode="defMode"
-    />
+      v-if="props.showEditor"
+      :mode="props.mode"
+    >
+    </Editor>
     <Viewer
-      :value="defValue"
+      :value="props.value"
       :plugins="defPlugins"
       :locale="zhHans"
-      v-if="defShowViewer"
+      v-if="props.showViewer"
     >
     </Viewer>
   </div>
@@ -59,7 +59,8 @@ export default {
   components: { Editor, Viewer }, // 组件注册
   props: {
     value: {
-      type: String
+      type: String,
+      default: '请填写内容'
     },
     showEditor: {
       type: Boolean
@@ -71,31 +72,23 @@ export default {
       type: String
     }
   },
-  watch: {
-    //todo 监听有问题
-    value(val) {
-      this.defValue = val
-      this.defShowEditor = this.showEditor
-      this.defShowViewer = this.showViewer
-      this.defMode = this.mode
+  setup(props) {
+    return {
+      props
     }
   },
   data() {
     return {
       defPlugins,
       zhHans,
-      defValue: '',
-      defMode: 'split',
-      defShowEditor: false,
-      defShowViewer: false
+      defValue: ''
     }
   },
   methods: {
     // 获取书写文档内容
     handleChange(v) {
-      console.warn(v)
-      this.$emit('input', v)
       this.defValue = v
+      this.$emit('input', v)
     },
     // 上传图片 点击触发上传图片事件，获取文件把图片上传服务器然后返回url既可
     async uploadImage(files) {

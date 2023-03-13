@@ -60,7 +60,7 @@
           </el-col>
         </el-row>
       </el-card>
-      <MarkDown :value="blog.content" @change="handleChange" mode="tab" :showViewer="true"
+      <MarkDown :value="blog.content" :showViewer="true"
                 style="width: 100%;text-align: justify !important;">
       </MarkDown>
       <!--    评论输入框-->
@@ -134,9 +134,6 @@ export default {
     },
     editBlog() {
       this.$router.push({ name: 'edit', params: this.blog })
-    },
-    handleChange(v) {
-      this.blog.content = v
     }
   },
   mounted() {
