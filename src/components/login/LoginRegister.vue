@@ -13,12 +13,11 @@
       <el-form ref="loginFormRef" :model="loginForm" :rules="loginFormRules" label-width="90px">
         <!--        用户名-->
         <el-form-item label="用户名" prop="username">
-          <el-input v-model="loginForm.username" placeholder="请输入用户名或手机号"
-                    prefix-icon="el-icon-user"/>
+          <el-input v-model="loginForm.username" placeholder="请输入用户名或手机号"/>
         </el-form-item>
         <!--        密码-->
         <el-form-item label="用户密码" prop="password">
-          <el-input v-model="loginForm.password" placeholder="请输入密码" prefix-icon="el-icon-lock"
+          <el-input v-model="loginForm.password" placeholder="请输入密码"
                     type="password"/>
         </el-form-item>
       </el-form>
