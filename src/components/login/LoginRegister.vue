@@ -10,16 +10,16 @@
       @close="resetLoginForm"
     >
       <!--        登陆表单区-->
-      <el-form ref="loginFormRef" :model="loginForm" :rules="loginFormRules" class="login_form" label-width="90px">
+      <el-form ref="loginFormRef" :model="loginForm" :rules="loginFormRules" label-width="90px">
         <!--        用户名-->
         <el-form-item label="用户名" prop="username">
           <el-input v-model="loginForm.username" placeholder="请输入用户名或手机号"
-                    prefix-icon="el-icon-user"></el-input>
+                    prefix-icon="el-icon-user"/>
         </el-form-item>
         <!--        密码-->
         <el-form-item label="用户密码" prop="password">
           <el-input v-model="loginForm.password" placeholder="请输入密码" prefix-icon="el-icon-lock"
-                    type="password"></el-input>
+                    type="password"/>
         </el-form-item>
       </el-form>
       <template #footer>
@@ -37,7 +37,7 @@
       width="450px"
       :close-on-click-modal="false"
     >
-      <!--        登陆表单区-->
+      <!--        注册表单区-->
       <el-form ref="registerFormRef" :model="registerForm" :rules="registerFormRules" label-width="90px">
         <el-form-item label="头像">
           <el-upload
