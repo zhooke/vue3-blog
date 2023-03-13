@@ -72,8 +72,12 @@ export default {
       type: String
     }
   },
-  setup(props) {
+  setup(props, { emit, attrs }) {
+    const func = str => {
+      emit('content', str)
+    }
     return {
+      func,
       props
     }
   },
@@ -88,7 +92,7 @@ export default {
     // 获取书写文档内容
     handleChange(v) {
       this.defValue = v
-      this.$emit('input', v)
+      this.func(v)
     },
     // 上传图片 点击触发上传图片事件，获取文件把图片上传服务器然后返回url既可
     async uploadImage(files) {
