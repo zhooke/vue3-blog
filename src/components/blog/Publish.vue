@@ -19,7 +19,7 @@
           <el-button size="large" type="danger" @click="dialogVisible = true">发布文章</el-button>
         </el-col>
       </el-row>
-      <MarkDown :value="content" :showEditor="true" @content="func"
+      <MarkDown :value="blog.content" :showEditor="true" @content="getContext"
                 style="width: 100%;z-index: 100;height: calc(100vh - 100px);">
       </MarkDown>
       <el-dialog
@@ -113,59 +113,59 @@
 </template>
 
 <script setup>
-import { nextTick, ref, unref } from 'vue';
-import { ElInput } from 'element-plus';
+import { nextTick, onMounted, ref, unref } from 'vue';
+import { ElInput, ElMessage } from 'element-plus';
 import { createTagApi, getTagApi, publishBlogApi } from '@/utils/api';
-import MarkDown from '@/components/plugs/MarkDown.vue'; // 导入编辑器样式
+import MarkDown from '@/components/plugs/MarkDown.vue';
+import { onBeforeRouteLeave, onBeforeRouteUpdate } from 'vue-router';
+import router from '@/router';
 
-const blog = {
+
+let blog = ref({
   authorId: '',
   authorName: '',
   title: '',
   content: '',
   picture: '',
-  isTop: ref(0),
-  isPrivate: ref(0),
-  isOriginal: ref(1),
+  isTop: 0,
+  isPrivate: 0,
+  isOriginal: 1,
   tags: '',
-  isDraft: ref(0)
-}
-const dialogVisible = ref(false)
-const dynamicTags = []
-const inputVisible = ref(false)
-const inputValue = ''
-const InputRef = ref < ElInput >(ElInput)
-const isSave = ref(false)
-const blogTag = {}
-const blogTagList = []
-const buttonRef = ref()
-const popoverRef = ref()
-const tagInput = {
+  isDraft: 0
+})
+let dialogVisible = ref(false)
+let dynamicTags = []
+let inputVisible = ref(false)
+let inputValue = ''
+let InputRef = ref < ElInput >(ElInput)
+let isSave = ref(false)
+let blogTag = {}
+let blogTagList = []
+let buttonRef = ref()
+let popoverRef = ref()
+let tagInput = {
   name: ''
 }
-const tagChecked = ref(false)
-const tagCheckedList = []
+let tagChecked = ref(false)
+let tagCheckedList = []
 
-function func(str) {
-
+function getContext(str) {
+  blog.value.content = str
 }
 
 function save() {
-  console.log(this.text)
   const user = JSON.parse(window.sessionStorage.getItem('userinfo'))
-  this.blog.content = this.text
-  this.blog.authorId = user.id
-  this.blog.authorName = user.nickname
-  this.blog.tags = this.dynamicTags.map(tag => tag.id).join(',')
+  blog.value.authorId = user.id
+  blog.value.authorName = user.nickname
+  blog.value.tags = dynamicTags.map(tag => tag.id).join(',')
 
-  const { data: result } = publishBlogApi(this.blog);
-
-  console.log(result)
-  if (result.code !== 200) {
-    this.isSave = true
-    return this.$message.error(result.data)
-  }
-  this.goBack()
+  publishBlogApi(blog.value).then(response => {
+    if (response.data.code !== 200) {
+      isSave.value = true
+      return ElMessage.error(response.data.data)
+    }
+  })
+  goBack()
   window.onbeforeunload = null
 }
 
@@ -178,90 +178,93 @@ function imgDel() {
 }
 
 function handleCloseDialog() {
-  this.dialogVisible = false;
+  dialogVisible = ref(false);
 }
 
 function handleCloseTag(tag) {
-  this.dynamicTags.splice(this.dynamicTags.indexOf(tag), 1)
-  console.log(this.tagCheckedList)
-  const index = this.tagCheckedList.indexOf(tag);
+  dynamicTags.splice(dynamicTags.indexOf(tag), 1)
+  console.log(tagCheckedList)
+  const index = tagCheckedList.indexOf(tag);
   if (index > -1) {
-    this.tagCheckedList.splice(index, 1);
+    tagCheckedList.splice(index, 1);
   }
 }
 
 function handleInputConfirm() {
-  if (this.inputValue) {
-    console.log(this.inputValue)
-    console.log(this.dynamicTags)
-    this.dynamicTags.push(this.inputValue)
+  if (inputValue) {
+    console.log(inputValue)
+    console.log(dynamicTags)
+    dynamicTags.push(inputValue)
   }
-  this.inputVisible = false
-  this.inputValue = ''
+  inputVisible.value = false
+  inputValue = ''
 }
 
 function showInput() {
-  this.inputVisible = true
+  inputVisible.value = true
   nextTick(() => {
     // this.InputRef.!value.!input.focus()
-    this.$refs.InputRef.focus()
+    ref.InputRef.focus()
   })
 }
 
 function onSubmit() {
-  this.dialogVisible = false
-  this.isSave = true
-  this.save()
-  this.$message.success('发布成功');
+  dialogVisible = false
+  isSave.value = true
+  save()
+  ElMessage.success('发布成功');
 }
 
 function goBack() {
-  this.$router.push('/')
+  router.push('/')
 }
 
 function createTag() {
-  if (this.blogTagList.length >= 10) {
-    return this.$message.warning('最多可添加10个标签')
+  if (blogTagList.length >= 10) {
+    return ElMessage.warning('最多可添加10个标签')
   }
-  createTagApi(this.tagInput)
-  this.blogTag = ''
-  this.tagInput.name = ''
-  const { data: result } = getTagApi();
-  this.blogTagList.push(result.data[result.data.length - 1])
+  createTagApi(tagInput)
+  blogTag = ''
+  tagInput.name = ''
+  const result = async () => {
+    await getTagApi();
+  }
+  blogTagList.push(result.data[result.data.length - 1])
 }
 
 function onClickOutside() {
-  unref(this.popoverRef)
+  unref(popoverRef)
 }
 
 function checkboxChange(val, tag) {
   if (val) {
-    this.dynamicTags.push(tag)
+    dynamicTags.push(tag)
   } else {
-    const index = this.dynamicTags.indexOf(tag);
+    const index = dynamicTags.indexOf(tag);
     if (index > -1) {
-      this.dynamicTags.splice(index, 1);
+      dynamicTags.splice(index, 1);
     }
   }
 }
 
 function getTag() {
-  const { data: result } = getTagApi();
-  this.blogTagList = result.data
+  getTagApi().then(response => {
+    blogTagList = response.data
+  })
 }
 
 function saveDraft() {
-  this.blog.isDraft = 1
-  this.isSave = true
-  this.save()
-  this.$message.success('保存成功');
+  blog.value.isDraft = 1
+  isSave.value = true
+  save()
+  ElMessage.success('保存成功');
 }
 
 function uploadImage(v) {
   console.log(v)
 }
 
-function mounted() {
+onMounted(() => {
   window.onbeforeunload = function (e) {
     e = e || window.event;
     // 兼容IE8和Firefox 4之前的版本
@@ -271,28 +274,28 @@ function mounted() {
     // Chrome, Safari, Firefox 4+, Opera 12+ , IE 9+
     return '关闭提示';
   }
-  this.getTag()
-}
+  getTag()
+})
 
-function beforeRouteUpdate(to, from, next) {
+onBeforeRouteUpdate((to, from, next) => {
   // 在当前路由改变，但是该组件被复用时调用
   // 举例来说，对于一个带有动态参数的路径 /foo/:id，在 /foo/1 和 /foo/2 之间跳转的时候，
   // 由于会渲染同样的 Foo 组件，因此组件实例会被复用。而这个钩子就会在这个情况下被调用。
   // 可以访问组件实例 `this`
   // 不支持传递回调(因为this实例已经创建可以获取到，所以没必要)
   next()
-}
+})
 
-function beforeRouteLeave(to, from) {
-  if (this.isSave) {
+onBeforeRouteLeave((to, from) => {
+  if (isSave.value) {
     return;
   }
-  return this.$confirm('您还没有保存文章呢，确认离开？').then(() => {
+  return confirm('您还没有保存文章呢，确认离开？').then(() => {
     window.onbeforeunload = null
   }).catch(() => {
     return false;
   })
-}
+})
 
 </script>
 

@@ -28,7 +28,6 @@ service.interceptors.request.use(config => {
     // background: 'rgba(0, 0, 0, 0.7)'
   })
   if (!config.headers.Authorization && tokenStr !== null) {
-    console.log('添加了token')
     config.headers.Authorization = 'Bearer ' + tokenStr
     config.headers.AccessTokenKey = AccessTokenKey
   }
@@ -39,7 +38,7 @@ service.interceptors.request.use(config => {
 service.interceptors.response.use(config => {
   NProgress.done()
   loading.close()
-  if (config.data.code != 200) {
+  if (config.data.code !== 200) {
     return ElMessage.error(config.data.message)
   }
   return config

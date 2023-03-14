@@ -73,11 +73,11 @@ export default {
     }
   },
   setup(props, { emit, attrs }) {
-    const func = str => {
+    const getContext = str => {
       emit('content', str)
     }
     return {
-      func,
+      getContext,
       props
     }
   },
@@ -92,7 +92,7 @@ export default {
     // 获取书写文档内容
     handleChange(v) {
       this.defValue = v
-      this.func(v)
+      this.getContext(v)
     },
     // 上传图片 点击触发上传图片事件，获取文件把图片上传服务器然后返回url既可
     async uploadImage(files) {

@@ -39,6 +39,7 @@ module.exports = {
     'no-trailing-spaces': 0,                                             //一行最后不允许有空格
     'space-before-blocks': 0,                                             //块前的空格
     'comma-dangle': ['error', 'never'],                                 //是否允许对象中出现结尾逗号
-    'vue/no-v-model-argument': 'off'
+    'vue/no-v-model-argument': 'off',
+    'prefer-const': 'off'
   }
 }
