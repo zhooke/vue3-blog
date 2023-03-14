@@ -33,10 +33,6 @@ export default {
 .header-search {
   width: 100%;
   margin-top: 5px;
-
-  /deep/ .el-input__wrapper {
-    padding: 0 !important;
-  }
 }
 
 </style>
