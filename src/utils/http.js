@@ -45,6 +45,7 @@ service.interceptors.response.use(config => {
 }, error => {
   NProgress.done()
   const res = error.response.data
+  let msg = error.response.message
   console.log(error.response.data)
   loading.close()
   if (res.code === 400) {
@@ -52,15 +53,20 @@ service.interceptors.response.use(config => {
   } else if (res.code === 401) {
     window.sessionStorage.clear()
     location.reload()
-    return ElMessage.error('请重新登陆');
+    ElMessage.error('请重新登陆')
+    return Promise.reject(new Error(msg));
   } else if (res.code === 403) {
-    return ElMessage.error('客户端错误');
+    ElMessage.error('客户端错误');
+    return Promise.reject(new Error(msg));
   } else if (res.code === 404) {
-    return ElMessage.error('网络请求不存在');
+    ElMessage.error('网络请求不存在');
+    return Promise.reject(new Error(msg));
   } else if (res.code === 500) {
-    return ElMessage.error(res.message);
+    ElMessage.error(res.message);
+    return Promise.reject(new Error(msg));
   }
-  return ElMessage.error('服务器正在开小差');
+  ElMessage.error('服务器正在开小差');
+  return Promise.reject(new Error(msg));
 })
 
 export default service
