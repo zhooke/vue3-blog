@@ -114,12 +114,13 @@
 
 <script setup>
 import { nextTick, onMounted, ref, unref } from 'vue';
-import { ElInput, ElMessage } from 'element-plus';
+import { ElInput, ElMessage, ElMessageBox } from 'element-plus';
 import { createTagApi, getTagApi, publishBlogApi } from '@/utils/api';
 import MarkDown from '@/components/plugs/MarkDown.vue';
-import { onBeforeRouteLeave, onBeforeRouteUpdate } from 'vue-router';
+import { onBeforeRouteLeave, onBeforeRouteUpdate, useRoute } from 'vue-router';
 import router from '@/router';
 
+const route = useRoute();
 
 let blog = ref({
   authorId: '',
@@ -290,7 +291,7 @@ onBeforeRouteLeave((to, from) => {
   if (isSave.value) {
     return;
   }
-  return confirm('您还没有保存文章呢，确认离开？').then(() => {
+  return ElMessageBox.confirm('您还没有保存文章呢，确认离开？').then(() => {
     window.onbeforeunload = null
   }).catch(() => {
     return false;

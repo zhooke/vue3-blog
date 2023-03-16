@@ -19,10 +19,9 @@
           <el-button size="large" type="danger" @click="dialogVisible = true">更新文章</el-button>
         </el-col>
       </el-row>
-      <mavon-editor v-model="blog.content" :toolbars="markdownOption" style="min-height:800px;width: 100%"
-                    @imgAdd="imgAdd" @imgDel="imgDel"
-                    @save="save">
-      </mavon-editor>
+      <MarkDown :value="blog.content" :showEditor="true" @content="getContext"
+                style="min-height:800px;width: 100%">
+      </MarkDown>
       <el-dialog
         v-model="dialogVisible"
         :before-close="handleCloseDialog"
@@ -113,222 +112,188 @@
   </div>
 </template>
 
-<script>
-import { nextTick, ref, unref } from 'vue';
-import { ElInput } from 'element-plus';
+<script setup>
+import { nextTick, onMounted, ref, unref } from 'vue';
+import { ElInput, ElMessage, ElMessageBox } from 'element-plus';
 import { createTagApi, getTagApi, updateBlogApi } from '@/utils/api';
-import gfm from '@bytemd/plugin-gfm'
-import frontmatter from '@bytemd/plugin-frontmatter'
 
-import { Editor } from '@bytemd/vue-next'
+import { onBeforeRouteLeave, onBeforeRouteUpdate, useRoute } from 'vue-router';
+import router from '@/router';
+import MarkDown from '@/components/plugs/MarkDown.vue';
 
-const plugins = [
-  gfm(),
-  frontmatter()
-  // Add more plugins here
-]
-export default {
-  // eslint-disable-next-line vue/multi-word-component-names
-  name: 'Create',
-  // eslint-disable-next-line vue/no-unused-components
-  components: { Editor },
-  data() {
-    return {
-      plugins,
-      markdownOption: {
-        bold: true, // 粗体
-        italic: true, // 斜体
-        header: true, // 标题
-        underline: true, // 下划线
-        strikethrough: true, // 中划线
-        mark: true, // 标记
-        superscript: true, // 上角标
-        subscript: true, // 下角标
-        quote: true, // 引用
-        ol: true, // 有序列表
-        ul: true, // 无序列表
-        link: true, // 链接
-        imagelink: true, // 图片链接
-        code: true, // code
-        table: true, // 表格
-        // fullscreen: true, // 全屏编辑
-        readmodel: true, // 沉浸式阅读
-        // htmlcode: true, // 展示html源码
-        // help: true, // 帮助
-        /* 1.3.5 */
-        undo: true, // 上一步
-        redo: true, // 下一步
-        trash: true, // 清空
-        // save: true, // 保存（触发events中的save事件）
-        /* 1.4.2 */
-        navigation: true, // 导航目录
-        /* 2.1.8 */
-        alignleft: true, // 左对齐
-        aligncenter: true, // 居中
-        alignright: true, // 右对齐
-        /* 2.2.1 */
-        subfield: true // 单双栏模式
-        // preview: true // 预览
-      },
-      blog: {
-        blogId: '',
-        authorId: '',
-        authorName: '',
-        title: '',
-        content: '',
-        picture: '',
-        isTop: ref(0),
-        isPrivate: ref(0),
-        isOriginal: ref(1),
-        tags: ''
-      },
-      dialogVisible: ref(false),
-      dynamicTags: [],
-      inputVisible: ref(false),
-      inputValue: '',
-      InputRef: ref < ElInput >(ElInput),
-      isSave: ref(false),
-      blogTag: {},
-      blogTagList: [],
-      buttonRef: ref(),
-      popoverRef: ref(),
-      tagInput: {
-        name: ''
-      },
-      tagChecked: ref(false),
-      tagCheckedList: []
-    };
-  },
-  methods: {
-    async update() {
-      const user = JSON.parse(window.sessionStorage.getItem('userinfo'))
-      this.blog.authorId = user.id
-      this.blog.authorName = user.nickname
-      this.blog.tags = this.dynamicTags.map(tag => tag.id).join(',')
+const route = useRoute();
+let blog = ref({
+  blogId: '',
+  authorId: '',
+  authorName: '',
+  title: '',
+  content: '',
+  picture: '',
+  isTop: ref(0),
+  isPrivate: ref(0),
+  isOriginal: ref(1),
+  tags: ''
+})
+let dialogVisible = ref(false)
+let dynamicTags = []
+let inputVisible = ref(false)
+let inputValue = ''
+let InputRef = ref < ElInput >(ElInput)
+let isSave = ref(false)
+let blogTag = {}
+let blogTagList = []
+let buttonRef = ref()
+let popoverRef = ref()
+let tagInput = {
+  name: ''
+}
+let tagChecked = ref(false)
+let tagCheckedList = []
 
-      const { data: result } = await updateBlogApi(this.blog);
+function update() {
+  const user = JSON.parse(window.sessionStorage.getItem('userinfo'))
+  blog.value.authorId = user.id
+  blog.value.authorName = user.nickname
+  blog.value.tags = dynamicTags.map(tag => tag.id).join(',')
 
-      console.log(result)
-      if (result.code !== 200) {
-        this.isSave = true
-        return this.$message.error(result.data)
-      }
-      await this.$router.push('/')
-      window.onbeforeunload = null
-    },
-    imgAdd(pos, $file) {
-
-    },
-    imgDel() {
-
-    },
-    handleCloseDialog() {
-      this.dialogVisible = false;
-    },
-    handleCloseTag(tag) {
-      this.dynamicTags.splice(this.dynamicTags.indexOf(tag), 1)
-      console.log(this.tagCheckedList)
-      const index = this.tagCheckedList.indexOf(tag);
-      if (index > -1) {
-        this.tagCheckedList.splice(index, 1);
-      }
-    },
-    handleInputConfirm() {
-      if (this.inputValue) {
-        console.log(this.inputValue)
-        console.log(this.dynamicTags)
-        this.dynamicTags.push(this.inputValue)
-      }
-      this.inputVisible = false
-      this.inputValue = ''
-    },
-    showInput() {
-      this.inputVisible = true
-      nextTick(() => {
-        // this.InputRef.!value.!input.focus()
-        this.$refs.InputRef.focus()
-      })
-    },
-    onSubmit() {
-      this.dialogVisible = false
-      this.isSave = true
-      this.blog.isDraft = 0
-      this.update()
-      this.$message.success('更新成功');
-    },
-    goBack() {
-      this.$router.push('/')
-    },
-    async createTag() {
-      if (this.blogTagList.length >= 10) {
-        return this.$message.warning('最多可添加10个标签')
-      }
-      await createTagApi(this.tagInput)
-      this.blogTag = ''
-      this.tagInput.name = ''
-      const { data: result } = await getTagApi();
-      this.blogTagList.push(result.data[result.data.length - 1])
-    },
-    onClickOutside() {
-      unref(this.popoverRef)
-    },
-    checkboxChange(val, tag) {
-      if (val) {
-        this.dynamicTags.push(tag)
-      } else {
-        const index = this.dynamicTags.indexOf(tag);
-        if (index > -1) {
-          this.dynamicTags.splice(index, 1);
-        }
-      }
-    },
-    async getTag() {
-      const { data: result } = await getTagApi();
-      this.blogTagList = result.data
-    },
-    saveDraft() {
-      this.blog.isDraft = 1
-      this.isSave = true
-      this.update()
-      this.$message.success('保存成功');
+  updateBlogApi(blog).then((response) => {
+    if (response.data.code !== 200) {
+      isSave.value = true
+      return ElMessage.error(response.data.message)
     }
-  },
-  mounted() {
-    // todo 考虑是否将发布和编辑合并
-    this.blog = this.$route.params
-    this.blog.blogId = this.$route.params.id
-    window.onbeforeunload = function (e) {
-      e = e || window.event;
-      // 兼容IE8和Firefox 4之前的版本
-      if (e) {
-        e.returnValue = '关闭提示';
-      }
-      // Chrome, Safari, Firefox 4+, Opera 12+ , IE 9+
-      return '关闭提示';
-    }
-    this.getTag()
-  },
-  beforeRouteUpdate(to, from, next) {
-    // 在当前路由改变，但是该组件被复用时调用
-    // 举例来说，对于一个带有动态参数的路径 /foo/:id，在 /foo/1 和 /foo/2 之间跳转的时候，
-    // 由于会渲染同样的 Foo 组件，因此组件实例会被复用。而这个钩子就会在这个情况下被调用。
-    // 可以访问组件实例 `this`
-    // 不支持传递回调(因为this实例已经创建可以获取到，所以没必要)
-    console.log('beforeRouteUpdate调用了')
-    next()
-  },
-  beforeRouteLeave(to, from) {
-    console.log('beforeRouteLeave')
-    if (this.isSave) {
-      return;
-    }
-    return this.$confirm('您还没有保存文章呢，确认离开？').then(() => {
-      window.onbeforeunload = null
-    }).catch(() => {
-      return false;
-    })
+    router.push('/')
+  });
+  window.onbeforeunload = null
+}
+
+function imgAdd(pos, $file) {
+
+}
+
+function imgDel() {
+
+}
+
+function handleCloseDialog() {
+  dialogVisible.value = false;
+}
+
+function handleCloseTag(tag) {
+  dynamicTags.splice(dynamicTags.indexOf(tag), 1)
+  console.log(tagCheckedList)
+  const index = tagCheckedList.indexOf(tag);
+  if (index > -1) {
+    tagCheckedList.splice(index, 1);
   }
 }
+
+function handleInputConfirm() {
+  if (inputValue) {
+    dynamicTags.push(inputValue)
+  }
+  inputVisible.value = false
+  inputValue = ''
+}
+
+function showInput() {
+  inputVisible.value = true
+  nextTick(() => {
+    // this.InputRef.!value.!input.focus()
+    ref.InputRef.focus()
+  })
+}
+
+function onSubmit() {
+  dialogVisible.value = false
+  isSave.value = true
+  blog.value.isDraft = 0
+  update()
+  ElMessage.success('更新成功');
+}
+
+function goBack() {
+  router.push('/')
+}
+
+function createTag() {
+  if (blogTagList.length >= 10) {
+    return ElMessage.warning('最多可添加10个标签')
+  }
+  createTagApi(tagInput)
+  blogTag = ''
+  tagInput.name = ''
+  getTagApi().then((response) => {
+    blogTagList.push(response.data.data[response.data.data.length - 1])
+  });
+
+}
+
+function onClickOutside() {
+  unref(popoverRef)
+}
+
+function checkboxChange(val, tag) {
+  if (val) {
+    dynamicTags.push(tag)
+  } else {
+    const index = dynamicTags.indexOf(tag);
+    if (index > -1) {
+      dynamicTags.splice(index, 1);
+    }
+  }
+}
+
+function getTag() {
+  getTagApi().then(response => {
+    blogTagList = response.data.data
+  });
+
+}
+
+function saveDraft() {
+  blog.value.isDraft = 1
+  isSave.value = true
+  update()
+  ElMessage.success('保存成功');
+}
+
+onMounted(() => {
+  //todo 路由接收到的参数有误
+  console.log(router)
+  console.log(route.params)
+  blog = ref(route.params)
+  blog.value.blogId = route.params.id
+  window.onbeforeunload = function (e) {
+    e = e || window.event;
+    // 兼容IE8和Firefox 4之前的版本
+    if (e) {
+      e.returnValue = '关闭提示';
+    }
+    // Chrome, Safari, Firefox 4+, Opera 12+ , IE 9+
+    return '关闭提示';
+  }
+  getTag()
+})
+
+onBeforeRouteUpdate((to, from, next) => {
+  // 在当前路由改变，但是该组件被复用时调用
+  // 举例来说，对于一个带有动态参数的路径 /foo/:id，在 /foo/1 和 /foo/2 之间跳转的时候，
+  // 由于会渲染同样的 Foo 组件，因此组件实例会被复用。而这个钩子就会在这个情况下被调用。
+  // 可以访问组件实例 `this`
+  // 不支持传递回调(因为this实例已经创建可以获取到，所以没必要)
+  next()
+})
+
+onBeforeRouteLeave((to, from) => {
+  if (isSave.value) {
+    return;
+  }
+  return ElMessageBox.confirm('您还没有保存文章呢，确认离开？').then(() => {
+    window.onbeforeunload = null
+  }).catch(() => {
+    return false;
+  })
+})
 </script>
 
 <style lang="less" scoped>

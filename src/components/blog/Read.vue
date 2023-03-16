@@ -133,7 +133,7 @@ export default {
       })
     },
     editBlog() {
-      this.$router.push({ name: 'edit', params: this.blog })
+      this.$router.push({ name: 'edit', params: { ids: 1 }, query: { que: 1 } })
     }
   },
   mounted() {
