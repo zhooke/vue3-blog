@@ -115,7 +115,7 @@
 <script setup>
 import { nextTick, onMounted, ref, unref } from 'vue';
 import { ElInput, ElMessage, ElMessageBox } from 'element-plus';
-import { createTagApi, getTagApi, updateBlogApi } from '@/utils/api';
+import { createTagApi, getBlogByIdApi, getTagApi, updateBlogApi } from '@/utils/api';
 
 import { onBeforeRouteLeave, onBeforeRouteUpdate, useRoute } from 'vue-router';
 import router from '@/router';
@@ -164,6 +164,10 @@ function update() {
     router.push('/')
   });
   window.onbeforeunload = null
+}
+
+function getContext(str) {
+  blog.value.content = str
 }
 
 function imgAdd(pos, $file) {
@@ -258,11 +262,10 @@ function saveDraft() {
 }
 
 onMounted(() => {
-  //todo 路由接收到的参数有误
-  console.log(router)
-  console.log(route.params)
-  blog = ref(route.params)
-  blog.value.blogId = route.params.id
+  const blogId = route.query.blogId
+  getBlogByIdApi(blogId).then((response) => {
+    blog.value = response.data.data
+  })
   window.onbeforeunload = function (e) {
     e = e || window.event;
     // 兼容IE8和Firefox 4之前的版本

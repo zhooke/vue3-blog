@@ -4,7 +4,7 @@
       :value="defValue"
       :plugins="defPlugins"
       :locale="zhHans"
-      @change="handleChange"
+      @change="handleChange(defValue)"
       :uploadImages="uploadImage"
       v-if="props.showEditor"
       :mode="props.mode"
@@ -20,7 +20,7 @@
   </div>
 </template>
 
-<script>
+<script setup>
 // 这里就是引入所有的扩展的插件
 import { Editor, Viewer } from '@bytemd/vue-next'
 import gfm from '@bytemd/plugin-gfm'
@@ -40,6 +40,7 @@ import 'highlight.js/styles/vs.css'
 // import 'juejin-markdown-themes/dist/juejin.min.css' // 掘金风格的css文件
 import 'juejin-markdown-themes/dist/channing-cyan.min.css' // channing-cyan风格的css文件，这个确实很好看
 import 'bytemd/dist/index.css'
+import { onMounted, ref } from 'vue';
 
 const defPlugins = [
   // 将所有的扩展功能放入插件数组中，然后就可以生效了
@@ -54,59 +55,56 @@ const defPlugins = [
   gemoji(),
   mediumZoom()
 ]
-export default {
-  name: 'MarkDown',
-  components: { Editor, Viewer }, // 组件注册
-  props: {
-    value: {
-      type: String,
-      default: '请填写内容'
-    },
-    showEditor: {
-      type: Boolean
-    },
-    showViewer: {
-      type: Boolean
-    },
-    mode: {
-      type: String
-    }
-  },
-  setup(props, { emit, attrs }) {
-    const getContext = str => {
-      emit('content', str)
-    }
-    return {
-      getContext,
-      props
-    }
-  },
-  data() {
-    return {
-      defPlugins,
-      zhHans,
-      defValue: ''
-    }
-  },
-  methods: {
-    // 获取书写文档内容
-    handleChange(v) {
-      this.defValue = v
-      this.getContext(v)
-    },
-    // 上传图片 点击触发上传图片事件，获取文件把图片上传服务器然后返回url既可
-    async uploadImage(files) {
-      console.log('files', files)
-      return [
-        {
-          title: files.map((i) => i.name),
-          url: 'http'
-        }
-      ]
-    }
-  }
 
+let props = defineProps({
+  value: {
+    type: String,
+    default: '请填写内容'
+  },
+  showEditor: {
+    type: Boolean
+  },
+  showViewer: {
+    type: Boolean
+  },
+  mode: {
+    type: String
+  }
+})
+
+let defValue = ref('')
+
+const emits = defineEmits(['content'])
+
+// defValue.value = () => {
+//   emits('content')
+// }
+
+onMounted(() => {
+  defValue.value = props.value
+})
+
+function handleChange(v) {
+  defValue.value = v
+  emits('content', v)
 }
+
+// 上传图片 点击触发上传图片事件，获取文件把图片上传服务器然后返回url既可
+function uploadImage(files) {
+  console.log('files', files)
+  return [
+    {
+      title: files.map((i) => i.name),
+      url: 'http'
+    }
+  ]
+}
+
+//
+// watch(() => props.value, val => {
+//   defValue.value = props.value
+// })
+
 </script>
 
 <style scoped>
