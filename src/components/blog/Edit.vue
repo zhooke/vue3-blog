@@ -156,7 +156,7 @@ function update() {
   blog.value.authorName = user.nickname
   blog.value.tags = dynamicTags.map(tag => tag.id).join(',')
 
-  updateBlogApi(blog).then((response) => {
+  updateBlogApi(blog.value).then((response) => {
     if (response.data.code !== 200) {
       isSave.value = true
       return ElMessage.error(response.data.message)

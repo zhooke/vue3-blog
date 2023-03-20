@@ -4,7 +4,7 @@
       :value="defValue"
       :plugins="defPlugins"
       :locale="zhHans"
-      @change="handleChange(defValue)"
+      @change="handleChange"
       :uploadImages="uploadImage"
       v-if="props.showEditor"
       :mode="props.mode"
@@ -40,7 +40,7 @@ import 'highlight.js/styles/vs.css'
 // import 'juejin-markdown-themes/dist/juejin.min.css' // 掘金风格的css文件
 import 'juejin-markdown-themes/dist/channing-cyan.min.css' // channing-cyan风格的css文件，这个确实很好看
 import 'bytemd/dist/index.css'
-import { onMounted, ref } from 'vue';
+import { ref, watch } from 'vue';
 
 const defPlugins = [
   // 将所有的扩展功能放入插件数组中，然后就可以生效了
@@ -76,12 +76,8 @@ let defValue = ref('')
 
 const emits = defineEmits(['content'])
 
-// defValue.value = () => {
-//   emits('content')
-// }
-
-onMounted(() => {
-  defValue.value = props.value
+watch(() => props.value, val => {
+  defValue.value = val
 })
 
 function handleChange(v) {
