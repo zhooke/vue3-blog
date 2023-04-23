@@ -33,6 +33,10 @@ const routes = [
       {
         path: '/other/donation',
         component: () => import('../components/other/Donation')
+      },
+      {
+        path: '/other/chatGPT',
+        component: () => import('../components/other/ChatGPT')
       }
     ]
   },
@@ -64,7 +68,7 @@ const router = createRouter({
   mode: 'history'
 })
 
-const filterRouters = ['/login', '/blog/list', '/blog/read', '/other/Info', '/other/donation']
+const filterRouters = ['/login', '/blog/list', '/blog/read', '/other/Info', '/other/donation', '/other/chatGPT']
 // 挂载路由守卫
 router.beforeEach((to, from, next) => {
   // to 将要访问的路径

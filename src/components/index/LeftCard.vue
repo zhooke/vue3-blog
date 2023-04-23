@@ -67,6 +67,12 @@
             </el-icon>
             <span>捐赠</span>
           </el-menu-item>
+          <el-menu-item index="/other/chatGPT">
+            <el-icon style="color: #48c774">
+              <Cpu/>
+            </el-icon>
+            <span>chat</span>
+          </el-menu-item>
         </el-menu>
       </el-col>
     </el-row>
