@@ -165,3 +165,12 @@ export const getDictionaryApi = (params) => {
 export const commentReplyApi = (params) => {
   return http.post('/blog/comment/reply', params)
 }
+
+/**
+ * chat接口
+ * @param params
+ * @returns {Promise<AxiosResponse<any>>}
+ */
+export const chatApi = (params) => {
+  return http.post('/blog/chat', params)
+}
