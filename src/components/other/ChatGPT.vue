@@ -1,54 +1,64 @@
 <template>
-  <div class="chat-container">
-    <div class="chat-messages">
-      <div v-for="(message, index) in messages" :key="index"
-           :class="{'user-message': message.is_user, 'bot-message': !message.is_user}">
-        <div>{{ message.text }}</div>
+  <el-scrollbar>
+    <div>
+      <div v-for="message in messages" :key="message.id">
+        {{ message.text }}
       </div>
+      <form @submit.prevent="sendMessage">
+        <input v-model="text" type="text" placeholder="请输入消息..."/>
+        <button type="submit">发送</button>
+      </form>
     </div>
-    <div class="chat-input">
-      <el-input v-model="inputText" placeholder="Type your message here" @keyup.enter.native="sendMessage"/>
-      <el-button type="primary" @click="sendMessage">Send</el-button>
-    </div>
-  </div>
+  </el-scrollbar>
+
 </template>
 
-<script setup>
+<script>
 import axios from 'axios';
 
-const apiEndpoint = 'http://chatgpt.zhooke.shop/v1/completions';
-const apiKey = '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';
-
-
-let inputText = ''
-let messages = []
-
-function sendMessage() {
-  if (inputText) {
-    messages.push({ text: inputText, is_user: true });
-    axios.post(apiEndpoint, {
-      // messages: [{ role: 'user', content: inputText }],
-      model: 'text-davinci-003',
-      prompt: inputText,
-      max_tokens: 7,
-      temperature: 0,
-      top_p: 1,
-      n: 1,
-      stream: false
-    }, {
-      headers: {
-        Authorization: `Bearer ${apiKey}`,
-        'Content-Type': 'application/json'
+export default {
+  data() {
+    return {
+      text: '',
+      messages: []
+    };
+  },
+  methods: {
+    sendMessage() {
+      if (this.text === '') {
+        return;
       }
-    }).then(res => {
-      messages.push({ text: res.data.choices[0].text, is_user: false });
-      inputText = '';
-      console.log(messages)
-    });
+
+      const payload =
+        {
+          model: 'gpt-3.5-turbo',
+          messages: [{ role: 'user', content: this.text }]
+        }
+      ;
+
+      axios
+        .post('https://chatgpt.zhooke.shop/v1/chat/completions', {
+          model: 'gpt-3.5-turbo',
+          messages: [{ role: 'user', content: this.text }]
+        }, {
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: 'Bearer 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'
+          }
+        })
+        .then(response => {
+          const message = {
+            id: this.messages.length + 1,
+            text: response.data.choices[0].message.content
+          };
+          this.messages.push(message);
+          this.text = '';
+          console.log(this.messages)
+        })
+        .catch(error => {
+          console.log(error);
+        });
+    }
   }
-}
+};
 </script>
-
-<style scoped>
-
-</style>
