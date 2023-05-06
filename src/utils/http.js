@@ -7,7 +7,7 @@ import axios from 'axios'
 let loading = null
 
 const service = axios.create({
-  timeout: 5000,                                   //超时时间
+  timeout: 10000,                                   //超时时间
   baseURL: '/api'             // 我们在请求接口的时候就不用写前面 会自动我们补全
   // transformRequest: data => qs.stringify(data)    //post请求参数处理,防止post请求跨域
 })
@@ -24,8 +24,8 @@ service.interceptors.request.use(config => {
   NProgress.start()
   loading = ElLoading.service({
     lock: true,
-    text: 'Loading'
-    // background: 'rgba(0, 0, 0, 0.7)'
+    text: 'Loading',
+    background: 'rgba(0, 0, 0, 0.7)'
   })
   if (!config.headers.Authorization && tokenStr !== null) {
     config.headers.Authorization = 'Bearer ' + tokenStr

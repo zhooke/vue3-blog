@@ -1,62 +1,62 @@
 <template>
-  <el-scrollbar class="box" >
-      <el-scrollbar ref="scrollbarRef" style="height: 80vh;"  @scroll="scroll">
-        <div ref="innerRef" >
-          <div class="chat-header">
-            <el-avatar :size="40" :src="avatar"></el-avatar>
-            <div class="chat-header-content">
-              <h3 class="chat-title">{{ title }}</h3>
-              <span class="chat-status">{{ status }}</span>
-            </div>
-          </div>
-          <div class="chat-body" ref="chatBody">
-            <div v-for="message in messages" :key="message.id" class="chat-message">
-              <div class="user-chat" v-if="message.type===1">
-                <div class="message-avatar">
-                  <el-icon>
-                    <Avatar/>
-                  </el-icon>
-                </div>
-                <div class="message-content">
-                  <div class="message-meta">
-                    <span class="meta-name">{{ message.name }}</span>
-                    <span class="meta-time">{{ message.time }}</span>
-                  </div>
-                  <div class="message-text">{{ message.text }}</div>
-                </div>
-              </div>
-              <div class="gpt-chat" v-if="message.type===2">
-                <div class="message-avatar">
-                  <el-icon>
-                    <Monitor/>
-                  </el-icon>
-                </div>
-                <div class="message-content">
-                  <div class="message-meta">
-                    <span class="meta-name">{{ message.name }}</span>
-                    <span class="meta-time">{{ message.time }}</span>
-                  </div>
-                  <div class="message-text">{{ message.text }}</div>
-                </div>
-              </div>
-            </div>
+  <el-scrollbar class="box">
+    <el-scrollbar ref="scrollbarRef" style="height: 82vh;" @scroll="scroll">
+      <div ref="innerRef">
+        <div class="chat-header">
+          <!--          <el-avatar :size="40" :src="avatar"></el-avatar>-->
+          <div class="chat-header-content">
+            <h3 class="chat-title">{{ title }}</h3>
+            <span class="chat-status">{{ status }}</span>
           </div>
         </div>
-      </el-scrollbar>
-      <div class="chat-wrapper" style="height: 5vh">
-        <div class="chat-footer">
-          <el-input v-model="message" placeholder="输入要发送的消息" clearable></el-input>
-          <el-button type="primary" @click="sendMessage">发送</el-button>
+        <div class="chat-body" ref="chatBody">
+          <div v-for="message in messages" :key="message.id" class="chat-message">
+            <div class="user-chat" v-if="message.type===1">
+              <div class="message-avatar">
+                <el-icon>
+                  <Avatar/>
+                </el-icon>
+              </div>
+              <div class="message-content">
+                <div class="message-meta">
+                  <span class="meta-name">{{ message.name }}</span>
+                  <span class="meta-time">{{ message.time }}</span>
+                </div>
+                <div class="message-text">{{ message.text }}</div>
+              </div>
+            </div>
+            <div class="gpt-chat" v-if="message.type===2">
+              <div class="message-avatar">
+                <el-icon>
+                  <Monitor/>
+                </el-icon>
+              </div>
+              <div class="message-content">
+                <div class="message-meta">
+                  <span class="meta-name">{{ message.name }}</span>
+                  <span class="meta-time">{{ message.time }}</span>
+                </div>
+                <div class="message-text">{{ message.text }}</div>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
+    </el-scrollbar>
+    <div class="chat-wrapper" style="height: 5vh">
+      <div class="chat-footer">
+        <el-input v-model="message" placeholder="输入要发送的消息" clearable></el-input>
+        <el-button type="primary" style="margin-left: 5px" @click="sendMessage">发送</el-button>
+      </div>
+    </div>
   </el-scrollbar>
 </template>
 
 <script setup>
 import { chatApi } from '@/utils/api';
 import 'element-plus/dist/index.css'
-import { ElAvatar, ElButton, ElInput, ElScrollbar } from 'element-plus';
-import { getCurrentInstance, onMounted, ref, watch, watchEffect } from 'vue';
+import { ElButton, ElInput, ElScrollbar } from 'element-plus';
+import { getCurrentInstance, onMounted, ref, watchEffect } from 'vue';
 
 const instance = getCurrentInstance()
 const scrollbarRef = ref()
@@ -94,6 +94,9 @@ const sendMessage = () => {
     };
     messages.value.push(text);
     message.value = '';
+    setTimeout(() => {
+      scrollChatBottom()
+    }, 0)
   })
     .catch(error => {
       console.log(error);
@@ -117,22 +120,25 @@ onMounted(() => {
   let msg = window.sessionStorage.getItem('messages')
   if (msg !== undefined && msg !== null && msg !== '') {
     messages.value = JSON.parse(msg);
-    scrollChatBottom()
+    setTimeout(() => {
+      scrollChatBottom()
+    }, 0)
   }
 })
 
 watchEffect(() => {
-  if (messages.value.length > 0){
+  if (messages.value.length > 0) {
     window.sessionStorage.setItem('messages', JSON.stringify(messages.value))
   }
 })
 
 </script>
 <style>
-.box{
+.box {
   height: 90vh;
-  overflow:hidden
+  overflow: hidden
 }
+
 .chat-wrapper {
   display: flex;
   flex-direction: column;
@@ -140,8 +146,7 @@ watchEffect(() => {
   /*max-width: 400px;*/
   width: 100%;
   margin: 0 auto;
-  border: 1px solid #dcdfe6;
-  border-radius: 4px;
+//border: 1px solid #dcdfe6; border-radius: 4px;
 }
 
 .chat-header {
@@ -219,8 +224,7 @@ watchEffect(() => {
 .chat-footer {
   display: flex;
   align-items: center;
-  padding: 10px;
-  border-top: 1px solid #dcdfe6;
+//border-top: 1px solid #dcdfe6; margin-top: 5px;
 }
 
 .el-input-group__append {
@@ -231,11 +235,13 @@ watchEffect(() => {
   padding: 10px;
   border-radius: 4px;
 }
-.gpt-chat{
+
+.gpt-chat {
   margin-left: auto;
   display: flex;
 }
-.user-chat{
+
+.user-chat {
   display: flex;
   margin-right: auto;
 }
