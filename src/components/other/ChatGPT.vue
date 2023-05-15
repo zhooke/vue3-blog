@@ -117,12 +117,25 @@ const scrollChatBottom = () => {
 }
 
 onMounted(() => {
+  console.log(1411)
+
   let msg = window.sessionStorage.getItem('messages')
   if (msg !== undefined && msg !== null && msg !== '') {
     messages.value = JSON.parse(msg);
     setTimeout(() => {
       scrollChatBottom()
     }, 0)
+  } else {
+    const firstMsg = {
+      id: 1,
+      name: 'GPT',
+      type: 2,
+      time: new Date().toLocaleTimeString(),
+      text: 'hello，欢迎使用ChatGPT!'
+    };
+    messages.value.push(firstMsg)
+    window.sessionStorage.setItem('messages', JSON.stringify(firstMsg))
+
   }
 })
 
@@ -237,12 +250,12 @@ watchEffect(() => {
 }
 
 .gpt-chat {
-  margin-left: auto;
   display: flex;
+  margin-right: auto;
 }
 
 .user-chat {
   display: flex;
-  margin-right: auto;
+  margin-left: auto;
 }
 </style>
