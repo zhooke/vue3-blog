@@ -108,6 +108,7 @@ function uploadImage(files) {
   width: calc(100% - 10px) !important;
   height: 100%;
   margin: 0 auto;
+  text-align: left;
 }
 
 </style>
