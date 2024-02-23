@@ -115,11 +115,11 @@
 <script setup>
 import { nextTick, onMounted, ref, unref } from 'vue';
 import { ElInput, ElMessage, ElMessageBox } from 'element-plus';
-import { createTagApi, getBlogByIdApi, getTagApi, updateBlogApi } from '@/utils/api';
+import { createTagApi, getBlogByIdApi, getTagApi, updateBlogApi } from '@/utils/api.js';
 
 import { onBeforeRouteLeave, onBeforeRouteUpdate, useRoute } from 'vue-router';
-import router from '@/router';
-import MarkDown from '@/components/plugs/MarkDown.vue';
+import router from '../../router';
+import MarkDown from '../../components/plugs/MarkDown.vue';
 
 const route = useRoute();
 let blog = ref({

@@ -71,7 +71,7 @@
 </template>
 
 <script>
-import { commentBlogApi, commentListApi, commentReplyApi } from '@/utils/api';
+import { commentBlogApi, commentListApi, commentReplyApi } from '../../utils/api';
 
 export default {
   // eslint-disable-next-line vue/multi-word-component-names

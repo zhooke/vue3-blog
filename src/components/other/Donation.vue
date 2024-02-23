@@ -7,7 +7,7 @@
 </template>
 
 <script>
-import { getDictionaryApi } from '@/utils/api';
+import { getDictionaryApi } from '@/utils/api.js';
 
 export default {
   // eslint-disable-next-line vue/multi-word-component-names

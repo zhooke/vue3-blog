@@ -7,52 +7,52 @@ const routes = [
   },
   {
     path: '/blog',
-    component: () => import('../components/Index'),
+    component: () => import('../components/Index.vue'),
     redirect: '/blog/list',
     children: [
       {
         path: '/blog/list',
-        component: () => import('../components/blog/BlogList')
+        component: () => import('../components/blog/BlogList.vue')
       },
       {
         path: '/blog/read',
-        component: () => import('../components/blog/Read')
+        component: () => import('../components/blog/Read.vue')
       },
       {
         path: '/blog/draft',
-        component: () => import('../components/blog/DraftList')
+        component: () => import('../components/blog/DraftList.vue')
       },
       {
         path: '/blog/read/draft',
-        component: () => import('../components/blog/ReadDraft')
+        component: () => import('../components/blog/ReadDraft.vue')
       },
       {
         path: '/other/Info',
-        component: () => import('../components/other/Info')
+        component: () => import('../components/other/Info.vue')
       },
       {
         path: '/other/donation',
-        component: () => import('../components/other/Donation')
+        component: () => import('../components/other/Donation.vue')
       },
       {
         path: '/other/chatGPT',
-        component: () => import('../components/other/ChatGPT')
+        component: () => import('../components/other/ChatGPT.vue')
       }
     ]
   },
   {
     path: '/publish',
-    component: () => import('../components/blog/Publish')
+    component: () => import('../components/blog/Publish.vue')
   },
   {
     path: '/edit',
     name: 'edit',
-    component: () => import('../components/blog/Edit')
+    component: () => import('../components/blog/Edit.vue')
   },
   {
     path: '/login',
     name: 'login',
-    component: () => import('../components/login/Login')
+    component: () => import('../components/login/Login.vue')
   },
   {
     path: '/home',

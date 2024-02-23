@@ -56,7 +56,7 @@
 </template>
 
 <script>
-import { deleteBlogApi, getBlogByIdApi, getBlogTagApi } from '@/utils/api';
+import { deleteBlogApi, getBlogByIdApi, getBlogTagApi } from '@/utils/api.js';
 
 export default {
   name: 'ReadContext',

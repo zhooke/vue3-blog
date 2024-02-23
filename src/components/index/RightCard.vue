@@ -234,7 +234,7 @@
 
 import { ref } from 'vue';
 import { blogTop5Api, commentNewestApi, createTagApi, getBlogUserApi, getTagApi, updateUserInfoApi } from '@/utils/api';
-import LoginRegister from '@/components/login/LoginRegister';
+import LoginRegister from '../../components/login/LoginRegister';
 
 export default {
   name: 'RightCard',

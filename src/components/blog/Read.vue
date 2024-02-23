@@ -70,14 +70,14 @@
 </template>
 
 <script>
-import { deleteBlogApi, getBlogByIdApi, getBlogTagApi } from '@/utils/api';
-import Comment from '@/components/plugs/Comment';
+import { deleteBlogApi, getBlogByIdApi, getBlogTagApi } from '@/utils/api.js';
+import Comment from '../../components/plugs/Comment';
 import gfm from '@bytemd/plugin-gfm'
 import frontmatter from '@bytemd/plugin-frontmatter'
 
 import 'juejin-markdown-themes/dist/channing-cyan.min.css'
 import 'bytemd/dist/index.css'
-import MarkDown from '@/components/plugs/MarkDown.vue'; // 导入编辑器样式
+import MarkDown from '../../components/plugs/MarkDown.vue'; // 导入编辑器样式
 
 const plugins = [
   gfm(),

@@ -100,7 +100,7 @@
 <script>
 
 import { ref } from 'vue';
-import { getBlogListApi, getBlogUserApi } from '@/utils/api';
+import { getBlogListApi, getBlogUserApi } from '@/utils/api.js';
 
 export default {
   name: 'ContextList',

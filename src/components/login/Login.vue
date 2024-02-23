@@ -28,9 +28,9 @@
 
 <script>
 
-import axios from '@/utils/http'
+import axios from '../../utils/http'
 import NProgress from 'nprogress';
-import { getLoginApi } from '@/utils/api';
+import { getLoginApi } from '@/utils/api.js';
 import md5 from 'js-md5';
 
 export default {

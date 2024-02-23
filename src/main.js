@@ -8,18 +8,10 @@ import * as ELIcons from '@element-plus/icons-vue'
 import 'element-plus/dist/index.css'
 import './assets/css/global.css'
 import { VueShowdownPlugin } from 'vue-showdown'
-import { useDark, useToggle } from '@vueuse/core'
 
 
+import axios from './utils/http'
 
-import axios from '@/utils/http'
-const isDark = useDark({
-  selector: 'body',
-  attribute: 'color-scheme',
-  valueDark: 'dark',
-  valueLight: 'light'
-})
-const toggleDark = useToggle(isDark)
 const app = createApp(App)
 app.config.warnHandler = () => null
 app.use(store)

@@ -53,7 +53,7 @@
 </template>
 
 <script setup>
-import { chatApi } from '@/utils/api';
+import { chatApi } from '@/utils/api.js';
 import 'element-plus/dist/index.css'
 import { ElButton, ElInput, ElScrollbar } from 'element-plus';
 import { getCurrentInstance, onMounted, ref, watchEffect } from 'vue';
@@ -159,7 +159,7 @@ watchEffect(() => {
   /*max-width: 400px;*/
   width: 100%;
   margin: 0 auto;
-//border: 1px solid #dcdfe6; border-radius: 4px;
+/*border: 1px solid #dcdfe6; border-radius: 4px;*/
 }
 
 .chat-header {
@@ -237,7 +237,7 @@ watchEffect(() => {
 .chat-footer {
   display: flex;
   align-items: center;
-//border-top: 1px solid #dcdfe6; margin-top: 5px;
+/*border-top: 1px solid #dcdfe6; margin-top: 5px;*/
 }
 
 .el-input-group__append {

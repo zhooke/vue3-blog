@@ -62,7 +62,7 @@
 <script>
 
 import { ref } from 'vue';
-import { getBlogDraftListApi } from '@/utils/api';
+import { getBlogDraftListApi } from '@/utils/api.js';
 
 export default {
   name: 'DraftList',

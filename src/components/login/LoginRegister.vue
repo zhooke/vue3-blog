@@ -83,8 +83,8 @@
 
 <script>
 import { ref } from 'vue';
-import { getLoginApi, registerUserApi } from '@/utils/api';
-import axios from '@/utils/http';
+import { getLoginApi, registerUserApi } from '@/utils/api.js';
+import axios from '../../utils/http';
 import NProgress from 'nprogress';
 import md5 from 'js-md5';
 
