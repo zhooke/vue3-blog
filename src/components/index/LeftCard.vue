@@ -42,11 +42,11 @@
             </el-icon>
             <span>联系</span>
           </el-menu-item>
-          <el-menu-item index="/">
+          <el-menu-item  index="/other/statistic">
             <el-icon style="color: #00d1b2">
               <histogram/>
             </el-icon>
-            <span>订阅</span>
+            <span>统计</span>
           </el-menu-item>
           <el-menu-item index="/">
             <el-icon style="color: #48c774">
@@ -98,6 +98,7 @@ export default {
 </script>
 
 <style lang="less" scoped>
+
 .card-left {
   vertical-align: baseline;
   line-height: 1.5;

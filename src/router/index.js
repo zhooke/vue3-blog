@@ -1,4 +1,4 @@
-import { createRouter, createWebHashHistory } from 'vue-router'
+import {createRouter, createWebHashHistory} from 'vue-router'
 
 const routes = [
   {
@@ -37,6 +37,10 @@ const routes = [
       {
         path: '/other/chatGPT',
         component: () => import('../components/other/ChatGPT.vue')
+      },
+      {
+        path: '/other/statistic',
+        component: () => import('../components/other/Statistic.vue')
       }
     ]
   },
@@ -68,7 +72,7 @@ const router = createRouter({
   mode: 'history'
 })
 
-const filterRouters = ['/login', '/blog/list', '/blog/read', '/other/Info', '/other/donation', '/other/chatGPT']
+const filterRouters = ['/login', '/blog/list', '/blog/read', '/other/Info', '/other/donation', '/other/chatGPT', '/other/statistic']
 // 挂载路由守卫
 router.beforeEach((to, from, next) => {
   // to 将要访问的路径
