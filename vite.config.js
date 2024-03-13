@@ -1,9 +1,8 @@
 import {defineConfig} from 'vite'
 import vue from '@vitejs/plugin-vue'
 import AutoImport from 'unplugin-auto-import/vite'
-import Components from 'unplugin-vue-components/vite'
-import {ElementPlusResolver} from 'unplugin-vue-components/resolvers'
-import {resolve} from 'path';
+import Components from 'unplugin-vue-components/vite';
+import {ElementPlusResolver,VantResolver} from 'unplugin-vue-components/resolvers'
 import * as path from "path";
 // vue.config.js
 // https://vitejs.dev/config/
@@ -19,12 +18,12 @@ export default defineConfig(config => ({
       //   resolvers: [ElementPlusResolver()],
       // }),
       Components({
-        resolvers: [VantResolver()],
+        resolvers: [VantResolver(),ElementPlusResolver()],
       }),
     ],
     server: {
       // host: '0.0.0.0',
-      // port: 9700,
+      port: 9700,
       cors: true, //为开发服务器配置 CORS , 默认启用并允许任何源
       open: true, //服务启动时自动在浏览器中打开应用
       strictPort: false, //设为true时端口被占用则直接退出，不会尝试下一个可用端口
@@ -44,7 +43,7 @@ export default defineConfig(config => ({
         "#": path.join(__dirname, "types"),
         '/images': 'src/assets/images'
       },
-      extensions: ['.vue', '.js', '.json']
+      extensions: ['.js', '.ts', '.jsx', '.tsx', '.json', '.vue','.mjs']
     }
     ,
     build: {

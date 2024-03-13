@@ -64,14 +64,14 @@
                 style="width: 100%;text-align: justify !important;">
       </MarkDown>
       <!--    评论输入框-->
-      <comment :blog="blog"></comment>
+      <BlogComment :blog="blog"></BlogComment>
     </div>
   </el-scrollbar>
 </template>
 
 <script>
 import { deleteBlogApi, getBlogByIdApi, getBlogTagApi } from '@/utils/api.js';
-import Comment from '../../components/plugs/Comment';
+import BlogComment from '../plugs/BlogComment.vue';
 import gfm from '@bytemd/plugin-gfm'
 import frontmatter from '@bytemd/plugin-frontmatter'
 

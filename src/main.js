@@ -1,4 +1,4 @@
-import { createApp } from 'vue'
+import {createApp} from 'vue'
 import App from './App.vue'
 import router from './router'
 import store from './store'
@@ -6,10 +6,13 @@ import ElementPlus from 'element-plus'
 import * as ELIcons from '@element-plus/icons-vue'
 
 import 'element-plus/dist/index.css'
-import './assets/css/global.css'
-import { VueShowdownPlugin } from 'vue-showdown'
+// import './assets/css/pc.css'
+import 'vant/lib/index.css';
+import {VueShowdownPlugin} from 'vue-showdown'
 import axios from './utils/http'
 import echarts from './plugins/echarts'
+import currentPlatform from "./utils/platform.js";
+
 const app = createApp(App)
 app.config.warnHandler = () => null
 app.config.globalProperties.$echarts = echarts
@@ -17,7 +20,7 @@ app.config.globalProperties.$http = axios
 app.config.productionTip = false
 app.use(store)
 app.use(router)
-app.use(ElementPlus)
+// app.use(ElementPlus)
 app.use(VueShowdownPlugin, {
   // set default flavor of showdown
   flavor: 'github',
@@ -39,6 +42,11 @@ app.mount('#app')
 
 // window.router = router
 
+if (currentPlatform === "pc") {
+  require('./assets/css/pc.css');
+} else {
+  require('./assets/css/mobile.css');
+}
 
 // app.filter('dataFormat', function (originVal) {
 //   const df = new Date(originVal)

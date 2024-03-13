@@ -1,6 +1,8 @@
 import {createRouter, createWebHashHistory} from 'vue-router'
+import currentPlatform from "../utils/platform.js";
 
-const routes = [
+//PC路由
+const routesPC = [
   {
     path: '/',
     redirect: '/blog'
@@ -66,20 +68,58 @@ const routes = [
 
 ]
 
+//移动端路由
+const routesMobile = [
+  {
+    path: '/',
+    redirect: '/mobile'
+  },
+  {
+    path: '/mobile',
+    component: () => import('../views/mobile/Index.vue'),
+    redirect: '/mobile/blog/list',
+    children: [
+      {
+        path: '/mobile/blog/list',
+        component: () => import('../views/mobile/blog/blogList.vue')
+      },
+      {
+        path: '/mobile/blog/user',
+        component: () => import('../views/mobile/blog/userInfo.vue')
+      },
+      {
+        path: '/mobile/blog/hotspot',
+        component: () => import('../views/mobile/blog/hotspot.vue')
+      },
+      {
+        path: '/mobile/blog/draft',
+        component: () => import('../views/mobile/blog/draft.vue')
+      },
+    ]
+  },
+]
+
+let routes = [];
+if (currentPlatform === "mobile") {
+  routes = routesMobile
+} else {
+  routes = routesPC
+}
+
 const router = createRouter({
   history: createWebHashHistory(),
   routes,
   mode: 'history'
 })
 
-const filterRouters = ['/login', '/blog/list', '/blog/read', '/other/Info', '/other/donation', '/other/chatGPT', '/other/statistic']
+const filterRouters = ['/login']
 // 挂载路由守卫
 router.beforeEach((to, from, next) => {
   // to 将要访问的路径
 //  from 代表从哪个路径跳转而来
 //  next是下一个函数，表示放行
 //  next()放行，next('/login')强制跳转
-  if (filterRouters.indexOf(to.path) !== -1) return next()
+  if (filterRouters.indexOf(to.path) === -1) return next()
   // 获取token
   const tokenStr = window.sessionStorage.getItem('AccessToken')
   if (!tokenStr) return next('/login')
