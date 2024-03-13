@@ -28,19 +28,20 @@
     "core-js": "^3.32.2",
     "dayjs": "^1.11.9",
     "echarts": "^5.5.0",
-    "element-plus": "^2.5.5",
+    "element-plus": "^2.6.1",
     "js-md5": "^0.7.3",
     "juejin-markdown-themes": "^1.31.0",
     "lodash": "^4.17.21",
     "nprogress": "^0.2.0",
     "socket.io-client": "^4.7.2",
+    "vant": "^4.8.5",
     "vue": "^3.3.4",
     "vue-router": "^4.2.4",
     "vue-showdown": "^4.2.0",
     "vuex": "^4.1.0"
   },
   "devDependencies": {
-    "@vitejs/plugin-vue": "^5.0.3",
+    "@vitejs/plugin-vue": "^5.0.4",
     "@vue/cli-plugin-babel": "^5.0.8",
     "@vue/cli-plugin-eslint": "^5.0.8",
     "@vue/cli-plugin-router": "^5.0.8",
@@ -55,12 +56,12 @@
     "eslint-plugin-node": "^11.1.0",
     "eslint-plugin-promise": "^5.2.0",
     "eslint-plugin-standard": "^4.0.0",
-    "eslint-plugin-vue": "^9.17.0",
+    "eslint-plugin-vue": "^9.23.0",
     "less": "^4.2.0",
     "less-loader": "^7.3.0",
     "unplugin-auto-import": "^0.8.8",
     "unplugin-vue-components": "^0.17.21",
-    "vite": "^5.0.8"
+    "vite": "^5.1.6"
   },
   "eslintConfig": {
     "root": true,
