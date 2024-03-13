@@ -18,6 +18,9 @@ export default defineConfig(config => ({
       // Components({
       //   resolvers: [ElementPlusResolver()],
       // }),
+      Components({
+        resolvers: [VantResolver()],
+      }),
     ],
     server: {
       // host: '0.0.0.0',
