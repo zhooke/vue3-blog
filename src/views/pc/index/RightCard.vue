@@ -94,8 +94,10 @@
           <el-row class="hot-blog-card" v-for="(item,index) in blogCommentNewestList" :key="index" gutter="20"
                   @click="blogCardClick(item.blogId)">
             <el-col :span="6">
-              <el-icon size="40"><UserFilled /></el-icon>
-<!--              <el-image :src="text_url" fit="cover" style="height: 55px"></el-image>-->
+              <el-icon size="40">
+                <UserFilled/>
+              </el-icon>
+              <!--              <el-image :src="text_url" fit="cover" style="height: 55px"></el-image>-->
             </el-col>
             <el-col :span="16">
             <span style="margin-bottom: 3px;height: 36px">{{
@@ -231,16 +233,15 @@
 
 <script>
 
-
-import { ref } from 'vue';
-import { blogTop5Api, commentNewestApi, createTagApi, getBlogUserApi, getTagApi, updateUserInfoApi } from '@/utils/api';
-import LoginRegister from '../../components/login/LoginRegister';
-import {UserFilled} from "@element-plus/icons-vue";
+import { ref } from 'vue'
+import { blogTop5Api, commentNewestApi, createTagApi, getBlogUserApi, getTagApi, updateUserInfoApi } from '@/utils/api'
+import LoginRegister from '../login/LoginRegister'
+import { UserFilled } from '@element-plus/icons-vue'
 
 export default {
   name: 'RightCard',
   components: { LoginRegister },
-  data() {
+  data () {
     return {
       text_url: 'https://bpic.588ku.com/element_origin_min_pic/01/48/73/4357443aa53522b.jpg',
       currentPage4: ref(4),
@@ -281,49 +282,49 @@ export default {
     }
   },
   methods: {
-    logout() {
+    logout () {
       window.sessionStorage.clear()
       this.$router.push('/blog/list')
       this.$message.success('退出成功')
       location.reload()
     },
-    handleSizeChange(val) {
+    handleSizeChange (val) {
       console.log(`${val} items per page`)
     },
-    handleCurrentChange(val) {
+    handleCurrentChange (val) {
       console.log(`current page: ${val}`)
     },
-    handleClick(tab, event) {
+    handleClick (tab, event) {
       console.log(tab, event)
     },
     // tag点击事件
-    async tagClick(val) {
+    async tagClick (val) {
       console.log(val)
     },
-    async blogCardClick(val) {
+    async blogCardClick (val) {
       await this.$router.push({ path: '/blog/read', query: { blogId: val } })
     },
-    async commentNewest() {
-      const { data: result } = await commentNewestApi({ blogAuthorId: this.userinfo.id });
-      this.blogCommentNewestList = result.data;
+    async commentNewest () {
+      const { data: result } = await commentNewestApi({ blogAuthorId: this.userinfo.id })
+      this.blogCommentNewestList = result.data
     },
-    async blogTop5() {
-      const { data: result } = await blogTop5Api();
-      this.blogTop5List = result.data;
+    async blogTop5 () {
+      const { data: result } = await blogTop5Api()
+      this.blogTop5List = result.data
     },
-    async getTag() {
-      const { data: result } = await getTagApi();
+    async getTag () {
+      const { data: result } = await getTagApi()
       this.blogTagList = result.data
     },
-    async getUser() {
+    async getUser () {
       const { data: result } = await getBlogUserApi()
       this.blogUserInfo = result.data
     },
-    userinfoEditBut() {
-      this.userInfoButShow = false;
+    userinfoEditBut () {
+      this.userInfoButShow = false
       this.userInfoDisabled = false
     },
-    async userinfoEditSaveBut() {
+    async userinfoEditSaveBut () {
       this.userInfoDialogVisible = false
       this.userInfoDisabled = true
       this.userInfoButShow = true
@@ -343,7 +344,7 @@ export default {
       }
       location.reload()
     },
-    handleAvatarSuccess(response, uploadFile) {
+    handleAvatarSuccess (response, uploadFile) {
       console.log(response)
       if (response.code === 200) {
         this.userinfo.headImgUrl = response.data.url
@@ -351,17 +352,17 @@ export default {
         this.$message.warning('上传头像失败')
       }
     },
-    async createTag() {
+    async createTag () {
       if (this.blogTagList.length >= 10) {
         return this.$message.warning('最多可添加10个标签')
       }
       await createTagApi(this.tagInput)
       this.blogTag = ''
-      const { data: result } = await getTagApi();
+      const { data: result } = await getTagApi()
       this.blogTagList.push(result.data[result.data.length - 1])
     }
   },
-  mounted() {
+  mounted () {
     const user = JSON.parse(window.sessionStorage.getItem('userinfo'))
     if (user) {
       this.userinfo = user

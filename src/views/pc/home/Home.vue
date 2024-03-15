@@ -2,7 +2,7 @@
   <el-container class="home-container">
     <el-header>
       <div>
-        <img src="../../assets/login.png" alt="">
+        <img alt="" src="@/assets/login.png">
         <span>admin管理平台</span>
       </div>
       <el-button type="info" @click="logout">退出</el-button>
@@ -12,27 +12,27 @@
         <div class="toggle-button" @click="toggleCollapse">|||</div>
         <!--        侧边栏菜单区域-->
         <el-menu
+          :collapse="isCollapse"
+          :collapse-transition="false"
+          :default-active="activePath"
+          :router="true"
+          active-text-color="#409EFF"
           background-color="#333744"
           text-color="#fff"
-          active-text-color="#409EFF"
-          unique-opened
-          :collapse-transition="false"
-          :collapse="isCollapse"
-          :router="true"
-          :default-active="activePath">
+          unique-opened>
           <!--          一级菜单-->
-          <el-submenu :index="item.id+''" v-for="item in menulist" :key="item.id">
+          <el-submenu v-for="item in menulist" :key="item.id" :index="item.id+''">
             <!--            一级菜单的模板区-->
-            <template slot="title">
+            <template v-slot:title>
               <!--              图标-->
               <i :class="iconsObj[item.id]"></i>
               <!--              文本-->
               <span>{{ item.menuName }}</span>
             </template>
             <!--                二级菜单的模板区域-->
-            <el-menu-item :index="'/'+subItem.menuCode" v-for="subItem in item.children" :key="subItem.id"
+            <el-menu-item v-for="subItem in item.children" :key="subItem.id" :index="'/'+subItem.menuCode"
                           @click="saveNavState('/'+subItem.menuCode)">
-              <template slot="title">
+              <template v-slot:title>
                 <!--              图标-->
                 <i class="el-icon-menu"></i>
                 <!--              文本-->

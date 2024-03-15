@@ -8,10 +8,12 @@
 
 <script>
 import { getDictionaryApi } from '@/utils/api.js';
+import { VueShowdown } from 'vue-showdown';
 
 export default {
   // eslint-disable-next-line vue/multi-word-component-names
   name: 'Donation',
+  components: { VueShowdown },
   data() {
     return {
       contents: []

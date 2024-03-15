@@ -10,8 +10,8 @@
 
         <el-row justify="space-between">
           <el-col span="18" style="margin-right:0">
-            <el-tag v-if="blog.isOriginal === 1" type="success" size="large" effect="dark">原创</el-tag>
-            <el-tag v-if="blog.isOriginal === 0" type="danger" size="large" effect="dark">转摘</el-tag>
+            <el-tag v-if="blog.isOriginal === 1" effect="dark" size="large" type="success">原创</el-tag>
+            <el-tag v-if="blog.isOriginal === 0" effect="dark" size="large" type="danger">转摘</el-tag>
             <el-row style="margin-left: 10px">
               <el-col style="margin-bottom: 10px">
                 <el-row>
@@ -37,8 +37,8 @@
                 <el-row>
                   <el-col style="display: inline-block;">
                     <span style="font-size: 14px;color: #5b676b;">标签：</span>
-                    <el-tag class="ml-2" type="success" v-for="item in blogTagList" :key="item"
-                            style="margin-right: 10px">{{
+                    <el-tag v-for="item in blogTagList" :key="item" class="ml-2" style="margin-right: 10px"
+                            type="success">{{
                         item.name
                       }}
                     </el-tag>
@@ -49,18 +49,18 @@
             </el-row>
           </el-col>
           <el-col span="6" style="margin-top: 15px">
-            <el-button v-show="userinfo !== null && userinfo.id===blog.createUserId" type="primary" round size="small"
+            <el-button v-show="userinfo !== null && userinfo.id===blog.createUserId" round size="small" type="primary"
                        @click="editBlog">
               编辑
             </el-button>
-            <el-button type="info" round size="small">版权</el-button>
-            <el-button v-show="userinfo !== null && userinfo.id===blog.createUserId" type="danger" round size="small"
+            <el-button round size="small" type="info">版权</el-button>
+            <el-button v-show="userinfo !== null && userinfo.id===blog.createUserId" round size="small" type="danger"
                        @click="deleteBlog">删除
             </el-button>
           </el-col>
         </el-row>
       </el-card>
-      <MarkDown :value="blog.content" :showViewer="true"
+      <MarkDown :showViewer="true" :value="blog.content"
                 style="width: 100%;text-align: justify !important;">
       </MarkDown>
       <!--    评论输入框-->
@@ -70,14 +70,14 @@
 </template>
 
 <script>
-import { deleteBlogApi, getBlogByIdApi, getBlogTagApi } from '@/utils/api.js';
-import BlogComment from '../plugs/BlogComment.vue';
+import { deleteBlogApi, getBlogByIdApi, getBlogTagApi } from '@/utils/api.js'
 import gfm from '@bytemd/plugin-gfm'
 import frontmatter from '@bytemd/plugin-frontmatter'
 
 import 'juejin-markdown-themes/dist/channing-cyan.min.css'
 import 'bytemd/dist/index.css'
-import MarkDown from '../../components/plugs/MarkDown.vue'; // 导入编辑器样式
+import MarkDown from '../plugins/MarkDown.vue'
+import BlogComment from '@/views/pc/plugins/BlogComment.vue' // 导入编辑器样式
 
 const plugins = [
   gfm(),
@@ -87,7 +87,7 @@ const plugins = [
 
 export default {
   name: 'ReadContext',
-  components: { MarkDown, Comment },
+  components: { MarkDown, BlogComment },
   data() {
     return {
       plugins,
@@ -99,7 +99,7 @@ export default {
         'https://cube.elemecdn.com/3/7c/3ea6beec64369c2642b92c6726f1epng.png',
       blogTagList: [],
       userinfo: {}
-    };
+    }
   },
   methods: {
     save() {
@@ -129,7 +129,7 @@ export default {
           }
         })
       }).catch(() => {
-        return false;
+        return false
       })
     },
     editBlog() {
@@ -173,6 +173,5 @@ export default {
     margin-right: 5px;
   }
 }
-
 
 </style>

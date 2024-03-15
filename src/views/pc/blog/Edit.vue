@@ -19,8 +19,8 @@
           <el-button size="large" type="danger" @click="dialogVisible = true">更新文章</el-button>
         </el-col>
       </el-row>
-      <MarkDown :value="blog.content" :showEditor="true" @content="getContext"
-                style="min-height:800px;width: 100%">
+      <MarkDown :showEditor="true" :value="blog.content" style="min-height:800px;width: 100%"
+                @content="getContext">
       </MarkDown>
       <el-dialog
         v-model="dialogVisible"
@@ -63,16 +63,16 @@
 
                   <p>已添加标签：</p>
                   <el-col span="24">
-                    <el-checkbox-group v-model="tagCheckedList" :min="0" :max="5">
+                    <el-checkbox-group v-model="tagCheckedList" :max="5" :min="0">
                       <el-checkbox v-for="item in blogTagList" :key="item" :label="item"
-                                   @change="checkboxChange($event,item)"
-                                   name="type">{{
+                                   name="type"
+                                   @change="checkboxChange($event,item)">{{
                           item.name
                         }}
                       </el-checkbox>
                     </el-checkbox-group>
                   </el-col>
-                  <el-col :span="24" :offset="16" style="font-size: 14px;color: #a2b0b7;">
+                  <el-col :offset="16" :span="24" style="font-size: 14px;color: #a2b0b7;">
                     剩余可添加标签：{{ blogTagList.length }}/10
                   </el-col>
                 </el-card>
@@ -113,16 +113,16 @@
 </template>
 
 <script setup>
-import { nextTick, onMounted, ref, unref } from 'vue';
-import { ElInput, ElMessage, ElMessageBox } from 'element-plus';
-import { createTagApi, getBlogByIdApi, getTagApi, updateBlogApi } from '@/utils/api.js';
+import { nextTick, onMounted, ref, unref } from 'vue'
+import { ElInput, ElMessage, ElMessageBox } from 'element-plus'
+import { createTagApi, getBlogByIdApi, getTagApi, updateBlogApi } from '@/utils/api.js'
 
-import { onBeforeRouteLeave, onBeforeRouteUpdate, useRoute } from 'vue-router';
-import router from '../../router';
-import MarkDown from '../../components/plugs/MarkDown.vue';
+import { onBeforeRouteLeave, onBeforeRouteUpdate, useRoute } from 'vue-router'
+import router from '../../router'
+import MarkDown from '../plugins/MarkDown.vue'
 
-const route = useRoute();
-let blog = ref({
+const route = useRoute()
+const blog = ref({
   blogId: '',
   authorId: '',
   authorName: '',
@@ -134,21 +134,21 @@ let blog = ref({
   isOriginal: ref(1),
   tags: ''
 })
-let dialogVisible = ref(false)
-let dynamicTags = []
-let inputVisible = ref(false)
+const dialogVisible = ref(false)
+const dynamicTags = []
+const inputVisible = ref(false)
 let inputValue = ''
-let InputRef = ref < ElInput >(ElInput)
-let isSave = ref(false)
+const InputRef = ref < ElInput >(ElInput)
+const isSave = ref(false)
 let blogTag = {}
 let blogTagList = []
-let buttonRef = ref()
-let popoverRef = ref()
-let tagInput = {
+const buttonRef = ref()
+const popoverRef = ref()
+const tagInput = {
   name: ''
 }
-let tagChecked = ref(false)
-let tagCheckedList = []
+const tagChecked = ref(false)
+const tagCheckedList = []
 
 function update() {
   const user = JSON.parse(window.sessionStorage.getItem('userinfo'))
@@ -162,7 +162,7 @@ function update() {
       return ElMessage.error(response.data.message)
     }
     router.push('/')
-  });
+  })
   window.onbeforeunload = null
 }
 
@@ -179,15 +179,15 @@ function imgDel() {
 }
 
 function handleCloseDialog() {
-  dialogVisible.value = false;
+  dialogVisible.value = false
 }
 
 function handleCloseTag(tag) {
   dynamicTags.splice(dynamicTags.indexOf(tag), 1)
   console.log(tagCheckedList)
-  const index = tagCheckedList.indexOf(tag);
+  const index = tagCheckedList.indexOf(tag)
   if (index > -1) {
-    tagCheckedList.splice(index, 1);
+    tagCheckedList.splice(index, 1)
   }
 }
 
@@ -212,7 +212,7 @@ function onSubmit() {
   isSave.value = true
   blog.value.isDraft = 0
   update()
-  ElMessage.success('更新成功');
+  ElMessage.success('更新成功')
 }
 
 function goBack() {
@@ -228,8 +228,7 @@ function createTag() {
   tagInput.name = ''
   getTagApi().then((response) => {
     blogTagList.push(response.data.data[response.data.data.length - 1])
-  });
-
+  })
 }
 
 function onClickOutside() {
@@ -240,9 +239,9 @@ function checkboxChange(val, tag) {
   if (val) {
     dynamicTags.push(tag)
   } else {
-    const index = dynamicTags.indexOf(tag);
+    const index = dynamicTags.indexOf(tag)
     if (index > -1) {
-      dynamicTags.splice(index, 1);
+      dynamicTags.splice(index, 1)
     }
   }
 }
@@ -250,15 +249,14 @@ function checkboxChange(val, tag) {
 function getTag() {
   getTagApi().then(response => {
     blogTagList = response.data.data
-  });
-
+  })
 }
 
 function saveDraft() {
   blog.value.isDraft = 1
   isSave.value = true
   update()
-  ElMessage.success('保存成功');
+  ElMessage.success('保存成功')
 }
 
 onMounted(() => {
@@ -267,13 +265,13 @@ onMounted(() => {
     blog.value = response.data.data
   })
   window.onbeforeunload = function (e) {
-    e = e || window.event;
+    e = e || window.event
     // 兼容IE8和Firefox 4之前的版本
     if (e) {
-      e.returnValue = '关闭提示';
+      e.returnValue = '关闭提示'
     }
     // Chrome, Safari, Firefox 4+, Opera 12+ , IE 9+
-    return '关闭提示';
+    return '关闭提示'
   }
   getTag()
 })
@@ -289,12 +287,12 @@ onBeforeRouteUpdate((to, from, next) => {
 
 onBeforeRouteLeave((to, from) => {
   if (isSave.value) {
-    return;
+    return
   }
   return ElMessageBox.confirm('您还没有保存文章呢，确认离开？').then(() => {
     window.onbeforeunload = null
   }).catch(() => {
-    return false;
+    return false
   })
 })
 </script>

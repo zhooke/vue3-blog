@@ -9,9 +9,9 @@
             <span class="chat-status">{{ status }}</span>
           </div>
         </div>
-        <div class="chat-body" ref="chatBody">
+        <div ref="chatBody" class="chat-body">
           <div v-for="message in messages" :key="message.id" class="chat-message">
-            <div class="user-chat" v-if="message.type===1">
+            <div v-if="message.type===1" class="user-chat">
               <div class="message-avatar">
                 <el-icon>
                   <Avatar/>
@@ -25,7 +25,7 @@
                 <div class="message-text">{{ message.text }}</div>
               </div>
             </div>
-            <div class="gpt-chat" v-if="message.type===2">
+            <div v-if="message.type===2" class="gpt-chat">
               <div class="message-avatar">
                 <el-icon>
                   <Monitor/>
@@ -45,8 +45,8 @@
     </el-scrollbar>
     <div class="chat-wrapper" style="height: 5vh">
       <div class="chat-footer">
-        <el-input v-model="message" placeholder="输入要发送的消息" clearable></el-input>
-        <el-button type="primary" style="margin-left: 5px" @click="sendMessage">发送</el-button>
+        <el-input v-model="message" clearable placeholder="输入要发送的消息"></el-input>
+        <el-button style="margin-left: 5px" type="primary" @click="sendMessage">发送</el-button>
       </div>
     </div>
   </el-scrollbar>
@@ -55,8 +55,8 @@
 <script setup>
 import { chatApi } from '@/utils/api.js';
 import 'element-plus/dist/index.css'
-import { ElButton, ElInput, ElScrollbar } from 'element-plus';
 import { getCurrentInstance, onMounted, ref, watchEffect } from 'vue';
+import { Avatar, Monitor } from '@element-plus/icons-vue';
 
 const instance = getCurrentInstance()
 const scrollbarRef = ref()
@@ -159,7 +159,7 @@ watchEffect(() => {
   /*max-width: 400px;*/
   width: 100%;
   margin: 0 auto;
-/*border: 1px solid #dcdfe6; border-radius: 4px;*/
+  /*border: 1px solid #dcdfe6; border-radius: 4px;*/
 }
 
 .chat-header {
@@ -237,7 +237,7 @@ watchEffect(() => {
 .chat-footer {
   display: flex;
   align-items: center;
-/*border-top: 1px solid #dcdfe6; margin-top: 5px;*/
+  /*border-top: 1px solid #dcdfe6; margin-top: 5px;*/
 }
 
 .el-input-group__append {

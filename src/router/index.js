@@ -1,7 +1,7 @@
-import {createRouter, createWebHashHistory} from 'vue-router'
-import currentPlatform from "../utils/platform.js";
+import { createRouter, createWebHashHistory } from 'vue-router'
+import currentPlatform from '@/utils/platform.js'
 
-//PC路由
+// PC路由
 const routesPC = [
   {
     path: '/',
@@ -9,66 +9,66 @@ const routesPC = [
   },
   {
     path: '/blog',
-    component: () => import('../components/Index.vue'),
+    component: () => import('@/views/pc/Index.vue'),
     redirect: '/blog/list',
     children: [
       {
         path: '/blog/list',
-        component: () => import('../components/blog/BlogList.vue')
+        component: () => import('@/views/pc/blog/BlogList.vue')
       },
       {
         path: '/blog/read',
-        component: () => import('../components/blog/Read.vue')
+        component: () => import('@/views/pc/blog/Read.vue')
       },
       {
         path: '/blog/draft',
-        component: () => import('../components/blog/DraftList.vue')
+        component: () => import('@/views/pc/blog/DraftList.vue')
       },
       {
         path: '/blog/read/draft',
-        component: () => import('../components/blog/ReadDraft.vue')
+        component: () => import('@/views/pc/blog/ReadDraft.vue')
       },
       {
         path: '/other/Info',
-        component: () => import('../components/other/Info.vue')
+        component: () => import('@/views/pc/other/Info.vue')
       },
       {
         path: '/other/donation',
-        component: () => import('../components/other/Donation.vue')
+        component: () => import('@/views/pc/other/Donation.vue')
       },
       {
         path: '/other/chatGPT',
-        component: () => import('../components/other/ChatGPT.vue')
+        component: () => import('@/views/pc/other/ChatGPT.vue')
       },
       {
         path: '/other/statistic',
-        component: () => import('../components/other/Statistic.vue')
+        component: () => import('@/views/pc/other/Statistic.vue')
       }
     ]
   },
   {
     path: '/publish',
-    component: () => import('../components/blog/Publish.vue')
+    component: () => import('@/views/pc/blog/Publish.vue')
   },
   {
     path: '/edit',
     name: 'edit',
-    component: () => import('../components/blog/Edit.vue')
+    component: () => import('@/views/pc/blog/Edit.vue')
   },
   {
     path: '/login',
     name: 'login',
-    component: () => import('../components/login/Login.vue')
+    component: () => import('@/views/pc/login/Login.vue')
   },
   {
     path: '/home',
     name: 'home',
-    component: () => import('../components/home/Home.vue')
+    component: () => import('@/views/pc/home/Home.vue')
   }
 
 ]
 
-//移动端路由
+// 移动端路由
 const routesMobile = [
   {
     path: '/',
@@ -76,31 +76,38 @@ const routesMobile = [
   },
   {
     path: '/mobile',
-    component: () => import('../views/mobile/Index.vue'),
+    component: () => import('@/views/mobile/Index.vue'),
     redirect: '/mobile/blog/list',
     children: [
       {
         path: '/mobile/blog/list',
-        component: () => import('../views/mobile/blog/blogList.vue')
+        component: () => import('@/views/mobile/blog/blogList.vue')
       },
       {
         path: '/mobile/blog/user',
-        component: () => import('../views/mobile/blog/userInfo.vue')
+        component: () => import('@/views/mobile/blog/userInfo.vue')
       },
       {
         path: '/mobile/blog/hotspot',
-        component: () => import('../views/mobile/blog/hotspot.vue')
+        component: () => import('@/views/mobile/blog/hotspot.vue')
       },
       {
         path: '/mobile/blog/draft',
-        component: () => import('../views/mobile/blog/draft.vue')
+        component: () => import('@/views/mobile/blog/draft.vue')
       },
+      {
+        name: 'blogRead',
+        // path: '/mobile/blog/read',
+        component: () => import('@/views/mobile/blog/blog.vue'),
+        props: { newsletterPopup: false }
+      }
     ]
-  },
+  }
+
 ]
 
-let routes = [];
-if (currentPlatform === "mobile") {
+let routes = []
+if (currentPlatform === 'mobile') {
   routes = routesMobile
 } else {
   routes = routesPC

@@ -9,6 +9,7 @@
       right-text="编辑"
       @click-right="onClickRight"
     />
+    <van-divider />
   </div>
 
 </template>

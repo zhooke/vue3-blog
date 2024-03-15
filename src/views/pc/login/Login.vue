@@ -12,7 +12,7 @@
           <el-input v-model="loginForm.username" placeholder="请输入昵称"></el-input>
         </el-form-item>
         <!--        密码-->
-        <el-form-item prop="password" label="密码">
+        <el-form-item label="密码" prop="password">
           <el-input v-model="loginForm.password" placeholder="请输入密码"
                     type="password"></el-input>
         </el-form-item>
@@ -28,7 +28,7 @@
 
 <script>
 
-import axios from '../../utils/http'
+import axios from '@/utils/http'
 import NProgress from 'nprogress';
 import { getLoginApi } from '@/utils/api.js';
 import md5 from 'js-md5';

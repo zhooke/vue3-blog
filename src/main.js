@@ -1,17 +1,16 @@
-import {createApp} from 'vue'
+import { createApp } from 'vue'
 import App from './App.vue'
 import router from './router'
 import store from './store'
-import ElementPlus from 'element-plus'
 import * as ELIcons from '@element-plus/icons-vue'
 
 import 'element-plus/dist/index.css'
 // import './assets/css/pc.css'
 import 'vant/lib/index.css';
-import {VueShowdownPlugin} from 'vue-showdown'
+import { VueShowdownPlugin } from 'vue-showdown'
 import axios from './utils/http'
 import echarts from './plugins/echarts'
-import currentPlatform from "./utils/platform.js";
+import currentPlatform from './utils/platform.js';
 
 const app = createApp(App)
 app.config.warnHandler = () => null
@@ -42,10 +41,10 @@ app.mount('#app')
 
 // window.router = router
 
-if (currentPlatform === "pc") {
-  require('./assets/css/pc.css');
+if (currentPlatform === 'pc') {
+  await import('./assets/css/pc.css');
 } else {
-  require('./assets/css/mobile.css');
+  await import('./assets/css/mobile.css');
 }
 
 // app.filter('dataFormat', function (originVal) {

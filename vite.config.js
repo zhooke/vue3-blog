@@ -25,7 +25,7 @@ export default defineConfig(config => ({
       // host: '0.0.0.0',
       port: 9700,
       cors: true, //为开发服务器配置 CORS , 默认启用并允许任何源
-      open: true, //服务启动时自动在浏览器中打开应用
+      open: false, //服务启动时自动在浏览器中打开应用
       strictPort: false, //设为true时端口被占用则直接退出，不会尝试下一个可用端口
       // 反向代理配置
       proxy: {

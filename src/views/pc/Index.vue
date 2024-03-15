@@ -12,7 +12,7 @@
           <el-header>
             <header-card/>
           </el-header>
-          <el-main noresize="true" class="page-component__scroll">
+          <el-main class="page-component__scroll" noresize="true">
             <!--            <el-scrollbar>-->
             <!--              中心内容-->
             <!--              添加:key="$route.fullPath
@@ -23,9 +23,9 @@
             <router-view :key="$route.fullPath"></router-view>
             <!--            </el-scrollbar>-->
             <el-backtop
-              target=".page-component__scroll .el-scrollbar__wrap"
               :bottom="100"
               :visibility-height="50"
+              target=".page-component__scroll .el-scrollbar__wrap"
             ></el-backtop>
           </el-main>
         </el-container>
@@ -44,10 +44,10 @@
 </template>
 
 <script>
-import leftCard from '@/components/index/LeftCard';
-import headerCard from '@/components/index/HeaderCard';
-import rightCard from '@/components/index/RightCard';
-import footerCard from '@/components/index/FooterCard';
+import leftCard from '@/views/pc/index/LeftCard'
+import headerCard from '@/views/pc/index/HeaderCard'
+import rightCard from '@/views/pc/index/RightCard'
+import footerCard from '@/views/pc/index/FooterCard'
 
 export default {
   // eslint-disable-next-line vue/multi-word-component-names

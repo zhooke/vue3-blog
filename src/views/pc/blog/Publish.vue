@@ -19,8 +19,8 @@
           <el-button size="large" type="danger" @click="dialogVisible = true">发布文章</el-button>
         </el-col>
       </el-row>
-      <MarkDown :value="blog.content" :showEditor="true" @content="getContext"
-                style="width: 100%;z-index: 100;height: calc(100vh - 100px);">
+      <MarkDown :showEditor="true" :value="blog.content" style="width: 100%;z-index: 100;height: calc(100vh - 100px);"
+                @content="getContext">
       </MarkDown>
       <el-dialog
         v-model="dialogVisible"
@@ -63,16 +63,16 @@
 
                   <p>已添加标签：</p>
                   <el-col span="24">
-                    <el-checkbox-group v-model="tagCheckedList" :min="0" :max="5">
+                    <el-checkbox-group v-model="tagCheckedList" :max="5" :min="0">
                       <el-checkbox v-for="item in blogTagList" :key="item" :label="item"
-                                   @change="checkboxChange($event,item)"
-                                   name="type">{{
+                                   name="type"
+                                   @change="checkboxChange($event,item)">{{
                           item.name
                         }}
                       </el-checkbox>
                     </el-checkbox-group>
                   </el-col>
-                  <el-col :span="24" :offset="16" style="font-size: 14px;color: #a2b0b7;">
+                  <el-col :offset="16" :span="24" style="font-size: 14px;color: #a2b0b7;">
                     剩余可添加标签：{{ blogTagList.length }}/10
                   </el-col>
                 </el-card>
@@ -83,9 +83,9 @@
 
           <el-form-item label="文章类型：">
             <el-radio-group v-model="blog.isOriginal">
-              <el-radio border :label="1">原创</el-radio>
-              <el-radio border :label="2">转摘</el-radio>
-              <el-radio border :label="3">翻译</el-radio>
+              <el-radio :label="1" border>原创</el-radio>
+              <el-radio :label="2" border>转摘</el-radio>
+              <el-radio :label="3" border>翻译</el-radio>
             </el-radio-group>
           </el-form-item>
           <el-form-item label="发布形式：">
@@ -113,16 +113,16 @@
 </template>
 
 <script setup>
-import { nextTick, onMounted, ref, unref } from 'vue';
-import { ElInput, ElMessage, ElMessageBox } from 'element-plus';
-import { createTagApi, getTagApi, publishBlogApi } from '@/utils/api.js';
-import MarkDown from '../../components/plugs/MarkDown.vue';
-import { onBeforeRouteLeave, onBeforeRouteUpdate, useRoute } from 'vue-router';
-import router from '../../router';
+import { nextTick, onMounted, ref, unref } from 'vue'
+import { ElInput, ElMessage, ElMessageBox } from 'element-plus'
+import { createTagApi, getTagApi, publishBlogApi } from '@/utils/api.js'
+import MarkDown from '../plugins/MarkDown.vue'
+import { onBeforeRouteLeave, onBeforeRouteUpdate, useRoute } from 'vue-router'
+import router from '@/router/index.js'
 
-const route = useRoute();
+const route = useRoute()
 
-let blog = ref({
+const blog = ref({
   authorId: '',
   authorName: '',
   title: '',
@@ -135,20 +135,20 @@ let blog = ref({
   isDraft: 0
 })
 let dialogVisible = ref(false)
-let dynamicTags = []
-let inputVisible = ref(false)
+const dynamicTags = []
+const inputVisible = ref(false)
 let inputValue = ''
-let InputRef = ref < ElInput >(ElInput)
-let isSave = ref(false)
+const InputRef = ref < ElInput >(ElInput)
+const isSave = ref(false)
 let blogTag = {}
 let blogTagList = []
-let buttonRef = ref()
-let popoverRef = ref()
-let tagInput = {
+const buttonRef = ref()
+const popoverRef = ref()
+const tagInput = {
   name: ''
 }
-let tagChecked = ref(false)
-let tagCheckedList = []
+const tagChecked = ref(false)
+const tagCheckedList = []
 
 function getContext(str) {
   blog.value.content = str
@@ -179,15 +179,15 @@ function imgDel() {
 }
 
 function handleCloseDialog() {
-  dialogVisible = ref(false);
+  dialogVisible = ref(false)
 }
 
 function handleCloseTag(tag) {
   dynamicTags.splice(dynamicTags.indexOf(tag), 1)
   console.log(tagCheckedList)
-  const index = tagCheckedList.indexOf(tag);
+  const index = tagCheckedList.indexOf(tag)
   if (index > -1) {
-    tagCheckedList.splice(index, 1);
+    tagCheckedList.splice(index, 1)
   }
 }
 
@@ -213,7 +213,7 @@ function onSubmit() {
   dialogVisible = false
   isSave.value = true
   save()
-  ElMessage.success('发布成功');
+  ElMessage.success('发布成功')
 }
 
 function goBack() {
@@ -228,7 +228,7 @@ function createTag() {
   blogTag = ''
   tagInput.name = ''
   const result = async () => {
-    await getTagApi();
+    await getTagApi()
   }
   blogTagList.push(result.data[result.data.length - 1])
 }
@@ -241,9 +241,9 @@ function checkboxChange(val, tag) {
   if (val) {
     dynamicTags.push(tag)
   } else {
-    const index = dynamicTags.indexOf(tag);
+    const index = dynamicTags.indexOf(tag)
     if (index > -1) {
-      dynamicTags.splice(index, 1);
+      dynamicTags.splice(index, 1)
     }
   }
 }
@@ -258,7 +258,7 @@ function saveDraft() {
   blog.value.isDraft = 1
   isSave.value = true
   save()
-  ElMessage.success('保存成功');
+  ElMessage.success('保存成功')
 }
 
 function uploadImage(v) {
@@ -267,13 +267,13 @@ function uploadImage(v) {
 
 onMounted(() => {
   window.onbeforeunload = function (e) {
-    e = e || window.event;
+    e = e || window.event
     // 兼容IE8和Firefox 4之前的版本
     if (e) {
-      e.returnValue = '关闭提示';
+      e.returnValue = '关闭提示'
     }
     // Chrome, Safari, Firefox 4+, Opera 12+ , IE 9+
-    return '关闭提示';
+    return '关闭提示'
   }
   getTag()
 })
@@ -289,12 +289,12 @@ onBeforeRouteUpdate((to, from, next) => {
 
 onBeforeRouteLeave((to, from) => {
   if (isSave.value) {
-    return;
+    return
   }
   return ElMessageBox.confirm('您还没有保存文章呢，确认离开？').then(() => {
     window.onbeforeunload = null
   }).catch(() => {
-    return false;
+    return false
   })
 })
 

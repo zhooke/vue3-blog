@@ -1,7 +1,7 @@
 <template>
   <div>
-    <el-button size="small" type="primary" @click="LoginDialogVisible = true" plain>登陆</el-button>
-    <el-button size="small" type="success" @click="registerDialogVisible =true" plain>注册</el-button>
+    <el-button plain size="small" type="primary" @click="LoginDialogVisible = true">登陆</el-button>
+    <el-button plain size="small" type="success" @click="registerDialogVisible =true">注册</el-button>
     <!--    登陆-->
     <el-dialog
       v-model="LoginDialogVisible"
@@ -32,21 +32,21 @@
     <!--    注册-->
     <el-dialog
       v-model="registerDialogVisible"
+      :close-on-click-modal="false"
       title="注册"
       width="450px"
-      :close-on-click-modal="false"
     >
       <!--        注册表单区-->
       <el-form ref="registerFormRef" :model="registerForm" :rules="registerFormRules" label-width="90px">
         <el-form-item label="头像">
           <el-upload
-            class="avatar-uploader"
-            action="/api/upload"
-            :show-file-list="false"
-            :on-success="handleAvatarSuccess"
             :multiple="true"
+            :on-success="handleAvatarSuccess"
+            :show-file-list="false"
+            action="/api/upload"
+            class="avatar-uploader"
           >
-            <el-avatar :src="registerForm.headImgUrl" :size="40"/>
+            <el-avatar :size="40" :src="registerForm.headImgUrl"/>
           </el-upload>
         </el-form-item>
         <!--        用户名-->
@@ -84,7 +84,7 @@
 <script>
 import { ref } from 'vue';
 import { getLoginApi, registerUserApi } from '@/utils/api.js';
-import axios from '../../utils/http';
+import axios from '@/utils/http';
 import NProgress from 'nprogress';
 import md5 from 'js-md5';
 

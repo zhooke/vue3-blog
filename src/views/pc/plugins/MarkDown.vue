@@ -1,20 +1,20 @@
 <template>
   <div class="details">
     <Editor
-      :value="defValue"
-      :plugins="defPlugins"
-      :locale="zhHans"
-      @change="handleChange"
-      :uploadImages="uploadImage"
       v-if="props.showEditor"
+      :locale="zhHans"
       :mode="props.mode"
+      :plugins="defPlugins"
+      :uploadImages="uploadImage"
+      :value="defValue"
+      @change="handleChange"
     >
     </Editor>
     <Viewer
-      :value="props.value"
-      :plugins="defPlugins"
-      :locale="zhHans"
       v-if="props.showViewer"
+      :locale="zhHans"
+      :plugins="defPlugins"
+      :value="props.value"
     >
     </Viewer>
   </div>
@@ -32,7 +32,7 @@ import gemoji from '@bytemd/plugin-gemoji'
 import mediumZoom from '@bytemd/plugin-medium-zoom'
 import mermaid from '@bytemd/plugin-mermaid'
 import mathssr from '@bytemd/plugin-math-ssr'
-import zhHans from '../../locales/zh_Hans.json'
+import zhHans from '@/locales/zh_Hans.json'
 import gfmLocale from '@bytemd/plugin-gfm/locales/zh_Hans.json';
 import mathLocale from '@bytemd/plugin-math/locales/zh_Hans.json';
 import mermaidLocale from '@bytemd/plugin-mermaid/locales/zh_Hans.json';

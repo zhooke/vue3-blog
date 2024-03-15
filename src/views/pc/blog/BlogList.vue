@@ -2,7 +2,7 @@
   <el-scrollbar>
     <div>
       <!--              个人资料展示-->
-      <el-card :body-style="{padding:'0'}" class="header-card" id="top">
+      <el-card id="top" :body-style="{padding:'0'}" class="header-card">
         <el-card :body-style="{padding:'0'}" class="header-card-background">
         </el-card>
         <el-image :src="userinfo.headImgUrl" class="header-image"/>
@@ -45,13 +45,13 @@
                 <el-divider style="margin-bottom: 5px"/>
                 <el-row class="card-info" justify="start">
                   <el-col v-if="blog.isOriginal === 1">
-                    <el-tag type="success" size="small" style="height: 16px">原创</el-tag>
+                    <el-tag size="small" style="height: 16px" type="success">原创</el-tag>
                   </el-col>
                   <el-col v-else-if="blog.isOriginal === 2">
-                    <el-tag type="danger" size="small" style="height: 16px">转摘</el-tag>
+                    <el-tag size="small" style="height: 16px" type="danger">转摘</el-tag>
                   </el-col>
                   <el-col v-if="blog.isOriginal === 3">
-                    <el-tag type="warning" size="small" style="height: 16px">翻译</el-tag>
+                    <el-tag size="small" style="height: 16px" type="warning">翻译</el-tag>
                   </el-col>
                   <el-col v-show="blog.isTop === 1">
                     <el-tag size="small" style="height: 16px">置顶</el-tag>
@@ -99,11 +99,13 @@
 
 <script>
 
-import { ref } from 'vue';
-import { getBlogListApi, getBlogUserApi } from '@/utils/api.js';
+import { ref } from 'vue'
+import { getBlogListApi, getBlogUserApi } from '@/utils/api.js'
+import { VueShowdown } from 'vue-showdown';
 
 export default {
   name: 'ContextList',
+  components: { VueShowdown },
   data() {
     return {
       header_url: 'https://img2.baidu.com/it/u=2723317969,2981355550&fm=26&fmt=auto',
@@ -146,7 +148,7 @@ export default {
       this.backTop()
     },
     backTop() {
-      const element = document.getElementById('top');
+      const element = document.getElementById('top')
       element.scrollIntoView()
     },
     handleClick(tab, event) {
@@ -173,7 +175,7 @@ export default {
   },
   mounted() {
     this.blogRequest.userId = this.$route.query.userId
-    this.blogRequest.title = this.$route.query.title;
+    this.blogRequest.title = this.$route.query.title
     this.getBlogList()
     this.getUser()
     const user = JSON.parse(window.sessionStorage.getItem('userinfo'))
