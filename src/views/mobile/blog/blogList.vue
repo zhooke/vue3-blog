@@ -1,10 +1,10 @@
 <template>
-  <van-nav-bar title="最新文章"/>
+  <van-nav-bar title="最新文章" />
   <van-list v-model:loading="loading" :finished="finished" finished-text="没有更多了" @load="getBlogList">
     <van-cell v-for="blog in blogList" :key="blog">
       <van-text-ellipsis :content="blog.title" @click="blogCardClick(blog)"></van-text-ellipsis>
     </van-cell>
-    <van-back-top/>
+    <van-back-top />
   </van-list>
 </template>
 
@@ -59,5 +59,4 @@ function blogCardClick(currentBlog) {
   font-weight: bold;
   text-align: left;
 }
-
 </style>

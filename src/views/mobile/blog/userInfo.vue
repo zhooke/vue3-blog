@@ -4,11 +4,7 @@
 
 <template>
   <div id="userInfo">
-    <van-nav-bar
-      title="我的资料"
-      right-text="编辑"
-      @click-right="onClickRight"
-    />
+    <van-nav-bar title="我的资料" right-text="编辑" @click-right="onClickRight" />
     <van-divider />
   </div>
 

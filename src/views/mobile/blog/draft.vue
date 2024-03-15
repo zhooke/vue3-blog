@@ -3,9 +3,7 @@
 </script>
 
 <template>
-<h1>draft</h1>
+    <h1>draft</h1>
 </template>
 
-<style scoped lang="less">
-
-</style>
+<style scoped lang="less"></style>

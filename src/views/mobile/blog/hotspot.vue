@@ -7,6 +7,4 @@
   <h1>讨论</h1>
 </template>
 
-<style scoped lang="less">
-
-</style>
+<style scoped lang="less"></style>
