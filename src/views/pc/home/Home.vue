@@ -21,7 +21,7 @@
           text-color="#fff"
           unique-opened>
           <!--          一级菜单-->
-          <el-submenu v-for="item in menulist" :key="item.id" :index="item.id+''">
+          <el-sub-menu v-for="item in menulist" :key="item.id" :index="item.id+''">
             <!--            一级菜单的模板区-->
             <template v-slot:title>
               <!--              图标-->
@@ -39,7 +39,7 @@
                 <span>{{ subItem.menuName }}</span>
               </template>
             </el-menu-item>
-          </el-submenu>
+          </el-sub-menu>
         </el-menu>
       </el-aside>
       <el-container>

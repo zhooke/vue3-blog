@@ -118,7 +118,7 @@ import { ElInput, ElMessage, ElMessageBox } from 'element-plus'
 import { createTagApi, getBlogByIdApi, getTagApi, updateBlogApi } from '@/utils/api.js'
 
 import { onBeforeRouteLeave, onBeforeRouteUpdate, useRoute } from 'vue-router'
-import router from '../../router'
+import router from '@/router'
 import MarkDown from '../plugins/MarkDown.vue'
 
 const route = useRoute()
