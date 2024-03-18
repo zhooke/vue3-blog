@@ -81,23 +81,23 @@ const routesMobile = [
     children: [
       {
         path: '/mobile/blog/list',
-        component: () => import('@/views/mobile/blog/blogList.vue')
+        component: () => import('@/views/mobile/blog/BlogList.vue')
       },
       {
         path: '/mobile/blog/user',
-        component: () => import('@/views/mobile/blog/userInfo.vue')
+        component: () => import('@/views/mobile/blog/UserInfo.vue')
       },
       {
         path: '/mobile/blog/hotspot',
-        component: () => import('@/views/mobile/blog/hotspot.vue')
+        component: () => import('@/views/mobile/blog/Hotspot.vue')
       },
       {
         path: '/mobile/blog/draft',
-        component: () => import('@/views/mobile/blog/draft.vue')
+        component: () => import('@/views/mobile/blog/Draft.vue')
       },
       {
         path: '/mobile/blog/read',
-        component: () => import('@/views/mobile/blog/blog.vue'),
+        component: () => import('@/views/mobile/blog/Blog.vue'),
       }
     ]
   }

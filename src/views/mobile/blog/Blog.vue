@@ -1,18 +1,22 @@
 <template>
   <van-nav-bar left-arrow left-text="返回" title="文章" @click-left="onClickLeft" />
 
-  <!-- <MarkDown :showViewer="true" :value="blog.content" style="width: 100%;text-align: justify !important;">
-  </MarkDown> -->
-  <div class="context" v-html="compiledMarkdown"></div>
+   <MarkDown :showViewer="true" :value="blog.content" style="width: 100%;padding-left: 5px;padding-right: 5px">
+  </MarkDown>
+
+  <!--    评论输入框-->
+  <BlogComment :blog="blog"></BlogComment>
+
 </template>
 
 <script setup>
-import router from '@/router';
 import { onMounted, ref } from 'vue';
 import MarkDown from '@/views/pc/plugins/MarkDown.vue';
 import { useRoute } from 'vue-router';
 import { getBlogByIdApi } from '@/utils/api.js'
 import { marked } from "marked";
+import {showNotify} from "vant";
+import BlogComment from "@/views/pc/plugins/BlogComment.vue";
 
 let route = useRoute();
 
@@ -27,7 +31,6 @@ function getBlog(id) {
       return showNotify({ type: 'danger', message: response.data.data });
     }
     blog.value = response.data.data;
-    console.log(blog.value.content);
 
     compiledMarkdown.value = marked.parse(blog.value.content)
 
