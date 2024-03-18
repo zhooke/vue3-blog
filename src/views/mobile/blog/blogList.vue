@@ -2,7 +2,7 @@
   <van-nav-bar title="最新文章" />
   <van-list v-model:loading="loading" :finished="finished" finished-text="没有更多了" @load="getBlogList">
     <van-cell v-for="blog in blogList" :key="blog">
-      <van-text-ellipsis :content="blog.title" @click="blogCardClick(blog)"></van-text-ellipsis>
+      <van-text-ellipsis :content="blog.title" @click="blogCardClick(blog.id)"></van-text-ellipsis>
     </van-cell>
     <van-back-top />
   </van-list>
@@ -39,9 +39,8 @@ function getBlogList() {
   })
 }
 
-function blogCardClick(currentBlog) {
-  blog.value = currentBlog;
-  router.push({ name: blogRead, params: currentBlog })
+function blogCardClick(value) {
+  router.push({ path: '/mobile/blog/read', query: { blogId: value } })
 }
 
 </script>

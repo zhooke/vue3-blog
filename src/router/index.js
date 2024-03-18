@@ -96,10 +96,8 @@ const routesMobile = [
         component: () => import('@/views/mobile/blog/draft.vue')
       },
       {
-        name: 'blogRead',
-        // path: '/mobile/blog/read',
+        path: '/mobile/blog/read',
         component: () => import('@/views/mobile/blog/blog.vue'),
-        props: { newsletterPopup: false }
       }
     ]
   }

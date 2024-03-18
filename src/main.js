@@ -47,6 +47,14 @@ if (currentPlatform === 'pc') {
   await import('./assets/css/mobile.css');
 }
 
+// 全局监听浏览器尺寸变化
+// window.addEventListener('resize', function() {
+//   console.log('浏览器尺寸发生变化：', window.innerWidth, window.innerHeight);
+//   window.location.reload()
+//     router.go("/")
+// });
+
+
 // app.filter('dataFormat', function (originVal) {
 //   const df = new Date(originVal)
 //   const y = df.getFullYear()
