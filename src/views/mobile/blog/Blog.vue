@@ -1,7 +1,7 @@
 <template>
   <van-nav-bar left-arrow left-text="返回" title="文章" @click-left="onClickLeft" />
 
-   <MarkDown :showViewer="true" :value="blog.content" style="width: 100%;padding-left: 5px;padding-right: 5px">
+  <MarkDown :showViewer="true" :value="blog.content" style="width: 100%;margin: 0 10px;">
   </MarkDown>
 
   <!--    评论输入框-->
@@ -15,7 +15,7 @@ import MarkDown from '@/views/pc/plugins/MarkDown.vue';
 import { useRoute } from 'vue-router';
 import { getBlogByIdApi } from '@/utils/api.js'
 import { marked } from "marked";
-import {showNotify} from "vant";
+import { showNotify } from "vant";
 import BlogComment from "@/views/pc/plugins/BlogComment.vue";
 
 let route = useRoute();

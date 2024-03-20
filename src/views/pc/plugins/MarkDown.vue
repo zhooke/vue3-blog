@@ -1,21 +1,9 @@
 <template>
   <div class="details">
-    <Editor
-      v-if="props.showEditor"
-      :locale="zhHans"
-      :mode="props.mode"
-      :plugins="defPlugins"
-      :uploadImages="uploadImage"
-      :value="defValue"
-      @change="handleChange"
-    >
+    <Editor v-if="props.showEditor" :locale="zhHans" :mode="props.mode" :plugins="defPlugins"
+      :uploadImages="uploadImage" :value="defValue" @change="handleChange">
     </Editor>
-    <Viewer
-      v-if="props.showViewer"
-      :locale="zhHans"
-      :plugins="defPlugins"
-      :value="props.value"
-    >
+    <Viewer v-if="props.showViewer" :locale="zhHans" :plugins="defPlugins" :value="props.value">
     </Viewer>
   </div>
 </template>
@@ -37,8 +25,8 @@ import gfmLocale from '@bytemd/plugin-gfm/locales/zh_Hans.json';
 import mathLocale from '@bytemd/plugin-math/locales/zh_Hans.json';
 import mermaidLocale from '@bytemd/plugin-mermaid/locales/zh_Hans.json';
 import 'highlight.js/styles/vs.css'
-// import 'juejin-markdown-themes/dist/juejin.min.css' // 掘金风格的css文件
-import 'juejin-markdown-themes/dist/channing-cyan.min.css' // channing-cyan风格的css文件，这个确实很好看
+import 'juejin-markdown-themes/dist/juejin.min.css' // 掘金风格的css文件
+// import 'juejin-markdown-themes/dist/channing-cyan.min.css' // channing-cyan风格的css文件，这个确实很好看
 import 'bytemd/dist/index.css'
 import { ref, watch } from 'vue';
 
@@ -110,5 +98,4 @@ function uploadImage(files) {
   margin: 0 auto;
   text-align: left;
 }
-
 </style>
