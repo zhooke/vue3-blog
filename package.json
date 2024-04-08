@@ -58,6 +58,7 @@
     "eslint-plugin-promise": "^5.2.0",
     "eslint-plugin-standard": "^4.0.0",
     "eslint-plugin-vue": "^9.23.0",
+    "eslint-plugin-react": "^7.34.1",
     "less": "^4.2.0",
     "less-loader": "^7.3.0",
     "unplugin-auto-import": "^0.8.8",
