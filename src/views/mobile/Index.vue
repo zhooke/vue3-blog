@@ -12,6 +12,4 @@
   </van-tabbar>
 </template>
 
-<style scoped lang="less">
-
-</style>
+<style scoped lang="less"></style>

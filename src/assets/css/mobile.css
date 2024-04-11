@@ -4,3 +4,7 @@ html, body, #app {
     padding: 0;
     text-align: left;
 }
+
+.van-text-ellipsis {
+    font-size: 16px;
+  }

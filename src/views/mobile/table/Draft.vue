@@ -1,4 +1,5 @@
 <template>
+  <van-nav-bar title="我的草稿" />
   <van-list v-model:loading="loading" :finished="finished" finished-text="没有更多了" @load="getBlogList">
     <van-cell v-for="blog in blogList" :key="blog">
       <van-text-ellipsis :content="blog.title" @click="blogCardClick(blog.id)"></van-text-ellipsis>
@@ -9,7 +10,7 @@
 
 <script setup>
 import { ref } from 'vue';
-import { getBlogListApi } from '@/utils/api.js';
+import { getBlogDraftListApi } from '@/utils/api.js';
 import { showNotify } from 'vant';
 import router from '@/router/index.js';
 
@@ -20,12 +21,10 @@ let blogList = ref([]);
 let blogRequest = {
   pageIndex: 1,
   pageSize: 10,
-  isDraft:1,
 };
-let blog = ref({})
 
 function getBlogList() {
-  getBlogListApi(blogRequest).then(response => {
+  getBlogDraftListApi(blogRequest).then(response => {
     if (response.data.code !== 200) {
       return showNotify({ type: 'danger', message: response.data.data });
     }

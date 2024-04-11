@@ -1,26 +1,18 @@
 <template>
-  <van-nav-bar title="最新热门"/>
+  <van-nav-bar title="最新热门" />
   <van-pull-refresh v-model="refreshing" @refresh="onRefresh">
-    <van-list
-      v-model:loading="loading"
-      :finished="finished"
-      finished-text="没有更多了"
-      @load="onLoad">
+    <van-list v-model:loading="loading" :finished="finished" finished-text="没有更多了" @load="onLoad">
 
 
       <van-cell v-for="item in list" :key="item">
         <div>
-          <van-image
-            height="3rem"
-            round
-            src="https://fastly.jsdelivr.net/npm/@vant/assets/cat.jpeg"
-            width="3rem"
-          />
-          <van-text-ellipsis
-            :content="item+text"
-            :rows="item%2?3:1"
-            collapse-text="收起"
-            expand-text="展开"/>
+          <van-row>
+            <van-col>
+              <van-image height="3rem" round src="https://fastly.jsdelivr.net/npm/@vant/assets/cat.jpeg" width="3rem" />
+            </van-col>
+            <van-col style="font-size: 20px;margin-left: 10px;padding-top: 10px;">zhooke</van-col>
+          </van-row>
+          <van-text-ellipsis :content="item + text" :rows="item % 2 ? 3 : 1" collapse-text="收起" expand-text="展开" />
         </div>
 
       </van-cell>
@@ -29,7 +21,7 @@
 </template>
 
 <script setup>
-import {ref} from "vue";
+import { ref } from "vue";
 
 const list = ref([]);
 const loading = ref(false);
