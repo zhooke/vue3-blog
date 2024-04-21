@@ -1,4 +1,4 @@
-import { createRouter, createWebHashHistory } from 'vue-router'
+import {createRouter, createWebHashHistory} from 'vue-router'
 import currentPlatform from '@/utils/platform.js'
 
 // PC路由
@@ -98,7 +98,39 @@ const routesMobile = [
       {
         path: '/mobile/blog/read',
         component: () => import('@/views/mobile/blog/Blog.vue'),
-      }
+      },
+      {
+        path: '/mobile/blog/user/info',
+        component: () => import('@/views/mobile/card/Info.vue')
+      },
+      {
+        path: '/mobile/blog/user/notices/setting',
+        component: () => import('@/views/mobile/card/NoticeSetting.vue')
+      },
+      {
+        path: '/mobile/blog/user/privacy/setting',
+        component: () => import('@/views/mobile/card/PrivacySetting.vue')
+      },
+      {
+        path: '/mobile/blog/user/privacy/policy',
+        component: () => import('@/views/mobile/card/PrivacyPolicy.vue')
+      },
+      {
+        path: '/mobile/blog/user/setting',
+        component: () => import('@/views/mobile/card/Setting.vue')
+      },
+      {
+        path: '/mobile/blog/user/agreement',
+        component: () => import('@/views/mobile/card/UserAgreement.vue')
+      },
+      {
+        path: '/mobile/blog/user/about/me',
+        component: () => import('@/views/mobile/card/AboutMe.vue')
+      },
+      {
+        path: '/mobile/blog/user/suggestion',
+        component: () => import('@/views/mobile/card/Suggestion.vue')
+      },
     ]
   }
 
