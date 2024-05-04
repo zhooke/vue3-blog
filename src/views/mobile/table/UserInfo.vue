@@ -48,7 +48,7 @@
           :rules="[{ required: true, message: '请填写密码' }]"
         />
       </van-cell-group>
-<!--      <van-divider/>-->
+      <!--      <van-divider/>-->
       <div style="margin: 16px;">
         <van-row justify="space-between">
           <van-col span="10">
@@ -56,8 +56,8 @@
               登陆
             </van-button>
           </van-col>
-          <van-col  span="10">
-            <van-button round block type="primary" native-type="submit">
+          <van-col span="10">
+            <van-button round block type="primary" to="/mobile/blog/user/register">
               注册
             </van-button>
           </van-col>
@@ -71,12 +71,38 @@
 <script setup>
 import {ref} from "vue";
 import router from "@/router/index.js";
+import md5 from "js-md5";
+import {getLoginApi} from "@/utils/api.js";
+import axios from "@/utils/http.js";
+import {showNotify} from "vant";
 
 const userinfo = ref({});
-const loginRequest = ref({});
+const loginRequest = ref({password: '', username: ''});
 
 function onClickRight() {
   router.push('/mobile/blog/user/info')
+}
+
+function onSubmit() {
+  const passwordMd5 = md5(loginRequest.value.password)
+  getLoginApi({username: loginRequest.value.username, password: passwordMd5}).then(result => {
+    if (result.data.code !== 200) {
+      return showNotify({type: 'danger', message: result.data.data});
+    }
+    console.log(result)
+    window.sessionStorage.setItem('AccessToken', result.data.AccessToken)
+    window.sessionStorage.setItem('AccessTokenKey', result.data.AccessTokenKey)
+    window.sessionStorage.setItem('userinfo', JSON.stringify(result.data.UserInfo))
+    axios.interceptors.request.use(config => {
+      NProgress.start()
+      config.headers.Authorization = 'Bearer ' + result.data.AccessToken
+      config.headers.AccessTokenKey = result.data.AccessTokenKey
+      return config
+    })
+    router.push('/')
+    showNotify({type: 'success', message: '登陆成功'});
+    location.reload()
+  })
 }
 </script>
 
@@ -85,7 +111,8 @@ function onClickRight() {
   margin: 0 10px;
   //padding: 10px;
 }
-#registerBox{
+
+#registerBox {
   margin: 0 10px;
 
 }

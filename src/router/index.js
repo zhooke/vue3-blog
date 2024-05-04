@@ -131,6 +131,10 @@ const routesMobile = [
         path: '/mobile/blog/user/suggestion',
         component: () => import('@/views/mobile/card/Suggestion.vue')
       },
+      {
+        path: '/mobile/blog/user/register',
+        component: () => import('@/views/mobile/card/Register.vue')
+      },
     ]
   }
 
