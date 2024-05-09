@@ -1,15 +1,15 @@
 <template>
 
-  <div id="userInfo" v-show="userinfo.username">
-    <van-nav-bar title="我的资料" right-text="编辑" @click-right="onClickRight"/>
+  <div v-show="userinfo.username" id="userInfo">
+    <van-nav-bar right-text="编辑" title="我的资料" @click-right="onClickRight"/>
 
     <van-row>
       <van-col span="10">
         <van-image
-          round
-          width="7rem"
           height="7rem"
+          round
           src="https://fastly.jsdelivr.net/npm/@vant/assets/cat.jpeg"
+          width="7rem"
         />
       </van-col>
       <van-col span="12">
@@ -22,42 +22,42 @@
     <van-divider/>
 
     <van-cell-group>
-      <van-cell icon="newspaper" title="我的文章" is-link/>
-      <van-cell icon="todo-list" title="草稿" is-link/>
-      <van-cell icon="fire" title="沸点" is-link/>
+      <van-cell icon="newspaper" is-link title="我的文章"/>
+      <van-cell icon="todo-list" is-link title="草稿"/>
+      <van-cell icon="fire" is-link title="沸点"/>
     </van-cell-group>
 
   </div>
   <div v-show="!userinfo.username" id="registerBox">
-    <van-nav-bar title="登陆" right-text="关于" @click-right="onClickRight"/>
+    <van-nav-bar right-text="关于" title="登陆" @click-right="onClickRight"/>
     <van-form @submit="onSubmit">
       <van-cell-group inset>
         <van-field
           v-model="loginRequest.username"
-          name="用户名"
-          label="用户名"
-          placeholder="用户名"
           :rules="[{ required: true, message: '请填写用户名' }]"
+          label="用户名"
+          name="用户名"
+          placeholder="用户名"
         />
         <van-field
           v-model="loginRequest.password"
-          type="password"
-          name="密码"
-          label="密码"
-          placeholder="密码"
           :rules="[{ required: true, message: '请填写密码' }]"
+          label="密码"
+          name="密码"
+          placeholder="密码"
+          type="password"
         />
       </van-cell-group>
       <!--      <van-divider/>-->
       <div style="margin: 16px;">
         <van-row justify="space-between">
           <van-col span="10">
-            <van-button round block type="default" native-type="submit">
+            <van-button block native-type="submit" round type="default">
               登陆
             </van-button>
           </van-col>
           <van-col span="10">
-            <van-button round block type="primary" to="/mobile/blog/user/register">
+            <van-button block round to="/mobile/blog/user/register" type="primary">
               注册
             </van-button>
           </van-col>
@@ -106,7 +106,7 @@ function onSubmit() {
 }
 </script>
 
-<style scoped lang="less">
+<style lang="less" scoped>
 #userInfo {
   margin: 0 10px;
   //padding: 10px;
@@ -114,6 +114,5 @@ function onSubmit() {
 
 #registerBox {
   margin: 0 10px;
-
 }
 </style>

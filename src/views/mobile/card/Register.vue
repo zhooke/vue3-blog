@@ -1,51 +1,49 @@
 <template>
   <div>
-    <van-nav-bar title="注册" left-text="返回" left-arrow @click-left="onClickLeft"/>
+    <van-nav-bar left-arrow left-text="返回" title="注册" @click-left="onClickLeft"/>
     <van-form @submit="onSubmit">
       <van-cell-group inset>
-        <van-field name="uploader" label="头像">
+        <van-field label="头像" name="uploader">
           <template #input>
-            <van-uploader v-model="uploaderHeadImgUrl"/>
+            <van-uploader v-model="uploaderHeadImgUrl" :after-read="afterRead"/>
           </template>
         </van-field>
         <van-field
           v-model="registerForm.nickname"
-          name="昵称"
-          label="昵称"
-          placeholder="昵称"
           :rules="[{ required: true, message: '请填写昵称' }]"
+          label="昵称"
+          name="昵称"
+          placeholder="昵称"
         />
         <van-field
           v-model="registerForm.mobile"
-          name="手机号码"
-          label="手机号码"
-          placeholder="手机号码"
           :rules="[{ required: true, message: '请输入手机号' }]"
+          label="手机号码"
+          name="手机号码"
+          placeholder="手机号码"
         />
         <van-field
           v-model="registerForm.password"
-          type="password"
-          name="密码"
-          label="密码"
-          placeholder="密码"
           :rules="[{ required: true, message: '请填写密码' }]"
+          label="密码"
+          name="密码"
+          placeholder="密码"
+          type="password"
         />
         <van-field
           v-model="registerForm.inviteCode"
-          name="邀请码"
-          label="邀请码"
-          placeholder="邀请码"
           :rules="[{ required: true, message: '请输入邀请码' }]"
+          label="邀请码"
+          name="邀请码"
+          placeholder="邀请码"
         />
       </van-cell-group>
       <!--      <van-divider/>-->
       <div style="margin: 16px;">
         <van-row justify="space-between">
-          <van-col span="10">
-            <van-button round block type="default" native-type="submit">
-              提交
-            </van-button>
-          </van-col>
+          <van-button block native-type="submit" round type="primary">
+            注册
+          </van-button>
         </van-row>
       </div>
     </van-form>
@@ -71,6 +69,7 @@ const registerForm = ref({
   userType: 'BLOG'
 })
 const loginRequest = ref({password: '', username: ''});
+const uploaderHeadImgUrl = ref([])
 
 function onSubmit() {
   const md5Password = md5(registerForm.value.password)
@@ -86,7 +85,7 @@ function onSubmit() {
 
 }
 
-function uploaderHeadImgUrl(file) {
+function afterRead(file) {
 
 }
 
@@ -119,6 +118,6 @@ function onClickLeft() {
 
 </script>
 
-<style scoped lang="less">
+<style lang="less" scoped>
 
 </style>
