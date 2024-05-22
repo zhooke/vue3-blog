@@ -5,7 +5,7 @@
       <van-cell-group inset>
         <van-field label="头像" name="uploader">
           <template #input>
-            <van-uploader v-model="uploaderHeadImgUrl" :after-read="afterRead"/>
+            <van-uploader v-model="uploaderHeadImgUrl" :after-read="afterRead" :max-count="1"/>
           </template>
         </van-field>
         <van-field
@@ -17,7 +17,7 @@
         />
         <van-field
           v-model="registerForm.mobile"
-          :rules="[{ required: true, message: '请输入手机号' }]"
+          :rules="[{mobilePattern, message: '请输入手机号' }]"
           label="手机号码"
           name="手机号码"
           placeholder="手机号码"
@@ -68,6 +68,7 @@ const registerForm = ref({
   headImgUrl: '',
   userType: 'BLOG'
 })
+const mobilePattern = /^1[3-9]\\d{9}$/;
 const loginRequest = ref({password: '', username: ''});
 const uploaderHeadImgUrl = ref([])
 
