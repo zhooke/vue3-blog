@@ -5,6 +5,11 @@
       <van-switch v-model="checked"/>
     </template>
   </van-field>
+  <van-field label="系统提醒" name="switch">
+    <template #input>
+      <van-switch v-model="checked"/>
+    </template>
+  </van-field>
 </template>
 <script setup>
 import router from "@/router/index.js";

@@ -11,6 +11,7 @@
       show-word-limit
       type="textarea"
     />
+
   </van-cell-group>
 
 </template>
