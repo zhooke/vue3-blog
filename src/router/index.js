@@ -88,6 +88,10 @@ const routesMobile = [
         component: () => import('@/views/mobile/table/UserInfo.vue')
       },
       {
+        path: '/mobile/blog/chat',
+        component:() => import('@/views/mobile/table/Chat.vue')
+      },
+      {
         path: '/mobile/blog/hotspot',
         component: () => import('@/views/mobile/table/Hotspot.vue')
       },
