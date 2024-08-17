@@ -29,6 +29,10 @@ const routesPC = [
         component: () => import('@/views/pc/blog/ReadDraft.vue')
       },
       {
+        path: '/blog/statistic',
+        component: () => import('../views/pc/blog/Statistic.vue')
+      },
+      {
         path: '/other/Info',
         component: () => import('@/views/pc/other/Info.vue')
       },
@@ -89,7 +93,7 @@ const routesMobile = [
       },
       {
         path: '/mobile/blog/chat',
-        component:() => import('@/views/mobile/table/Chat.vue')
+        component: () => import('@/views/mobile/table/Chat.vue')
       },
       {
         path: '/mobile/blog/hotspot',
@@ -157,7 +161,7 @@ const router = createRouter({
   mode: 'history'
 })
 
-const filterRouters = ['/login']
+const filterRouters = ['/blog/read', '/publish', '/other/Info', '/other/donation', '/other/chatGPT']
 // 挂载路由守卫
 router.beforeEach((to, from, next) => {
   // to 将要访问的路径

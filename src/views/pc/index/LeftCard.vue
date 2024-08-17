@@ -11,14 +11,14 @@
         <!--          </el-col>-->
         <!--        </el-row>-->
         <!--        todo 添加收起功能-->
-        <el-menu class="card-left" router :collapse="collapse">
-          <el-menu-item index="1" :route="{path:'/blog/list',query:{userId : userinfo === null ? null : userinfo.id}}">
+        <el-menu :collapse="collapse" class="card-left" router>
+          <el-menu-item :route="{path:'/blog/list',query:{userId : userinfo === null ? null : userinfo.id}}" index="1">
             <el-icon style="color: rgba(27,134,249,0.71)">
               <eleme-filled/>
             </el-icon>
             <span>博客</span>
           </el-menu-item>
-          <el-menu-item index="2" :route="{path:'/blog/list'}">
+          <el-menu-item :route="{path:'/blog/list'}" index="2">
             <el-icon style="color: #00d1b2">
               <HomeFilled/>
             </el-icon>
@@ -42,7 +42,7 @@
             </el-icon>
             <span>联系</span>
           </el-menu-item>
-          <el-menu-item  index="/other/statistic">
+          <el-menu-item index="/blog/statistic">
             <el-icon style="color: #00d1b2">
               <histogram/>
             </el-icon>
@@ -80,11 +80,11 @@
 </template>
 
 <script>
-import { InfoFilled } from '@element-plus/icons-vue';
+import {InfoFilled} from '@element-plus/icons-vue';
 
 export default {
   name: 'LeftCard',
-  components: { InfoFilled },
+  components: {InfoFilled},
   data() {
     return {
       userinfo: {},
