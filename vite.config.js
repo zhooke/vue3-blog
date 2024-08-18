@@ -101,7 +101,8 @@ export default defineConfig(config => ({
               }
             }
           }
-      }
+      },
+      target: 'esnext',
     },
     esbuild: {
       // 移除打包环境的console 和 debugger
