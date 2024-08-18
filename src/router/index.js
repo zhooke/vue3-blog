@@ -161,7 +161,7 @@ const router = createRouter({
   mode: 'history'
 })
 
-const filterRouters = ['/blog/read', '/publish', '/other/Info', '/other/donation', '/other/chatGPT']
+const filterRouters = ['/publish', '/blog/admin', '/blog/draft']
 // 挂载路由守卫
 router.beforeEach((to, from, next) => {
   // to 将要访问的路径

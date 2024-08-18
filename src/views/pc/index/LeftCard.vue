@@ -48,7 +48,7 @@
             </el-icon>
             <span>统计</span>
           </el-menu-item>
-          <el-menu-item index="/">
+          <el-menu-item index="/blog/admin">
             <el-icon style="color: #48c774">
               <setting/>
             </el-icon>

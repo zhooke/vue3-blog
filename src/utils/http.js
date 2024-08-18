@@ -1,6 +1,6 @@
 import NProgress from 'nprogress'
 import 'nprogress/nprogress.css'
-import { ElLoading, ElMessage } from 'element-plus';
+import {ElLoading, ElMessage} from 'element-plus';
 
 import axios from 'axios'
 
@@ -62,7 +62,7 @@ service.interceptors.response.use(config => {
     ElMessage.error('网络请求不存在');
     return Promise.reject(new Error(msg));
   } else if (res.code === 500) {
-    ElMessage.error(res.message);
+    ElMessage.error("服务器正在开小差");
     return Promise.reject(new Error(msg));
   }
   ElMessage.error('服务器正在开小差');
