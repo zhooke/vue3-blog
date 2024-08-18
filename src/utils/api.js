@@ -7,7 +7,7 @@ import http from '../utils/http'
  */
 export const getLoginApi = (params) => {
   return http
-    .post('oauth/login', '', { params: params });
+    .post('users/login', '', {params: params});
 }
 
 /**
@@ -61,7 +61,7 @@ export const commentBlogApi = (params) => {
  * @returns {Promise<AxiosResponse<any>>}
  */
 export const commentNewestApi = (params) => {
-  return http.get('blog/comment/newest', { params: params });
+  return http.get('blog/comment/newest', {params: params});
 }
 
 /**
@@ -154,7 +154,7 @@ export const updateBlogApi = (params) => {
 }
 
 export const getDictionaryApi = (params) => {
-  return http.get('/system/dictionary/value', { params: { type_name: params } })
+  return http.get('/system/dictionary/value', {params: {type_name: params}})
 }
 
 /**

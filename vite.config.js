@@ -1,9 +1,8 @@
 import {defineConfig} from 'vite'
 import vue from '@vitejs/plugin-vue'
-import AutoImport from 'unplugin-auto-import/vite'
 
 import Components from 'unplugin-vue-components/vite';
-import {ElementPlusResolver,VantResolver} from 'unplugin-vue-components/resolvers'
+import {ElementPlusResolver, VantResolver} from 'unplugin-vue-components/resolvers'
 
 import * as path from "path";
 // vue.config.js
@@ -20,7 +19,7 @@ export default defineConfig(config => ({
       //   resolvers: [ElementPlusResolver()],
       // }),
       Components({
-        resolvers: [VantResolver(),ElementPlusResolver()],
+        resolvers: [VantResolver(), ElementPlusResolver()],
       }),
     ],
     server: {
@@ -32,7 +31,8 @@ export default defineConfig(config => ({
       // 反向代理配置
       proxy: {
         '/api': {
-          target: 'https://hub.tensua.com/api-business/api/v1/',
+          // target: 'http://localhost:8090/blog-service/api/v1/',
+          target: 'https://hub.tensua.com/blog-service/api/v1/',
           changeOrigin: true,
           rewrite: path => path.replace(/^\/api/, '')
         }
@@ -45,7 +45,7 @@ export default defineConfig(config => ({
         "#": path.join(__dirname, "types"),
         '/images': 'src/assets/images'
       },
-      extensions: ['.js', '.ts', '.jsx', '.tsx', '.json', '.vue','.mjs']
+      extensions: ['.js', '.ts', '.jsx', '.tsx', '.json', '.vue', '.mjs']
     }
     ,
     build: {

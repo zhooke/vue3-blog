@@ -97,9 +97,9 @@ function login() {
       return showNotify({type: 'danger', message: result.data.data});
     }
     console.log(result)
-    window.sessionStorage.setItem('AccessToken', result.data.AccessToken)
-    window.sessionStorage.setItem('AccessTokenKey', result.data.AccessTokenKey)
-    window.sessionStorage.setItem('userinfo', JSON.stringify(result.data.UserInfo))
+    window.sessionStorage.setItem('AccessToken', result.data.accessToken)
+    window.sessionStorage.setItem('AccessTokenKey', result.data.accessTokenKey)
+    window.sessionStorage.setItem('userinfo', JSON.stringify(result.data.oauthUserInfo))
     axios.interceptors.request.use(config => {
       NProgress.start()
       config.headers.Authorization = 'Bearer ' + result.data.AccessToken

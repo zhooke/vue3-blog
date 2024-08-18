@@ -26,81 +26,80 @@
   </div>
 </template>
 
-<script>
+<script setup>
 
 import axios from '@/utils/http'
 import NProgress from 'nprogress';
-import { getLoginApi } from '@/utils/api.js';
+import {getLoginApi} from '@/utils/api.js';
 import md5 from 'js-md5';
+import {ref} from "vue";
+import router from "@/router/index.js";
+import {ElMessage} from "element-plus";
 
-export default {
-  // eslint-disable-next-line vue/multi-word-component-names
-  name: 'index',
-  data() {
-    return {
-      loginForm: {
-        username: '',
-        password: '',
-        grant_type: 'password'
-      },
-      loginFormRules: {
-        username: [
-          {
-            required: true,
-            message: '请输入用户名称',
-            trigger: 'blur'
-          },
-          {
-            min: 3,
-            max: 15,
-            message: '长度在 3 到 15 个字符',
-            trigger: 'blur'
-          }
-        ],
-        password: [
-          {
-            required: true,
-            message: '请输入登陆密码',
-            trigger: 'blur'
-          },
-          {
-            min: 3,
-            max: 15,
-            message: '长度在 3 到 15 个字符',
-            trigger: 'blur'
-          }
-        ]
-      }
-    }
-  },
-  methods: {
-    resetLoginForm() {
-      this.$refs.loginFormRef.resetFields()
+
+let loginForm = {
+  username: '',
+  password: '',
+  grant_type: 'password'
+};
+let loginFormRef = ref()
+
+let loginFormRules = {
+  username: [
+    {
+      required: true,
+      message: '请输入用户名称',
+      trigger: 'blur'
     },
-    login() {
-      /* await只能放在async修饰的函数中，表示异步执行该函数 */
-      this.$refs.loginFormRef.validate(async valid => {
-        if (!valid) return
-        const passwordMd5 = md5(this.loginForm.password)
-        const { data: result } = await getLoginApi({ username: this.loginForm.username, password: passwordMd5 })
-        console.log(result)
-        window.sessionStorage.setItem('AccessToken', result.data.AccessToken)
-        window.sessionStorage.setItem('AccessTokenKey', result.data.AccessTokenKey)
-        window.sessionStorage.setItem('userinfo', JSON.stringify(result.data.UserInfo))
-        axios.interceptors.request.use(config => {
-          NProgress.start()
-          config.headers.Authorization = 'Bearer ' + result.data.AccessToken
-          config.headers.AccessTokenKey = result.data.AccessTokenKey
-          return config
-        })
-        this.LoginDialogVisible = false
-        await this.$router.push('/')
-        this.$message.success('登陆成功！')
-        location.reload()
-      })
+    {
+      min: 3,
+      max: 15,
+      message: '长度在 3 到 15 个字符',
+      trigger: 'blur'
     }
-  }
+  ],
+  password: [
+    {
+      required: true,
+      message: '请输入登陆密码',
+      trigger: 'blur'
+    },
+    {
+      min: 3,
+      max: 15,
+      message: '长度在 3 到 15 个字符',
+      trigger: 'blur'
+    }
+  ]
 }
+
+function resetLoginForm() {
+  this.$refs.loginFormRef.resetFields()
+}
+
+function login() {
+  /* await只能放在async修饰的函数中，表示异步执行该函数 */
+  loginFormRef.value.validate(async valid => {
+    if (!valid) return
+    const passwordMd5 = md5(loginForm.password)
+    const {data: result} = await getLoginApi({username: loginForm.username, password: passwordMd5})
+    console.log(result)
+    window.sessionStorage.setItem('AccessToken', result.data.accessToken)
+    window.sessionStorage.setItem('AccessTokenKey', result.data.accessTokenKey)
+    window.sessionStorage.setItem('userinfo', JSON.stringify(result.data.oauthUserInfo))
+    axios.interceptors.request.use(config => {
+      NProgress.start()
+      config.headers.Authorization = 'Bearer ' + result.data.AccessToken
+      config.headers.AccessTokenKey = result.data.AccessTokenKey
+      return config
+    })
+    this.LoginDialogVisible = false
+    await router.push('/')
+    ElMessage.success('登陆成功！')
+    location.reload()
+  })
+}
+
 </script>
 
 <style lang="less" scoped>
